@@ -1,0 +1,20 @@
+task_name: local_d15
+run_name: local_d15
+dimension: 15_audio_quality_control
+input:
+  root: ./data/d15/t2va
+  mode: t2va
+  prompt_filename: prompt_final.txt
+  video_filename: video.mp4
+  case_ids: []
+evaluation:
+  subpoints:
+    dialogue_accuracy: {components: {asr_cer: false}}
+    voice_naturalness: {components: {dnsmos_ovr: true}}
+    timbre_consistency: {components: {ecapa_same_speaker: true}}
+    emotion_control: {components: {emotion2vec_match: true}}
+    ambient_sound: {components: {clap_ambient: true}}
+    action_sfx: {components: {clap_sfx: true}}
+    music_match: {components: {music_presence: true, clap_music: true}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d15

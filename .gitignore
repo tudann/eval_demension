@@ -1,0 +1,71 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build and package artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+~$*
+
+# Evaluation outputs and generated artifacts
+outputs/
+results/
+reports/
+runs/
+wandb/
+tensorboard/
+
+# Model weights and checkpoints
+checkpoints/
+models/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# Large local data and media
+*.npy
+*.npz
+*.parquet
+*.arrow
+*.mp4
+*.avi
+*.mov
+*.wav
+*.flac
+
+# Jupyter
+.ipynb_checkpoints/

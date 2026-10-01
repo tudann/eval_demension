@@ -1,0 +1,18 @@
+task_name: local_d17
+run_name: local_d17
+dimension: 17_motion_temporal_consistency
+input:
+  root: ./data/d17/t2va
+  mode: t2va
+  prompt_filename: prompt_final.txt
+  video_filename: video.mp4
+  case_ids: []
+evaluation:
+  subpoints:
+    motion_consistency: {components: {vlm_anomaly_rate: true}}
+    camera_motion: {components: {vmbench_ois: false}}
+    subject_consistency: {components: {vmbench_mss: false}}
+    temporal_continuity: {components: {vmbench_tcs: false}}
+    human_motion: {components: {skeleton_blc_cv: false}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d17

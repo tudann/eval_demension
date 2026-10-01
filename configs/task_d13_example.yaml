@@ -1,0 +1,17 @@
+task_name: local_d13
+run_name: local_d13
+dimension: 13_style_visual_control
+input:
+  root: ./data/d13/t2va
+  mode: t2va
+  prompt_filename: prompt_final.txt
+  video_filename: video.mp4
+  case_ids: []
+evaluation:
+  subpoints:
+    style_accuracy: {components: {csd_ref_similarity: true}}
+    style_persistence: {components: {csd_temporal_drift: true}}
+    style_content_compat: {components: {firm_world_consistency: false}}
+    color_control: {components: {palette_match: false}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d13

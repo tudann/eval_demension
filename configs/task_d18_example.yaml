@@ -1,0 +1,18 @@
+task_name: local_d18
+run_name: local_d18
+dimension: 18_text_visual_consistency
+input:
+  root: ./data/d18/t2va
+  mode: t2va
+  prompt_filename: prompt_final.txt
+  video_filename: video.mp4
+  case_ids: []
+evaluation:
+  subpoints:
+    text_accuracy: {components: {ocr_cer: true}}
+    subtitle_alignment: {components: {ocr_subtitle_alignment: true}}
+    text_readability: {components: {ocr_readability: true}}
+    text_stability: {components: {ocr_text_stability: true}}
+    no_unrequested_text: {components: {ocr_unexpected_text_rate: false}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d18

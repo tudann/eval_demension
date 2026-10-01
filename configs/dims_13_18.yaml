@@ -1,0 +1,177 @@
+version: 1
+scoring:
+  min_score: 1.0
+  max_score: 5.0
+  thresholds:
+    - [1.0, 5.0]
+    - [0.8, 4.0]
+    - [0.6, 3.0]
+    - [0.3, 2.0]
+    - [0.0, 1.0]
+  invalid_gate_score: 1.0
+  unanswered_excluded: true
+  core_failure_cap: 2.0
+
+dimensions:
+  13_style_visual_control:
+    name_zh: 风格与视觉控制
+    facts: [target_lighting, target_colors, style_spec, reference_image_roles]
+    gates:
+      - {id: g1, question: '视频主体是否清晰可见并且全程可评估？', expect: yes, modality: vision, core: true}
+      - {id: g2, question: '视频是否存在连续且可判断的有效画面？', expect: yes, modality: vision, core: true}
+    subpoints:
+      style_accuracy:
+        name_zh: 风格准确性
+        components: {checklist: 0.6, csd_ref_similarity: 0.4}
+      style_persistence:
+        name_zh: 风格持续性
+        components: {checklist: 0.4, csd_temporal_drift: 0.6}
+      style_content_compat:
+        name_zh: 风格与内容兼容
+        components: {checklist: 0.5, firm_world_consistency: 0.5}
+      lighting_control:
+        name_zh: 光照控制
+        applies: facts.target_lighting
+        components: {checklist: 1.0}
+      color_control:
+        name_zh: 色彩控制
+        applies: facts.target_colors
+        components: {checklist: 0.6, palette_match: 0.4}
+  14_edit_controllable_gen:
+    name_zh: 编辑与可控生成
+    facts: [edit_targets, preserved, has_subject_replacement, add_objects, remove_objects, is_continuation, static_camera]
+    gates:
+      - {id: g1, question: '需要编辑或生成的主体是否清晰可见？', expect: yes, modality: vision, core: true}
+      - {id: g2, question: '视频是否足以判断编辑前后状态？', expect: yes, modality: vision, core: true}
+    subpoints:
+      local_edit_accuracy:
+        name_zh: 局部修改准确性
+        applies: facts.edit_targets
+        components: {checklist: 1.0}
+      non_target_preservation:
+        name_zh: 非目标区域保持
+        components: {checklist: 1.0, dino_bg_consistency: 0.0, masked_lpips_static: 0.0}
+      subject_replacement:
+        name_zh: 主体替换一致性
+        applies: facts.has_subject_replacement
+        components: {checklist: 0.6, arcface_identity_keep: 0.4}
+      add_remove_object:
+        name_zh: 增删物体
+        applies: facts.add_objects or facts.remove_objects
+        components: {checklist: 1.0, gdino_presence: 0.0}
+      video_extension:
+        name_zh: 视频延长
+        applies: facts.is_continuation
+        components: {checklist: 0.5, continuation_seam_lpips: 0.5}
+      first_last_frame:
+        name_zh: 首尾帧控制
+        applies: case.first_frame or case.last_frame
+        components: {checklist: 0.5, endpoint_psnr: 0.25, endpoint_lpips: 0.25}
+  15_audio_quality_control:
+    name_zh: 音频质量与控制
+    facts: [dialogues, voice_forbidden, has_repeated_speaker, dialogue_emotions, ambient, sfx, music_required, music_forbidden, reference_audio_role]
+    gates:
+      - {id: g1, question: '视频是否包含可评估的音频内容？', expect: yes, modality: audio, core: true}
+      - {id: g2, question: '音频是否没有完全损坏或不可辨认？', expect: yes, modality: audio, core: true}
+    subpoints:
+      dialogue_accuracy:
+        name_zh: 对白准确性
+        applies: facts.dialogues
+        components: {checklist: 0.6, asr_cer: 0.4}
+      voice_naturalness:
+        name_zh: 语音自然度
+        components: {checklist: 0.5, dnsmos_ovr: 0.5}
+      timbre_consistency:
+        name_zh: 音色一致性
+        applies: facts.has_repeated_speaker or facts.reference_audio_role
+        components: {checklist: 0.6, ecapa_same_speaker: 0.4}
+      emotion_control:
+        name_zh: 情绪控制
+        applies: facts.dialogue_emotions
+        components: {checklist: 0.6, emotion2vec_match: 0.4}
+      ambient_sound:
+        name_zh: 环境音
+        applies: facts.ambient
+        components: {checklist: 0.6, clap_ambient: 0.4}
+      action_sfx:
+        name_zh: 动作音效
+        applies: facts.sfx
+        components: {checklist: 0.6, clap_sfx: 0.4}
+      music_match:
+        name_zh: 配乐匹配
+        applies: facts.music_required or facts.music_forbidden
+        components: {checklist: 0.6, music_presence: 0.2, clap_music: 0.2}
+  16_audio_visual_sync:
+    name_zh: 音画同步
+    facts: [dialogues, multi_speaker, av_events, env_changes, realistic]
+    gates:
+      - {id: g1, question: '视频中需要同步判断的音画内容是否清晰？', expect: yes, modality: audio_visual, core: true}
+      - {id: g2, question: '视频是否包含连续的音画时间关系？', expect: yes, modality: audio_visual, core: true}
+    subpoints:
+      lip_sync:
+        name_zh: 口型同步
+        applies: facts.dialogues
+        components: {checklist: 0.7, syncnet_conf: 0.3}
+      multi_speaker_match:
+        name_zh: 多人说话人匹配
+        applies: facts.multi_speaker
+        components: {checklist: 0.6, syncnet_voiceover_still: 0.4}
+      audio_change_alignment:
+        name_zh: 音频变化同步
+        applies: facts.av_events or facts.env_changes
+        components: {checklist: 1.0}
+      realism:
+        name_zh: 音画真实感
+        applies: facts.realistic
+        components: {checklist: 1.0}
+  17_motion_temporal_consistency:
+    name_zh: 运动与时序一致性
+    facts: [subjects, main_subject_noun, has_humans, requested_camera_motion]
+    gates:
+      - {id: g1, question: '主要主体和动作是否清晰可见？', expect: yes, modality: vision, core: true}
+      - {id: g2, question: '视频时间顺序是否连续并且可以判断？', expect: yes, modality: vision, core: true}
+    subpoints:
+      motion_consistency:
+        name_zh: 运动一致性
+        components: {checklist: 0.7, vlm_anomaly_rate: 0.3}
+      camera_motion:
+        name_zh: 镜头运动控制
+        applies: facts.requested_camera_motion
+        components: {checklist: 0.7, vmbench_ois: 0.3}
+      subject_consistency:
+        name_zh: 主体一致性
+        applies: facts.subjects
+        components: {checklist: 0.7, vmbench_mss: 0.3}
+      temporal_continuity:
+        name_zh: 时间连续性
+        components: {checklist: 0.7, vmbench_tcs: 0.3}
+      human_motion:
+        name_zh: 人体运动
+        applies: facts.has_humans
+        components: {checklist: 0.7, skeleton_blc_cv: 0.3}
+  18_text_visual_consistency:
+    name_zh: 文本与视觉一致性
+    facts: [expected_texts, allowed_texts, subtitles_required, subtitle_lines, text_forbidden]
+    gates:
+      - {id: g1, question: '视频画面是否清晰到足以检查文字内容？', expect: yes, modality: vision, core: true}
+      - {id: g2, question: '视频是否有足够连续画面用于文字检查？', expect: yes, modality: vision, core: true}
+    subpoints:
+      text_accuracy:
+        name_zh: 目标文字准确性
+        applies: facts.expected_texts
+        components: {checklist: 0.6, ocr_cer: 0.4}
+      subtitle_alignment:
+        name_zh: 字幕完整性与对齐
+        applies: facts.subtitles_required
+        components: {checklist: 0.6, ocr_subtitle_alignment: 0.4}
+      text_readability:
+        name_zh: 文字可读性
+        applies: facts.expected_texts or facts.subtitles_required
+        components: {checklist: 0.6, ocr_readability: 0.4}
+      text_stability:
+        name_zh: 文字稳定性
+        applies: facts.expected_texts or facts.subtitles_required
+        components: {checklist: 0.6, ocr_text_stability: 0.4}
+      no_unrequested_text:
+        name_zh: 无额外文字
+        components: {checklist: 0.7, ocr_unexpected_text_rate: 0.3}

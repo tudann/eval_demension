@@ -1,0 +1,26 @@
+# OpenAI-compatible local judge services.
+# Start Qwen3-VL-32B-Instruct and Qwen2.5-Omni-7B separately, then point
+# the evaluator at their /v1 endpoints with the environment variables below.
+vision:
+  model: Qwen3-VL-32B-Instruct
+  url: http://127.0.0.1:8011/v1
+  env_url: V_EVAL_VISION_JUDGE_URL
+  env_model: V_EVAL_VISION_JUDGE_MODEL
+  used_by:
+    - 13_style_visual_control
+    - 14_edit_controllable_gen
+    - 17_motion_temporal_consistency
+    - 18_text_visual_consistency
+audio:
+  model: Qwen2.5-Omni-7B
+  url: http://127.0.0.1:8012/v1
+  env_url: V_EVAL_AUDIO_JUDGE_URL
+  env_model: V_EVAL_AUDIO_JUDGE_MODEL
+  used_by:
+    - 15_audio_quality_control
+    - 16_audio_visual_sync
+# The evaluator falls back to these only when the modality-specific variables
+# are absent. Modality-specific variables are recommended.
+legacy:
+  url_env: V_EVAL_JUDGE_URL
+  model_env: V_EVAL_JUDGE_MODEL

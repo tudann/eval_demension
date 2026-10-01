@@ -1,0 +1,15 @@
+task_name: local_d16
+run_name: local_d16
+dimension: 16_audio_visual_sync
+input:
+  root: ./data/d16/t2va
+  mode: t2va
+  prompt_filename: prompt_final.txt
+  video_filename: video.mp4
+  case_ids: []
+evaluation:
+  subpoints:
+    lip_sync: {components: {syncnet_conf: false}}
+    multi_speaker_match: {components: {syncnet_voiceover_still: false}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d16
