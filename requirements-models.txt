@@ -1,0 +1,18 @@
+# Optional local runtimes for the enabled D13-D18 numeric components.
+# Install this file only when running numeric components; the base evaluator remains lightweight.
+# PyTorch wheels should match the host CUDA version when GPU inference is desired.
+torch>=2.2
+torchvision>=0.17
+numpy>=1.26
+transformers>=4.45
+huggingface_hub>=0.24
+librosa>=0.10
+soundfile>=0.12
+onnxruntime>=1.18
+opencv-python-headless>=4.10
+lpips>=0.1
+speechbrain>=1.0
+funasr>=1.2
+panns-inference>=0.1.1
+# PaddlePaddle must be selected for the host (CPU/CUDA) from the official index.
+paddleocr>=2.9

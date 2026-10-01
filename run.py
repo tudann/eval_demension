@@ -19,11 +19,15 @@ DEFAULT_DIMS = ROOT / "configs" / "dims_13_18.yaml"
 def resolve_task_paths(task: dict[str, Any], config_path: Path) -> dict[str, Any]:
     """Resolve relative input and output paths from the task file directory."""
     base = config_path.resolve().parent.parent
-    input_cfg = task.setdefault("input", {})
-    for key in ("root",):
-        value = input_cfg.get(key)
+    input_configs: list[dict[str, Any]] = []
+    if isinstance(task.get("input"), dict):
+        input_configs.append(task["input"])
+    if isinstance(task.get("inputs"), list):
+        input_configs.extend(item for item in task["inputs"] if isinstance(item, dict))
+    for input_cfg in input_configs:
+        value = input_cfg.get("root")
         if isinstance(value, str) and value and not Path(value).is_absolute():
-            input_cfg[key] = str((base / value).resolve())
+            input_cfg["root"] = str((base / value).resolve())
     output = task.get("output_dir")
     if isinstance(output, str) and output and not Path(output).is_absolute():
         task["output_dir"] = str((base / output).resolve())
@@ -44,8 +48,25 @@ def validate_task(task: dict[str, Any], dims: dict[str, Any]) -> None:
     dimension = task.get("dimension")
     if dimension not in dims.get("dimensions", {}):
         raise ConfigError(f"unknown dimension: {dimension}")
-    if not task.get("input", {}).get("root"):
-        raise ConfigError("input.root is required")
+    has_input = isinstance(task.get("input"), dict) and bool(task["input"].get("root"))
+    has_inputs = isinstance(task.get("inputs"), list) and bool(task["inputs"])
+    if has_input == has_inputs:
+        raise ConfigError("configure exactly one of input or inputs")
+    if has_inputs:
+        allowed_modes = {"t2va", "f2va", "l2va", "fl2va", "r2va"}
+        input_ids: set[str] = set()
+        for index, input_cfg in enumerate(task["inputs"]):
+            if not isinstance(input_cfg, dict):
+                raise ConfigError(f"inputs[{index}] must be a YAML mapping")
+            if not input_cfg.get("root"):
+                raise ConfigError(f"inputs[{index}].root is required")
+            mode = str(input_cfg.get("mode", "")).lower()
+            if mode not in allowed_modes:
+                raise ConfigError(f"unsupported inputs[{index}].mode: {mode}")
+            input_id = str(input_cfg.get("id") or mode)
+            if not input_id or input_id in input_ids:
+                raise ConfigError(f"duplicate inputs id: {input_id}")
+            input_ids.add(input_id)
     stages = task.get("stages", ["check", "checklist", "evaluate", "score"])
     unknown = sorted(set(stages) - {"check", "checklist", "evaluate", "score"})
     if unknown:
@@ -79,7 +100,10 @@ def run_check(task: dict[str, Any]) -> list[Any]:
         "vision": bool(os.getenv("V_EVAL_VISION_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
         "audio": bool(os.getenv("V_EVAL_AUDIO_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
     }
+    modes = sorted({case.mode for case in cases})
+    mode_counts = {mode: sum(case.mode == mode for case in cases) for mode in modes}
     print(f"check: dimension={task['dimension']} cases={len(cases)} with_video={with_video} "
+          f"modes={mode_counts} "
           f"vision_judge={'online' if judge_status['vision'] else 'offline'} "
           f"audio_judge={'online' if judge_status['audio'] else 'offline'}")
     return cases
@@ -103,17 +127,28 @@ def run_evaluate(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], f
 def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str, Any]:
     base = output_base(task)
     dimension = str(task["dimension"])
-    case_ids = [case.case_id for case in cases] if cases is not None else []
+    case_ids = [case.output_id for case in cases] if cases is not None else []
     results: list[dict[str, Any]] = []
     if case_ids:
         result_paths = [base / dimension / case_id / "result.json" for case_id in case_ids]
     else:
-        result_paths = sorted((base / dimension).glob("*/result.json")) if (base / dimension).is_dir() else []
+        result_paths = sorted((base / dimension).glob("**/result.json")) if (base / dimension).is_dir() else []
     for path in result_paths:
         if path.is_file():
             results.append(json.loads(path.read_text(encoding="utf-8")))
     scored = [row for row in results if row.get("score") is not None]
     scores = [float(row["score"]) for row in scored]
+    per_mode: dict[str, dict[str, Any]] = {}
+    for mode in sorted({str((row.get("case") or {}).get("mode", "unknown")) for row in results}):
+        mode_rows = [row for row in results if str((row.get("case") or {}).get("mode", "unknown")) == mode]
+        mode_scores = [float(row["score"]) for row in mode_rows if row.get("score") is not None]
+        per_mode[mode] = {
+            "n": len(mode_rows),
+            "scored": len(mode_scores),
+            "skipped": sum(row.get("score") is None for row in mode_rows),
+            "gate_failed": sum(row.get("status") == "gate_failed" for row in mode_rows),
+            "mean_score": round(sum(mode_scores) / len(mode_scores), 3) if mode_scores else None,
+        }
     summary = {
         "dimension": dimension,
         "run_name": task.get("run_name", "local"),
@@ -124,11 +159,16 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
         "mean_score": round(sum(scores) / len(scores), 3) if scores else None,
         "min_score": min(scores) if scores else None,
         "max_score": max(scores) if scores else None,
+        "per_mode": per_mode,
     }
     write_json(base / "summary.json", summary)
     (base / "per_case.jsonl").write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in results), encoding="utf-8")
+    mode_lines = "".join(
+        f"- {mode}: {row['scored']}/{row['n']} scored, mean {row['mean_score']} / 5\n"
+        for mode, row in per_mode.items()
+    )
     (base / "summary.md").write_text(
-        f"# {dimension}\n\n- Cases: {summary['n']}\n- Scored: {summary['scored']}\n- Gate failed: {summary['gate_failed']}\n- Mean score: {summary['mean_score']} / 5\n",
+        f"# {dimension}\n\n- Cases: {summary['n']}\n- Scored: {summary['scored']}\n- Gate failed: {summary['gate_failed']}\n- Mean score: {summary['mean_score']} / 5\n\n## By input mode\n\n{mode_lines}",
         encoding="utf-8",
     )
     print(f"score: mean={summary['mean_score']} scored={summary['scored']} gate_failed={summary['gate_failed']}")

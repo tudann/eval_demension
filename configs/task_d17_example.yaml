@@ -1,12 +1,54 @@
 task_name: local_d17
 run_name: local_d17
+# One task runs this dimension over all five input modes.
 dimension: 17_motion_temporal_consistency
-input:
-  root: ./data/d17/t2va
-  mode: t2va
-  prompt_filename: prompt_final.txt
-  video_filename: video.mp4
-  case_ids: []
+inputs:
+  - id: t2va
+    root: ./data/feishu_video_cases/t2va
+    allow_missing_root: true
+    mode: t2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+  - id: f2va
+    root: ./data/feishu_video_cases/f2va
+    mode: f2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+  - id: l2va
+    root: ./data/feishu_video_cases/l2va
+    mode: l2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      last_frame_filename: input_01
+  - id: fl2va
+    root: ./data/feishu_video_cases/fl2va
+    mode: fl2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+      last_frame_filename: input_02
+  - id: r2va
+    root: ./data/feishu_video_cases/r2va
+    mode: r2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      image_pattern: input_{index:02d}
+      video_pattern: ref_video_{index:02d}
+      audio_pattern: ref_audio_{index:02d}
 evaluation:
   subpoints:
     motion_consistency: {components: {vlm_anomaly_rate: true}}

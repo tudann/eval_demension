@@ -50,11 +50,17 @@ tensorboard/
 # Model weights and checkpoints
 checkpoints/
 models/
+checkpoints/
+weights/
 *.pt
 *.pth
 *.ckpt
 *.safetensors
 *.onnx
+*.bin
+*.pdmodel
+*.pdiparams
+*.pdiparams.info
 
 # Large local data and media
 *.npy

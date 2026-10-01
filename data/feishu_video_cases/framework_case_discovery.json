@@ -1,0 +1,362 @@
+[
+  {
+    "config": "/home/ubuntu/lt-self/V-eval/eval_demension/configs/task_d13_example.yaml",
+    "dimension": "13_style_visual_control",
+    "cases": [
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_packshot",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_ripple",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_foldable_phone",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_multiview_perfume",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png",
+          "input_02.png",
+          "input_03.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      }
+    ]
+  },
+  {
+    "config": "/home/ubuntu/lt-self/V-eval/eval_demension/configs/task_d14_example.yaml",
+    "dimension": "14_edit_controllable_gen",
+    "cases": [
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_packshot",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_ripple",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_foldable_phone",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_multiview_perfume",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png",
+          "input_02.png",
+          "input_03.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      }
+    ]
+  },
+  {
+    "config": "/home/ubuntu/lt-self/V-eval/eval_demension/configs/task_d15_example.yaml",
+    "dimension": "15_audio_quality_control",
+    "cases": [
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_packshot",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_ripple",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_foldable_phone",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_multiview_perfume",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png",
+          "input_02.png",
+          "input_03.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      }
+    ]
+  },
+  {
+    "config": "/home/ubuntu/lt-self/V-eval/eval_demension/configs/task_d16_example.yaml",
+    "dimension": "16_audio_visual_sync",
+    "cases": [
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_packshot",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_ripple",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_foldable_phone",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_multiview_perfume",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png",
+          "input_02.png",
+          "input_03.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      }
+    ]
+  },
+  {
+    "config": "/home/ubuntu/lt-self/V-eval/eval_demension/configs/task_d17_example.yaml",
+    "dimension": "17_motion_temporal_consistency",
+    "cases": [
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_packshot",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_ripple",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_foldable_phone",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_multiview_perfume",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png",
+          "input_02.png",
+          "input_03.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      }
+    ]
+  },
+  {
+    "config": "/home/ubuntu/lt-self/V-eval/eval_demension/configs/task_d18_example.yaml",
+    "dimension": "18_text_visual_consistency",
+    "cases": [
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_packshot",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "t2va",
+        "case_id": "feishu_ad_perfume_ripple",
+        "mode": "t2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_foldable_phone",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      },
+      {
+        "input_id": "r2va",
+        "case_id": "feishu_product_multiview_perfume",
+        "mode": "r2va",
+        "prompt": "prompt_final.txt",
+        "video": "video.mp4",
+        "first_frame": null,
+        "last_frame": null,
+        "reference_images": [
+          "input_01.png",
+          "input_02.png",
+          "input_03.png"
+        ],
+        "reference_videos": [],
+        "reference_audios": []
+      }
+    ]
+  }
+]

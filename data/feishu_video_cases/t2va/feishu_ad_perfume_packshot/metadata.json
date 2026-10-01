@@ -1,0 +1,22 @@
+{
+  "case_id": "feishu_ad_perfume_packshot",
+  "mode": "t2va",
+  "source_document": {
+    "title": "视频评测维度及case 副本",
+    "url": "https://my.feishu.cn/wiki/UsBewLzp8if1zaktL7JcYHY5nnf"
+  },
+  "source_location": {
+    "table_file": "table_8.json",
+    "row_index_zero_based": 9,
+    "prompt_cell_index_zero_based": 5
+  },
+  "selected_model": "Agnes 2.5flash",
+  "selected_video": {
+    "path": "video.mp4",
+    "token": "VaFvb8k0LobAKAxV2n4c1Uwunic",
+    "original_name": "case1_广告_r8_香水落版_agnes2.5flash.mp4"
+  },
+  "references": [],
+  "selection_reason": "无参考图，提示词和视频可以直接作为 T2VA；包含明确 Packshot、Logo 和 Slogan 结尾状态，可用于文字/视觉一致性测试。",
+  "prompt_characters": 276
+}

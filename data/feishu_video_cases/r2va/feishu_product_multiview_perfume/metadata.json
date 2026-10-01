@@ -1,0 +1,41 @@
+{
+  "case_id": "feishu_product_multiview_perfume",
+  "mode": "r2va",
+  "source_document": {
+    "title": "视频评测维度及case 副本",
+    "url": "https://my.feishu.cn/wiki/UsBewLzp8if1zaktL7JcYHY5nnf"
+  },
+  "source_location": {
+    "table_file": "table_6.json",
+    "row_index_zero_based": 6,
+    "prompt_cell_index_zero_based": 6
+  },
+  "selected_model": "Agnes 2.5flash",
+  "selected_video": {
+    "path": "video.mp4",
+    "token": "Ko3sba3QYoXh9ZxgUQDcK9ETnLh",
+    "original_name": "pavo-ec3b345e4fd7-0-d0f740acfae1 (1).mp4"
+  },
+  "references": [
+    {
+      "path": "input_01.png",
+      "type": "image",
+      "token": "P06obeZEzop5PvxmLpKctpqMnnc",
+      "role": "参考图1/正面"
+    },
+    {
+      "path": "input_02.png",
+      "type": "image",
+      "token": "WwUJbKGpVo9Mfcxc2VtcvbQcn0d",
+      "role": "参考图2/右侧面"
+    },
+    {
+      "path": "input_03.png",
+      "type": "image",
+      "token": "JVxqb99bAofXfFxQJhpcSISsnd6",
+      "role": "参考图3/背面"
+    }
+  ],
+  "selection_reason": "提示词明确引用三张参考图并要求融合为同一件商品；按 R2VA 规则保留三张图片和对应生成视频。",
+  "prompt_characters": 641
+}

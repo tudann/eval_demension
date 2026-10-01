@@ -1,0 +1,29 @@
+{
+  "case_id": "feishu_product_foldable_phone",
+  "mode": "r2va",
+  "source_document": {
+    "title": "视频评测维度及case 副本",
+    "url": "https://my.feishu.cn/wiki/UsBewLzp8if1zaktL7JcYHY5nnf"
+  },
+  "source_location": {
+    "table_file": "table_6.json",
+    "row_index_zero_based": 1,
+    "prompt_cell_index_zero_based": 9
+  },
+  "selected_model": "Agnes 2.5flash",
+  "selected_video": {
+    "path": "video.mp4",
+    "token": "IuesbDlLCovKA7xuzm9cq3b8nme",
+    "original_name": "pavo-3938e1a54e10-0-742d5141fb4a.mp4"
+  },
+  "references": [
+    {
+      "path": "input_01.png",
+      "type": "image",
+      "token": "IJ4BbN88Ioy9NQxMLFIc5y0Sned",
+      "role": "唯一商品参考图"
+    }
+  ],
+  "selection_reason": "提示词明确要求根据一张参考图还原折叠屏手机；按 R2VA 规则保留参考图和对应生成视频。",
+  "prompt_characters": 271
+}

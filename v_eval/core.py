@@ -12,6 +12,8 @@ from typing import Any, Callable
 
 from PIL import Image
 
+from .model_components import run_local_component
+
 
 VIDEO_EXTENSIONS = {".mp4", ".webm", ".mov", ".avi", ".mkv"}
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
@@ -55,9 +57,14 @@ class Case:
     reference_videos: list[Path] = field(default_factory=list)
     reference_audios: list[Path] = field(default_factory=list)
     source: str | None = None
+    task_id: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return _safe_json(asdict(self))
+
+    @property
+    def output_id(self) -> str:
+        return f"{self.task_id}/{self.case_id}" if self.task_id else self.case_id
 
 
 class ConfigError(ValueError):
@@ -88,10 +95,11 @@ def _all_named(case_dir: Path, pattern: str, extensions: set[str], index: int) -
     return found
 
 
-def discover_cases(task: dict[str, Any]) -> list[Case]:
-    input_cfg = task.get("input", {})
+def _discover_cases_from_input(input_cfg: dict[str, Any], task_id: str | None = None) -> list[Case]:
     root = Path(input_cfg.get("root", ""))
     if not root.is_dir():
+        if input_cfg.get("allow_missing_root", False):
+            return []
         raise ConfigError(f"input.root does not exist: {root}")
     mode = str(input_cfg.get("mode", "t2va")).lower()
     allowed_modes = {"t2va", "f2va", "l2va", "fl2va", "r2va"}
@@ -118,7 +126,8 @@ def discover_cases(task: dict[str, Any]) -> list[Case]:
         if mode in {"f2va", "fl2va"}:
             first = _find_named(case_dir, str(refs.get("first_frame_filename", "input_01")), IMAGE_EXTENSIONS)
         if mode in {"l2va", "fl2va"}:
-            last = _find_named(case_dir, str(refs.get("last_frame_filename", "input_02")), IMAGE_EXTENSIONS)
+            default_last = "input_02" if mode == "fl2va" else "input_01"
+            last = _find_named(case_dir, str(refs.get("last_frame_filename", default_last)), IMAGE_EXTENSIONS)
         if mode == "r2va":
             image_pattern = refs.get("image_pattern", "input_{index:02d}")
             image_exts = {str(x).lower() for x in refs.get("image_extensions", sorted(IMAGE_EXTENSIONS))}
@@ -137,7 +146,29 @@ def discover_cases(task: dict[str, Any]) -> list[Case]:
                 audios.extend(current_a)
         cases.append(Case(case_dir.name, case_dir, mode, prompt if prompt.is_file() else None,
                           video if video.is_file() else None, first, last, images, videos, audios,
-                          source=str(input_cfg.get("source", "local"))))
+                          source=str(input_cfg.get("source", "local")), task_id=task_id))
+    return cases
+
+
+def discover_cases(task: dict[str, Any]) -> list[Case]:
+    inputs = task.get("inputs")
+    if inputs is None:
+        return _discover_cases_from_input(task.get("input", {}))
+    if not isinstance(inputs, list) or not inputs:
+        raise ConfigError("inputs must be a non-empty list")
+    cases: list[Case] = []
+    seen_ids: set[str] = set()
+    for index, input_cfg in enumerate(inputs, start=1):
+        if not isinstance(input_cfg, dict):
+            raise ConfigError(f"inputs[{index - 1}] must be a YAML mapping")
+        mode = str(input_cfg.get("mode", "")).lower()
+        task_id = str(input_cfg.get("id") or mode or f"input_{index}")
+        if task_id in seen_ids:
+            raise ConfigError(f"duplicate inputs id: {task_id}")
+        if "/" in task_id or "\\" in task_id or task_id in {".", ".."}:
+            raise ConfigError(f"inputs id must be a safe directory name: {task_id}")
+        seen_ids.add(task_id)
+        cases.extend(_discover_cases_from_input(input_cfg, task_id=task_id))
     return cases
 
 
@@ -168,14 +199,27 @@ def infer_facts(dimension: str, prompt: str, case: Case) -> dict[str, Any]:
                  "is_continuation": has("continue", "continuation", "extend", "续写", "延长"),
                  "static_camera": has("static", "固定镜头", "静止")}
     elif dimension == "15_audio_quality_control":
+        emotion_terms = {
+            "angry": "angry", "anger": "angry", "愤怒": "angry", "生气": "angry",
+            "happy": "happy", "happiness": "happy", "开心": "happy", "高兴": "happy",
+            "sad": "sad", "sadness": "sad", "悲伤": "sad",
+            "fear": "fearful", "fearful": "fearful", "恐惧": "fearful",
+            "surprise": "surprised", "惊讶": "surprised", "disgust": "disgusted", "厌恶": "disgusted",
+            "neutral": "neutral", "平静": "neutral",
+        }
+        target_emotion = next((value for term, value in emotion_terms.items() if term in text), None)
         facts = {"dialogues": has("dialogue", "says", "say", "speaks", "voice", "对白", "说", "台词"),
                  "voice_forbidden": has("no voice", "without speech", "禁止说话", "无对白"),
                  "has_repeated_speaker": has("same speaker", "重复说话人", "同一声音"),
-                 "dialogue_emotions": has("angry", "happy", "sad", "情绪", "愤怒", "开心", "悲伤"),
+                 "dialogue_emotions": target_emotion is not None,
+                 "target_emotion": target_emotion,
                  "ambient": has("ambient", "background sound", "环境音", "风声", "雨声"),
+                 "ambient_description": prompt[:300],
                  "sfx": has("sound effect", "sfx", "脚步", "碰撞", "音效"),
+                 "sfx_description": prompt[:300],
                  "music_required": has("music", "音乐", "配乐"),
                  "music_forbidden": has("no music", "without music", "不要音乐", "禁止配乐"),
+                 "music_description": prompt[:300],
                  "reference_audio_role": bool(case.reference_audios)}
     elif dimension == "16_audio_visual_sync":
         facts = {"dialogues": has("dialogue", "says", "speaks", "对白", "说"),
@@ -371,16 +415,11 @@ def image_score(reference: Path | None, target: Path | None) -> dict[str, Any]:
 
 
 def run_component(name: str, case: Case, facts: dict[str, Any]) -> dict[str, Any]:
-    if name in {"endpoint_psnr", "endpoint_lpips", "continuation_seam_lpips", "arcface_identity_keep"}:
-        target = case.first_frame or case.last_frame
-        reference = case.last_frame if name == "continuation_seam_lpips" else case.first_frame
-        result = image_score(reference, target)
-        result["component"] = name
-        result["note"] = "lightweight local proxy; replace with the configured model for production scoring"
-        return result
-    if name.startswith("ocr_"):
-        return {"component": name, "status": "not_applicable", "score": None, "reason": "OCR model is not installed in the local reconstruction"}
-    return {"component": name, "status": "not_configured", "score": None, "reason": "numeric model is not installed in the local reconstruction"}
+    local_result = run_local_component(name, case, facts)
+    if local_result is not None:
+        return local_result
+    return {"component": name, "status": "not_configured", "score": None,
+            "reason": "no local adapter is registered for this component"}
 
 
 def component_enabled(task: dict[str, Any], subpoint: str, component: str) -> bool:
@@ -415,7 +454,7 @@ def score_subpoint(task: dict[str, Any], sp_name: str, sp_cfg: dict[str, Any], c
 
 
 def _case_output_root(task: dict[str, Any], case: Case) -> Path:
-    return Path(task.get("output_dir", "outputs")) / "runs" / str(task.get("run_name", "local")) / str(task["dimension"]) / case.case_id
+    return Path(task.get("output_dir", "outputs")) / "runs" / str(task.get("run_name", "local")) / str(task["dimension"]) / case.output_id
 
 
 def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case) -> dict[str, Any]:
@@ -430,7 +469,7 @@ def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case
 
 def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case, scoring: dict[str, Any], force: bool = False) -> dict[str, Any]:
     dimension = str(task["dimension"])
-    out_root = Path(task.get("output_dir", "outputs")) / "runs" / str(task.get("run_name", "local")) / dimension / case.case_id
+    out_root = _case_output_root(task, case)
     out_root.mkdir(parents=True, exist_ok=True)
     facts_path = out_root / "facts.json"
     checklist_path = out_root / "checklist.json"
@@ -448,9 +487,11 @@ def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Cas
     judge = JudgeClient("audio" if dimension in {"15_audio_quality_control", "16_audio_visual_sync"} else "vision")
     answers = answer_checklist(checklist, prompt, case, judge)
     gates = gate_result(checklist, answers)
+    result_case_id = case.output_id
     if not case.video_path:
         status = "skipped_missing_video"
-        result = {"case_id": case.case_id, "dimension": dimension, "status": status, "score": None, "reason": "video file not found", "case": case.as_dict()}
+        result = {"case_id": result_case_id, "source_case_id": case.case_id, "input_id": case.task_id,
+                  "dimension": dimension, "status": status, "score": None, "reason": "video file not found", "case": case.as_dict()}
     else:
         subpoints = {name: score_subpoint(task, name, cfg, checklist, answers, case, facts, bool(gates["passed"]), scoring) for name, cfg in dimension_cfg.get("subpoints", {}).items()}
         applicable = [row["score"] for row in subpoints.values() if row.get("applicable") and row.get("score") is not None]
@@ -460,7 +501,8 @@ def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Cas
             status = "gate_failed"
         else:
             status = "ok" if score is not None else "no_score"
-        result = {"case_id": case.case_id, "dimension": dimension, "status": status, "score": score,
+        result = {"case_id": result_case_id, "source_case_id": case.case_id, "input_id": case.task_id,
+                  "dimension": dimension, "status": status, "score": score,
                   "gate": gates, "facts": facts, "subpoints": subpoints, "case": case.as_dict(),
                   "judge": {"mode": answers.get("source"), "status": answers.get("status")}}
     facts_path.write_text(json.dumps(_safe_json(facts), ensure_ascii=False, indent=2), encoding="utf-8")

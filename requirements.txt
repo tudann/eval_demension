@@ -1,0 +1,3 @@
+# Python package dependencies required by run.py
+PyYAML>=6.0,<7
+Pillow>=10,<13

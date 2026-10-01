@@ -1,0 +1,155 @@
+{
+  "cases": [
+    {
+      "mode": "t2va",
+      "case": "feishu_ad_perfume_packshot",
+      "prompt_characters": 277,
+      "video_bytes": 5126460,
+      "video_probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 720,
+            "height": 1280,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "9.440000",
+          "size": "5126460"
+        }
+      },
+      "images": []
+    },
+    {
+      "mode": "t2va",
+      "case": "feishu_ad_perfume_ripple",
+      "prompt_characters": 297,
+      "video_bytes": 3984872,
+      "video_probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 720,
+            "height": 1280,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "10.144000",
+          "size": "3984872"
+        }
+      },
+      "images": []
+    },
+    {
+      "mode": "r2va",
+      "case": "feishu_product_foldable_phone",
+      "prompt_characters": 272,
+      "video_bytes": 2971640,
+      "video_probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "10.144000",
+          "size": "2971640"
+        }
+      },
+      "images": [
+        {
+          "path": "input_01.png",
+          "format": "PNG",
+          "size": [
+            1000,
+            563
+          ],
+          "bytes": 353877
+        }
+      ]
+    },
+    {
+      "mode": "r2va",
+      "case": "feishu_product_multiview_perfume",
+      "prompt_characters": 642,
+      "video_bytes": 4427072,
+      "video_probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "10.144000",
+          "size": "4427072"
+        }
+      },
+      "images": [
+        {
+          "path": "input_01.png",
+          "format": "PNG",
+          "size": [
+            1672,
+            941
+          ],
+          "bytes": 2063477
+        },
+        {
+          "path": "input_02.png",
+          "format": "PNG",
+          "size": [
+            1672,
+            941
+          ],
+          "bytes": 1964297
+        },
+        {
+          "path": "input_03.png",
+          "format": "PNG",
+          "size": [
+            1672,
+            941
+          ],
+          "bytes": 2009934
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
