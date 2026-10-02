@@ -1,4 +1,6 @@
-# OpenAI-compatible local judge services.
+# OpenAI-compatible judge services. The evaluator sends the API key from the
+# corresponding *_API_KEY environment variable as an Authorization Bearer token.
+# Never put a real API key in this file or commit it.
 # Start Qwen3-VL-32B-Instruct and Qwen2.5-Omni-7B separately, then point
 # the evaluator at their /v1 endpoints with the environment variables below.
 vision:
@@ -6,6 +8,7 @@ vision:
   url: http://127.0.0.1:8011/v1
   env_url: V_EVAL_VISION_JUDGE_URL
   env_model: V_EVAL_VISION_JUDGE_MODEL
+  env_api_key: V_EVAL_VISION_JUDGE_API_KEY
   used_by:
     - 13_style_visual_control
     - 14_edit_controllable_gen
@@ -16,6 +19,7 @@ audio:
   url: http://127.0.0.1:8012/v1
   env_url: V_EVAL_AUDIO_JUDGE_URL
   env_model: V_EVAL_AUDIO_JUDGE_MODEL
+  env_api_key: V_EVAL_AUDIO_JUDGE_API_KEY
   used_by:
     - 15_audio_quality_control
     - 16_audio_visual_sync

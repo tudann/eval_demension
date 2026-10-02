@@ -280,6 +280,12 @@ class JudgeClient:
         self.model = model or os.getenv(f"{prefix}_MODEL") or legacy_model or (
             "Qwen2.5-Omni-7B" if modality == "audio" else "Qwen3-VL-32B-Instruct"
         )
+        self.api_key = (
+            os.getenv(f"{prefix}_API_KEY")
+            or os.getenv("V_EVAL_JUDGE_API_KEY")
+            or os.getenv("V_EVAL_API_KEY")
+            or os.getenv("OPENAI_API_KEY")
+        )
         self.timeout = timeout
 
     @property
@@ -290,8 +296,11 @@ class JudgeClient:
         if not self.base_url:
             return {"status": "offline", "model": self.model}
         payload = json.dumps({"model": self.model, "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}], "temperature": 0}).encode()
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
         request = urllib.request.Request(self.base_url.rstrip("/") + "/chat/completions", data=payload,
-                                         headers={"Content-Type": "application/json"}, method="POST")
+                                         headers=headers, method="POST")
         try:
             with urllib.request.urlopen(request, timeout=self.timeout) as response:
                 return {"status": "ok", "response": json.loads(response.read().decode("utf-8"))}

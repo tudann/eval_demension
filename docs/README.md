@@ -156,14 +156,20 @@ outputs/d13/runs/local_d13/
 
 ## 裁判服务
 
-视觉裁判负责 D13、D14、D17、D18；音频裁判负责 D15、D16。示例：
+视觉裁判负责 D13、D14、D17、D18；音频裁判负责 D15、D16。服务可以是本地部署，也可以是 OpenAI 兼容的外部 API。API 密钥只通过环境变量传入，不要写入 YAML、代码或 Git：
 
 ```bash
 export V_EVAL_VISION_JUDGE_URL=http://127.0.0.1:8011/v1
 export V_EVAL_VISION_JUDGE_MODEL=Qwen3-VL-32B-Instruct
+export V_EVAL_VISION_JUDGE_API_KEY="$YOUR_API_KEY"
 export V_EVAL_AUDIO_JUDGE_URL=http://127.0.0.1:8012/v1
 export V_EVAL_AUDIO_JUDGE_MODEL=Qwen2.5-Omni-7B
+export V_EVAL_AUDIO_JUDGE_API_KEY="$YOUR_API_KEY"
 .venv/bin/python run.py --task-config configs/task_d13_example.yaml
 ```
 
-任务配置只负责选择输入和启停数值组件。裁判模型服务需要单独部署和启动。
+也可以把两个 URL 和模型变量都指向同一个外部服务；当前 `JudgeClient` 会为每个请求发送 `Authorization: Bearer <key>`。支持的密钥变量优先级为模态专用的 `V_EVAL_VISION_JUDGE_API_KEY` / `V_EVAL_AUDIO_JUDGE_API_KEY`，其次是 `V_EVAL_JUDGE_API_KEY`、`V_EVAL_API_KEY` 和 `OPENAI_API_KEY`。
+
+当前评测框架只把提示词、case 元数据和本地文件路径发送给评委服务，不会自动上传本地视频或图片。外部模型因此可以先验证 checklist JSON 和调用链；要得到真实的视频质量判断，还需要后续增加视频/图片的多模态上传或可访问 URL 适配。
+
+任务配置只负责选择输入和启停数值组件。裁判模型服务需要单独部署或提供外部 API。
