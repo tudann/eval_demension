@@ -1,6 +1,12 @@
-# OpenAI-compatible judge services. The evaluator sends the API key from the
-# corresponding *_API_KEY environment variable as an Authorization Bearer token.
-# Never put a real API key in this file or commit it.
+# OpenAI-compatible judge services. The checklist stage can use a separate
+# model or reuse the vision model. API keys are read from environment variables
+# and must never be written to this file or committed.
+checklist:
+  model: gemini-3-flash-preview
+  url: https://api.example.com/v1
+  env_url: V_EVAL_CHECKLIST_URL
+  env_model: V_EVAL_CHECKLIST_MODEL
+  env_api_key: V_EVAL_CHECKLIST_API_KEY
 # Start Qwen3-VL-32B-Instruct and Qwen2.5-Omni-7B separately, then point
 # the evaluator at their /v1 endpoints with the environment variables below.
 vision:

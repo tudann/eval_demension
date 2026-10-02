@@ -14,8 +14,11 @@
 
 ## 当前本地实现边界
 
-- 默认使用 `offline` 评委模式生成可复核的占位回答。
-- 视觉与音频裁判可分别通过 `V_EVAL_VISION_JUDGE_URL` 和 `V_EVAL_AUDIO_JUDGE_URL` 接入 OpenAI 兼容服务。
+- 没有配置评委服务时，`checklist` 使用本地模板，`evaluate` 使用离线占位回答。
+- 配置 OpenAI 兼容服务后，`checklist` 阶段由模型生成并冻结 gates/items，`evaluate` 阶段由模型依据同一份 checklist 回答 gates/items。
+- 外部和本地服务使用同一个 `JudgeClient` 和同一个多模态请求格式；后续只需替换 URL、模型名和密钥环境变量。
+- 视觉与音频裁判可分别通过 `V_EVAL_VISION_JUDGE_URL` 和 `V_EVAL_AUDIO_JUDGE_URL` 接入 OpenAI 兼容服务；也可通过 `V_EVAL_CHECKLIST_URL` 单独指定第一阶段服务。
+- 评委请求默认会将目标视频抽取为最多 6 张帧图，并附加首尾帧、参考图片以及音频维度的 WAV 音频；可用 `V_EVAL_JUDGE_MAX_FRAMES` 调整帧数，或用 `V_EVAL_JUDGE_MEDIA=0` 关闭评估阶段的媒体发送。第一阶段默认只发送 prompt、facts 和维度配置；如需让 checklist 模型也看媒体，设置 `V_EVAL_CHECKLIST_MEDIA=1`。
 - 未安装或未实现的数值模型不会伪装为成功，会记录为 `not_configured`、`not_applicable` 或 `missing_input`。
 - 缺少待评视频的 case 标记为 `skipped_missing_video`，不计分。
 - 可读取视频的普通 gate 明确失败时，总分记为最低分 `1.0`，并计入均值和 `gate_failed` 数量。
@@ -159,17 +162,21 @@ outputs/d13/runs/local_d13/
 视觉裁判负责 D13、D14、D17、D18；音频裁判负责 D15、D16。服务可以是本地部署，也可以是 OpenAI 兼容的外部 API。API 密钥只通过环境变量传入，不要写入 YAML、代码或 Git：
 
 ```bash
-export V_EVAL_VISION_JUDGE_URL=http://127.0.0.1:8011/v1
-export V_EVAL_VISION_JUDGE_MODEL=Qwen3-VL-32B-Instruct
+export V_EVAL_CHECKLIST_URL=https://api.example.com/v1
+export V_EVAL_CHECKLIST_MODEL=your-vision-model
+export V_EVAL_CHECKLIST_API_KEY="$YOUR_API_KEY"
+export V_EVAL_VISION_JUDGE_URL=https://api.example.com/v1
+export V_EVAL_VISION_JUDGE_MODEL=your-vision-model
 export V_EVAL_VISION_JUDGE_API_KEY="$YOUR_API_KEY"
-export V_EVAL_AUDIO_JUDGE_URL=http://127.0.0.1:8012/v1
-export V_EVAL_AUDIO_JUDGE_MODEL=Qwen2.5-Omni-7B
+export V_EVAL_AUDIO_JUDGE_URL=https://api.example.com/v1
+export V_EVAL_AUDIO_JUDGE_MODEL=your-audio-model
 export V_EVAL_AUDIO_JUDGE_API_KEY="$YOUR_API_KEY"
-.venv/bin/python run.py --task-config configs/task_d13_example.yaml
+export V_EVAL_JUDGE_MAX_FRAMES=6
+.venv/bin/python run.py --task-config configs/task_d13_example.yaml --stages check checklist evaluate score
 ```
 
-也可以把两个 URL 和模型变量都指向同一个外部服务；当前 `JudgeClient` 会为每个请求发送 `Authorization: Bearer <key>`。支持的密钥变量优先级为模态专用的 `V_EVAL_VISION_JUDGE_API_KEY` / `V_EVAL_AUDIO_JUDGE_API_KEY`，其次是 `V_EVAL_JUDGE_API_KEY`、`V_EVAL_API_KEY` 和 `OPENAI_API_KEY`。
+如果没有设置 `V_EVAL_CHECKLIST_URL`，第一阶段会复用视觉评委 URL；如果没有设置音频评委 URL，D15/D16 会回退到通用 `V_EVAL_JUDGE_URL`。所有服务都需要提供 `/chat/completions`，并兼容 OpenAI 的 `messages` 格式。第一阶段请求生成 checklist，第二阶段请求回答 checklist。视频会先由 `ffmpeg` 抽帧，图片以 `image_url` data URI 发送；音频维度会额外发送抽取的 WAV 音频。
 
-当前评测框架只把提示词、case 元数据和本地文件路径发送给评委服务，不会自动上传本地视频或图片。外部模型因此可以先验证 checklist JSON 和调用链；要得到真实的视频质量判断，还需要后续增加视频/图片的多模态上传或可访问 URL 适配。
+也可以把两个 URL 和模型变量都指向同一个外部服务；当前 `JudgeClient` 会为每个请求发送 `Authorization: Bearer <key>`。支持的密钥变量优先级为模态专用的 `V_EVAL_VISION_JUDGE_API_KEY` / `V_EVAL_AUDIO_JUDGE_API_KEY`，其次是 `V_EVAL_CHECKLIST_API_KEY`、`V_EVAL_JUDGE_API_KEY`、`V_EVAL_API_KEY` 和 `OPENAI_API_KEY`。
 
 任务配置只负责选择输入和启停数值组件。裁判模型服务需要单独部署或提供外部 API。

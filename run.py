@@ -99,22 +99,32 @@ def run_check(task: dict[str, Any]) -> list[Any]:
     judge_status = {
         "vision": bool(os.getenv("V_EVAL_VISION_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
         "audio": bool(os.getenv("V_EVAL_AUDIO_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
+        "checklist": bool(os.getenv("V_EVAL_CHECKLIST_URL") or os.getenv("V_EVAL_VISION_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
     }
     modes = sorted({case.mode for case in cases})
     mode_counts = {mode: sum(case.mode == mode for case in cases) for mode in modes}
     print(f"check: dimension={task['dimension']} cases={len(cases)} with_video={with_video} "
           f"modes={mode_counts} "
+          f"checklist_judge={'online' if judge_status['checklist'] else 'offline'} "
           f"vision_judge={'online' if judge_status['vision'] else 'offline'} "
           f"audio_judge={'online' if judge_status['audio'] else 'offline'}")
     return cases
 
 
 def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> None:
-    # The checklist stage freezes facts and items without producing a score.
+    # The checklist stage freezes facts and items. When configured, generation is
+    # delegated to the same external/local OpenAI-compatible judge used later.
     dimension_cfg = dims["dimensions"][task["dimension"]]
+    prepared = []
     for case in cases:
-        prepare_case(task, dimension_cfg, case)
-    print(f"checklist: prepared {len(cases)} case records")
+        checklist_path = output_base(task) / str(task["dimension"]) / case.output_id / "checklist.json"
+        if checklist_path.is_file() and not force:
+            prepared.append(json.loads(checklist_path.read_text(encoding="utf-8")))
+        else:
+            prepared.append(prepare_case(task, dimension_cfg, case, use_external=True))
+    external = sum(item.get("judge_mode") == "external" for item in prepared)
+    fallback = sum(item.get("judge_mode") == "local_fallback" for item in prepared)
+    print(f"checklist: prepared {len(prepared)} case records external={external} local_fallback={fallback}")
 
 
 def run_evaluate(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> list[dict[str, Any]]:

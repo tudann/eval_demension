@@ -12,6 +12,7 @@ from typing import Any, Callable
 
 from PIL import Image
 
+from .judge_media import build_judge_content
 from .model_components import run_local_component
 
 
@@ -269,18 +270,24 @@ def evaluate_applies(expression: str | None, facts: dict[str, Any], case: Case |
 
 
 class JudgeClient:
-    """OpenAI-compatible optional judge client; absent endpoint means offline mode."""
+    """OpenAI-compatible judge client; absent endpoint means offline mode."""
 
-    def __init__(self, modality: str, base_url: str | None = None, model: str | None = None, timeout: int = 180):
+    def __init__(self, modality: str, base_url: str | None = None, model: str | None = None,
+                 api_key: str | None = None, timeout: int = 180, role: str = "judge"):
         self.modality = modality
-        prefix = "V_EVAL_AUDIO_JUDGE" if modality == "audio" else "V_EVAL_VISION_JUDGE"
+        self.role = role
+        prefix = "V_EVAL_AUDIO_JUDGE" if modality in {"audio", "audio_visual"} else "V_EVAL_VISION_JUDGE"
+        role_prefix = "V_EVAL_CHECKLIST"
         legacy_url = os.getenv("V_EVAL_JUDGE_URL")
         legacy_model = os.getenv("V_EVAL_JUDGE_MODEL")
-        self.base_url = base_url or os.getenv(f"{prefix}_URL") or legacy_url
-        self.model = model or os.getenv(f"{prefix}_MODEL") or legacy_model or (
-            "Qwen2.5-Omni-7B" if modality == "audio" else "Qwen3-VL-32B-Instruct"
+        role_url = os.getenv(f"{role_prefix}_URL") if role == "checklist" else None
+        role_model = os.getenv(f"{role_prefix}_MODEL") if role == "checklist" else None
+        role_key = os.getenv(f"{role_prefix}_API_KEY") if role == "checklist" else None
+        self.base_url = base_url or role_url or os.getenv(f"{prefix}_URL") or legacy_url
+        self.model = model or role_model or os.getenv(f"{prefix}_MODEL") or legacy_model or (
+            "Qwen2.5-Omni-7B" if modality in {"audio", "audio_visual"} else "Qwen3-VL-32B-Instruct"
         )
-        self.api_key = (
+        self.api_key = api_key or role_key or (
             os.getenv(f"{prefix}_API_KEY")
             or os.getenv("V_EVAL_JUDGE_API_KEY")
             or os.getenv("V_EVAL_API_KEY")
@@ -292,10 +299,14 @@ class JudgeClient:
     def online(self) -> bool:
         return bool(self.base_url)
 
-    def complete(self, system: str, user: str) -> dict[str, Any]:
+    def complete(self, system: str, user: str | list[dict[str, Any]], *, temperature: float = 0) -> dict[str, Any]:
         if not self.base_url:
             return {"status": "offline", "model": self.model}
-        payload = json.dumps({"model": self.model, "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}], "temperature": 0}).encode()
+        payload = json.dumps({
+            "model": self.model,
+            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            "temperature": temperature,
+        }).encode()
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
@@ -303,16 +314,122 @@ class JudgeClient:
                                          headers=headers, method="POST")
         try:
             with urllib.request.urlopen(request, timeout=self.timeout) as response:
-                return {"status": "ok", "response": json.loads(response.read().decode("utf-8"))}
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
-            return {"status": "error", "error": str(exc), "model": self.model}
+                return {"status": "ok", "response": json.loads(response.read().decode("utf-8")), "model": self.model}
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+            detail = str(exc)
+            if isinstance(exc, urllib.error.HTTPError):
+                try:
+                    detail = exc.read().decode("utf-8", errors="replace")[:2000]
+                except OSError:
+                    pass
+            return {"status": "error", "error": detail, "model": self.model}
+
+
+def _response_content(payload: Any) -> Any:
+    if isinstance(payload, dict):
+        choices = payload.get("choices")
+        if isinstance(choices, list) and choices:
+            message = choices[0].get("message", {})
+            content = message.get("content", "") if isinstance(message, dict) else ""
+            if isinstance(content, list):
+                return "".join(str(part.get("text", "")) for part in content if isinstance(part, dict))
+            return content
+    return payload
+
+
+def _parse_json_response(payload: Any) -> dict[str, Any] | None:
+    content = _response_content(payload)
+    if isinstance(content, dict):
+        return content
+    if not isinstance(content, str):
+        return None
+    text = content.strip()
+    text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.IGNORECASE | re.DOTALL).strip()
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", text, flags=re.DOTALL)
+        if not match:
+            return None
+        try:
+            parsed = json.loads(match.group(0))
+        except json.JSONDecodeError:
+            return None
+    return parsed if isinstance(parsed, dict) else None
 
 
 def make_checklist(dimension: str, facts: dict[str, Any], dimension_cfg: dict[str, Any], case: Case) -> dict[str, Any]:
     items = _default_items(dimension, facts, dimension_cfg)
     return {"version": 1, "dimension": dimension, "facts": facts,
             "gates": dimension_cfg.get("gates", []), "items": items,
-            "judge_mode": "offline", "case_id": case.case_id}
+            "judge_mode": "local_template", "case_id": case.case_id}
+
+
+def _judge_modality(dimension: str) -> str:
+    if dimension == "16_audio_visual_sync":
+        return "audio_visual"
+    return "audio" if dimension == "15_audio_quality_control" else "vision"
+
+
+def _normalize_checklist(payload: dict[str, Any], local: dict[str, Any], model: str | None = None) -> dict[str, Any] | None:
+    gates = payload.get("gates")
+    items = payload.get("items")
+    if not isinstance(gates, list) or not isinstance(items, list) or not items:
+        return None
+    local_items = {str(item.get("id")): item for item in local.get("items", [])}
+    normalized_items: list[dict[str, Any]] = []
+    for index, item in enumerate(items, start=1):
+        if not isinstance(item, dict):
+            continue
+        fallback = local_items.get(str(item.get("id"))) or local_items.get(f"q{index}") or {}
+        row = dict(fallback)
+        row.update(item)
+        row["id"] = str(row.get("id") or f"q{index}")
+        row.setdefault("kind", "yes_no")
+        row.setdefault("expect", "yes")
+        row.setdefault("weight", 1.0)
+        row.setdefault("core", index == 1)
+        if row.get("subpoint"):
+            normalized_items.append(row)
+    if not normalized_items:
+        return None
+    normalized_gates = [gate for gate in gates if isinstance(gate, dict) and gate.get("id")]
+    if not normalized_gates:
+        normalized_gates = list(local.get("gates", []))
+    return {**local, "gates": normalized_gates, "items": normalized_items,
+            "judge_mode": "external", "judge_model": model}
+
+
+def generate_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
+                       facts: dict[str, Any], prompt: str) -> dict[str, Any]:
+    dimension = str(task["dimension"])
+    local = make_checklist(dimension, facts, dimension_cfg, case)
+    judge = JudgeClient(_judge_modality(dimension), role="checklist")
+    if not judge.online:
+        return local
+    request_payload = {
+        "task": "Generate the evaluation checklist for this one case.",
+        "dimension": dimension,
+        "prompt": prompt,
+        "facts": facts,
+        "dimension_config": dimension_cfg,
+        "local_template": local,
+        "output_schema": {"gates": "array", "items": "array"},
+    }
+    content = build_judge_content(prompt, request_payload, case, judge.modality,
+                                  media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0")
+    response = judge.complete(
+        "Create a rigorous checklist from the supplied dimension configuration. Return only JSON with gates and items. "
+        "Preserve gate ids and item subpoints when the local template provides them. Do not invent unsupported dimensions.",
+        content,
+    )
+    if response.get("status") != "ok":
+        return {**local, "judge_mode": "local_fallback", "judge_error": response.get("error")}
+    parsed = _parse_json_response(response.get("response"))
+    normalized = _normalize_checklist(parsed, local, judge.model) if parsed else None
+    if normalized is None:
+        return {**local, "judge_mode": "local_fallback", "judge_error": "external checklist response was invalid"}
+    return normalized
 
 
 def offline_answer(item: dict[str, Any], prompt: str, facts: dict[str, Any]) -> dict[str, Any]:
@@ -325,38 +442,33 @@ def offline_answer(item: dict[str, Any], prompt: str, facts: dict[str, Any]) -> 
 
 
 def _parse_judge_payload(payload: Any) -> dict[str, Any] | None:
-    if isinstance(payload, dict):
-        if isinstance(payload.get("answers"), list):
-            return {"answers": payload["answers"], "gates": payload.get("gates", [])}
-        choices = payload.get("choices")
-        if isinstance(choices, list) and choices:
-            content = choices[0].get("message", {}).get("content", "")
-            if isinstance(content, list):
-                content = "".join(str(part.get("text", "")) for part in content if isinstance(part, dict))
-            return _parse_judge_payload(content)
-    if isinstance(payload, str):
-        text = payload.strip()
-        text = re.sub(r"^```(?:json)?\\s*|\\s*```$", "", text, flags=re.IGNORECASE | re.DOTALL).strip()
-        try:
-            parsed = json.loads(text)
-        except json.JSONDecodeError:
-            return None
-        return _parse_judge_payload(parsed)
+    parsed = _parse_json_response(payload)
+    if isinstance(parsed, dict) and isinstance(parsed.get("answers"), list):
+        return {"answers": parsed["answers"], "gates": parsed.get("gates", [])}
     return None
 
 
 def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: JudgeClient) -> dict[str, Any]:
     if judge.online:
-        response = judge.complete("Return JSON with 'gates' and 'answers' arrays for the supplied checklist.", json.dumps({"prompt": prompt, "case": case.as_dict(), "checklist": checklist}, ensure_ascii=False))
+        request_payload = {"prompt": prompt, "case": case.as_dict(), "checklist": checklist}
+        content = build_judge_content(prompt, request_payload, case, judge.modality)
+        response = judge.complete(
+            "Answer every supplied gate and checklist item using the media and prompt. Return only JSON with 'gates' and 'answers' arrays. "
+            "Each row must preserve the supplied id and use yes/no (or true/false for gates). Include concise evidence.",
+            content,
+        )
         if response.get("status") == "ok":
             parsed = _parse_judge_payload(response.get("response"))
             if parsed is not None:
-                return {"status": "ok", "source": "judge", "raw": response.get("response"), **parsed}
-            return {"status": "error", "source": "judge", "error": "judge response was not valid checklist JSON", "answers": [], "gates": []}
-        return {"status": "error", "source": "judge", "error": response.get("error"), "answers": [], "gates": []}
+                return {"status": "ok", "source": "judge", "model": judge.model,
+                        "raw": response.get("response"), **parsed}
+            return {"status": "error", "source": "judge", "model": judge.model,
+                    "error": "judge response was not valid checklist JSON", "answers": [], "gates": []}
+        return {"status": "error", "source": "judge", "model": judge.model,
+                "error": response.get("error"), "answers": [], "gates": []}
     answers = [offline_answer(item, prompt, checklist.get("facts", {})) for item in checklist.get("items", [])]
     gates = [{"id": gate["id"], "answer": gate.get("expect", "yes"), "evidence": "offline mode: gate retained for manual review", "source": "offline"} for gate in checklist.get("gates", [])]
-    return {"status": "offline", "source": "offline", "answers": answers, "gates": gates}
+    return {"status": "offline", "source": "offline", "model": judge.model, "answers": answers, "gates": gates}
 
 
 def normalize_answer(value: Any) -> str | None:
@@ -466,11 +578,15 @@ def _case_output_root(task: dict[str, Any], case: Case) -> Path:
     return Path(task.get("output_dir", "outputs")) / "runs" / str(task.get("run_name", "local")) / str(task["dimension"]) / case.output_id
 
 
-def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case) -> dict[str, Any]:
+def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
+                 *, use_external: bool = True) -> dict[str, Any]:
     out_root = _case_output_root(task, case)
     out_root.mkdir(parents=True, exist_ok=True)
-    facts = infer_facts(str(task["dimension"]), read_prompt(case), case)
-    checklist = make_checklist(str(task["dimension"]), facts, dimension_cfg, case)
+    prompt = read_prompt(case)
+    facts = infer_facts(str(task["dimension"]), prompt, case)
+    checklist = generate_checklist(task, dimension_cfg, case, facts, prompt) if use_external else make_checklist(
+        str(task["dimension"]), facts, dimension_cfg, case
+    )
     (out_root / "facts.json").write_text(json.dumps(_safe_json(facts), ensure_ascii=False, indent=2), encoding="utf-8")
     (out_root / "checklist.json").write_text(json.dumps(_safe_json(checklist), ensure_ascii=False, indent=2), encoding="utf-8")
     return checklist
@@ -492,8 +608,8 @@ def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Cas
         checklist = json.loads(checklist_path.read_text(encoding="utf-8"))
     else:
         facts = infer_facts(dimension, prompt, case)
-        checklist = make_checklist(dimension, facts, dimension_cfg, case)
-    judge = JudgeClient("audio" if dimension in {"15_audio_quality_control", "16_audio_visual_sync"} else "vision")
+        checklist = generate_checklist(task, dimension_cfg, case, facts, prompt)
+    judge = JudgeClient(_judge_modality(dimension), role="judge")
     answers = answer_checklist(checklist, prompt, case, judge)
     gates = gate_result(checklist, answers)
     result_case_id = case.output_id
