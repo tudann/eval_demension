@@ -111,20 +111,34 @@ def run_check(task: dict[str, Any]) -> list[Any]:
     return cases
 
 
+def _is_valid_external_checklist(value: Any, dimension: str, case_id: str) -> bool:
+    return (
+        isinstance(value, dict)
+        and value.get("version") == 2
+        and value.get("dimension") == dimension
+        and isinstance(value.get("facts"), dict)
+        and isinstance(value.get("gates"), list)
+        and isinstance(value.get("items"), list)
+        and value.get("judge_mode") == "external"
+        and value.get("case_id") == case_id
+        and all(isinstance(item, dict) and str(item.get("kind", "yes_no")) in {"yes_no", "multiple_choice_3", "multiple_choice_4"} for item in value.get("items", []))
+    )
+
+
 def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> None:
-    # The checklist stage freezes facts and items. When configured, generation is
-    # delegated to the same external/local OpenAI-compatible judge used later.
+    # The checklist stage freezes facts and items. D18 is authored entirely by
+    # the online checklist judge; older/local caches must not be reused.
     dimension_cfg = dims["dimensions"][task["dimension"]]
     prepared = []
     for case in cases:
         checklist_path = output_base(task) / str(task["dimension"]) / case.output_id / "checklist.json"
         if checklist_path.is_file() and not force:
-            prepared.append(json.loads(checklist_path.read_text(encoding="utf-8")))
-        else:
-            prepared.append(prepare_case(task, dimension_cfg, case, use_external=True))
-    external = sum(item.get("judge_mode") == "external" for item in prepared)
-    fallback = sum(item.get("judge_mode") == "local_fallback" for item in prepared)
-    print(f"checklist: prepared {len(prepared)} case records external={external} local_fallback={fallback}")
+            cached = json.loads(checklist_path.read_text(encoding="utf-8"))
+            if _is_valid_external_checklist(cached, str(task["dimension"]), case.case_id):
+                prepared.append(cached)
+                continue
+        prepared.append(prepare_case(task, dimension_cfg, case))
+    print(f"checklist: prepared {len(prepared)} external case records")
 
 
 def run_evaluate(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> list[dict[str, Any]]:

@@ -14,11 +14,15 @@
 
 ## 当前本地实现边界
 
-- 没有配置评委服务时，`checklist` 使用本地模板，`evaluate` 使用离线占位回答。
-- 配置 OpenAI 兼容服务后，`checklist` 阶段由模型生成并冻结 gates/items，`evaluate` 阶段由模型依据同一份 checklist 回答 gates/items。
+- D13–D18 的 `checklist` 和 `evaluate` 阶段都必须使用在线 OpenAI 兼容评委服务；未配置服务时直接报配置错误，不生成本地 checklist、不使用离线占位答案。
+- checklist 阶段只发送需求、输入信息和维度规则，默认不发送生成视频；evaluate 阶段才发送按模态抽取的媒体。
 - 外部和本地服务使用同一个 `JudgeClient` 和同一个多模态请求格式；后续只需替换 URL、模型名和密钥环境变量。
 - 视觉与音频裁判可分别通过 `V_EVAL_VISION_JUDGE_URL` 和 `V_EVAL_AUDIO_JUDGE_URL` 接入 OpenAI 兼容服务；也可通过 `V_EVAL_CHECKLIST_URL` 单独指定第一阶段服务。
-- 评委请求默认会将目标视频抽取为最多 6 张帧图，并附加首尾帧、参考图片以及音频维度的 WAV 音频；可用 `V_EVAL_JUDGE_MAX_FRAMES` 调整帧数，或用 `V_EVAL_JUDGE_MEDIA=0` 关闭评估阶段的媒体发送。第一阶段默认只发送 prompt、facts 和维度配置；如需让 checklist 模型也看媒体，设置 `V_EVAL_CHECKLIST_MEDIA=1`。
+- 视觉评委：按视频时长×2 fps 取各时间段中点，最多 32 帧，长边 640 像素，JPEG 质量 90；参考视频不发送。
+- 音频评委：只发送目标视频抽取的单声道 16 kHz WAV，以及最多 3 条已被 prompt 引用的参考音频。
+- 音视频评委：发送 16 kHz 音频和 1 fps、最多 12 帧、长边 448 像素的画面。
+- 条件图片按模式附加并长边缩放到 768 像素；R2VA 只发送 prompt 实际引用的参考图、参考视频或参考音频。
+- 不再使用 `V_EVAL_JUDGE_MAX_FRAMES`；抽帧数量和尺寸由上述评测协议固定。
 - 未安装或未实现的数值模型不会伪装为成功，会记录为 `not_configured`、`not_applicable` 或 `missing_input`。
 - 缺少待评视频的 case 标记为 `skipped_missing_video`，不计分。
 - 可读取视频的普通 gate 明确失败时，总分记为最低分 `1.0`，并计入均值和 `gate_failed` 数量。
@@ -171,11 +175,10 @@ export V_EVAL_VISION_JUDGE_API_KEY="$YOUR_API_KEY"
 export V_EVAL_AUDIO_JUDGE_URL=https://api.example.com/v1
 export V_EVAL_AUDIO_JUDGE_MODEL=your-audio-model
 export V_EVAL_AUDIO_JUDGE_API_KEY="$YOUR_API_KEY"
-export V_EVAL_JUDGE_MAX_FRAMES=6
 .venv/bin/python run.py --task-config configs/task_d13_example.yaml --stages check checklist evaluate score
 ```
 
-如果没有设置 `V_EVAL_CHECKLIST_URL`，第一阶段会复用视觉评委 URL；如果没有设置音频评委 URL，D15/D16 会回退到通用 `V_EVAL_JUDGE_URL`。所有服务都需要提供 `/chat/completions`，并兼容 OpenAI 的 `messages` 格式。第一阶段请求生成 checklist，第二阶段请求回答 checklist。视频会先由 `ffmpeg` 抽帧，图片以 `image_url` data URI 发送；音频维度会额外发送抽取的 WAV 音频。
+第一阶段请求生成 checklist，第二阶段请求回答 checklist。D13–D18 均要求配置在线 checklist judge 和对应的答题 judge；未配置时程序会停止并报告配置错误。
 
 也可以把两个 URL 和模型变量都指向同一个外部服务；当前 `JudgeClient` 会为每个请求发送 `Authorization: Bearer <key>`。支持的密钥变量优先级为模态专用的 `V_EVAL_VISION_JUDGE_API_KEY` / `V_EVAL_AUDIO_JUDGE_API_KEY`，其次是 `V_EVAL_CHECKLIST_API_KEY`、`V_EVAL_JUDGE_API_KEY`、`V_EVAL_API_KEY` 和 `OPENAI_API_KEY`。
 

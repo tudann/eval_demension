@@ -20,6 +20,9 @@ ENV/
 *.pem
 *.key
 
+# Local runtime dependencies
+.runtime/
+
 # IDE and OS files
 .vscode/
 .idea/

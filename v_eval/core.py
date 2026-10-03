@@ -68,6 +68,30 @@ class Case:
         return f"{self.task_id}/{self.case_id}" if self.task_id else self.case_id
 
 
+def _prompt_reference_indices(prompt: str, kind: str) -> set[int]:
+    """Return one-based referenced media indices from the documented markers."""
+    if not prompt:
+        return set()
+    aliases = {
+        "image": r"(?:\[\s*reference\s+(?:image|picture)\s+|<\s*(?:reference\s+)?(?:image|picture)\s+|(?:reference\s+)?(?:image|picture)\s*|参考图\s*|(?<!像)图\s*|@图片\s*)(\d+)\s*(?:\]|>)?",
+        "video": r"(?:\[\s*reference\s+video\s+|<\s*(?:reference\s+)?video\s+|(?:reference\s+)?video\s+|参考视频\s*)(\d+)\s*(?:\]|>)?",
+        "audio": r"(?:\[\s*reference\s+audio\s+|<\s*(?:reference\s+)?audio\s+|(?:reference\s+)?audio\s+|参考音频\s*)(\d+)\s*(?:\]|>)?",
+    }
+    return {int(value) for value in re.findall(aliases[kind], prompt, flags=re.IGNORECASE)}
+
+
+def _filter_referenced(paths: list[Path], prompt: str, kind: str) -> list[Path]:
+    indices = _prompt_reference_indices(prompt, kind)
+    if not indices:
+        return []
+    selected: list[Path] = []
+    for path in paths:
+        match = re.search(r"(?:_|-)(\d+)(?:\.[^.]+)?$", path.name)
+        if match and int(match.group(1)) in indices:
+            selected.append(path)
+    return selected
+
+
 class ConfigError(ValueError):
     pass
 
@@ -120,6 +144,7 @@ def _discover_cases_from_input(input_cfg: dict[str, Any], task_id: str | None = 
     for case_dir in case_dirs:
         prompt = case_dir / prompt_name
         video = case_dir / video_name
+        prompt_text = prompt.read_text(encoding="utf-8", errors="replace") if prompt.is_file() else ""
         first = last = None
         images: list[Path] = []
         videos: list[Path] = []
@@ -134,19 +159,16 @@ def _discover_cases_from_input(input_cfg: dict[str, Any], task_id: str | None = 
             image_exts = {str(x).lower() for x in refs.get("image_extensions", sorted(IMAGE_EXTENSIONS))}
             video_pattern = refs.get("video_pattern", "ref_video_{index:02d}")
             audio_pattern = refs.get("audio_pattern", "ref_audio_{index:02d}")
-            for index in range(1, 100):
+            for index in range(1, 9):
                 current = _all_named(case_dir, str(image_pattern), image_exts, index)
                 current_v = _all_named(case_dir, str(video_pattern), VIDEO_EXTENSIONS, index)
                 current_a = _all_named(case_dir, str(audio_pattern), AUDIO_EXTENSIONS, index)
-                if not current and not current_v and not current_a:
-                    if index > 1:
-                        break
-                    continue
-                images.extend(current)
-                videos.extend(current_v)
-                audios.extend(current_a)
+                images.extend(_filter_referenced(current, prompt_text, "image"))
+                videos.extend(_filter_referenced(current_v, prompt_text, "video"))
+                audios.extend(_filter_referenced(current_a, prompt_text, "audio"))
         cases.append(Case(case_dir.name, case_dir, mode, prompt if prompt.is_file() else None,
-                          video if video.is_file() else None, first, last, images, videos, audios,
+                          video if video.is_file() else None, first, last,
+                          sorted(images)[:8], sorted(videos)[:2], sorted(audios)[:1],
                           source=str(input_cfg.get("source", "local")), task_id=task_id))
     return cases
 
@@ -179,80 +201,6 @@ def read_prompt(case: Case) -> str:
     return case.prompt_path.read_text(encoding="utf-8", errors="replace")
 
 
-def infer_facts(dimension: str, prompt: str, case: Case) -> dict[str, Any]:
-    text = prompt.lower()
-    has = lambda *terms: any(term in text for term in terms)
-    facts: dict[str, Any] = {}
-    if dimension == "13_style_visual_control":
-        facts = {
-            "target_lighting": has("lighting", "light", "光", "照明", "明亮", "阴影", "shadow"),
-            "target_colors": has("color", "colour", "red", "blue", "green", "暖色", "冷色", "颜色", "色彩"),
-            "style_spec": prompt[:500],
-            "reference_image_roles": [{"path": str(p), "role": "unknown", "confidence": 0.0} for p in case.reference_images],
-        }
-    elif dimension == "14_edit_controllable_gen":
-        edit = has("edit", "change", "modify", "replace", "remove", "add", "修改", "编辑", "替换", "删除", "增加", "添加")
-        replacement = has("replace", "替换", "换成", "主体替换")
-        add = re.findall(r"(?:add|增加|添加)\s+([\w-]+)", text) or re.findall(r"(?:增加|添加)([^，。,.]+)", prompt)
-        remove = re.findall(r"(?:remove|删除)\s+([\w-]+)", text) or re.findall(r"删除([^，。,.]+)", prompt)
-        facts = {"edit_targets": [prompt[:120]] if edit else [], "preserved": [], "has_subject_replacement": replacement,
-                 "add_objects": add, "remove_objects": remove,
-                 "is_continuation": has("continue", "continuation", "extend", "续写", "延长"),
-                 "static_camera": has("static", "固定镜头", "静止")}
-    elif dimension == "15_audio_quality_control":
-        emotion_terms = {
-            "angry": "angry", "anger": "angry", "愤怒": "angry", "生气": "angry",
-            "happy": "happy", "happiness": "happy", "开心": "happy", "高兴": "happy",
-            "sad": "sad", "sadness": "sad", "悲伤": "sad",
-            "fear": "fearful", "fearful": "fearful", "恐惧": "fearful",
-            "surprise": "surprised", "惊讶": "surprised", "disgust": "disgusted", "厌恶": "disgusted",
-            "neutral": "neutral", "平静": "neutral",
-        }
-        target_emotion = next((value for term, value in emotion_terms.items() if term in text), None)
-        facts = {"dialogues": has("dialogue", "says", "say", "speaks", "voice", "对白", "说", "台词"),
-                 "voice_forbidden": has("no voice", "without speech", "禁止说话", "无对白"),
-                 "has_repeated_speaker": has("same speaker", "重复说话人", "同一声音"),
-                 "dialogue_emotions": target_emotion is not None,
-                 "target_emotion": target_emotion,
-                 "ambient": has("ambient", "background sound", "环境音", "风声", "雨声"),
-                 "ambient_description": prompt[:300],
-                 "sfx": has("sound effect", "sfx", "脚步", "碰撞", "音效"),
-                 "sfx_description": prompt[:300],
-                 "music_required": has("music", "音乐", "配乐"),
-                 "music_forbidden": has("no music", "without music", "不要音乐", "禁止配乐"),
-                 "music_description": prompt[:300],
-                 "reference_audio_role": bool(case.reference_audios)}
-    elif dimension == "16_audio_visual_sync":
-        facts = {"dialogues": has("dialogue", "says", "speaks", "对白", "说"),
-                 "multi_speaker": has("two speakers", "multiple speakers", "多人", "两个说话人"),
-                 "av_events": has("sound when", "同步", "同时", "impact", "碰撞"),
-                 "env_changes": has("environment changes", "场景变化", "环境变化"),
-                 "realistic": has("realistic", "natural", "真实", "自然")}
-    elif dimension == "17_motion_temporal_consistency":
-        facts = {"subjects": [prompt[:100]], "main_subject_noun": "subject", "has_humans": has("person", "people", "man", "woman", "人", "人物", "女孩", "男孩"),
-                 "requested_camera_motion": has("pan", "zoom", "dolly", "camera", "镜头", "推拉", "摇镜")}
-    elif dimension == "18_text_visual_consistency":
-        expected = re.findall(r"[\"']([^\"']+)[\"']", prompt)
-        facts = {"expected_texts": expected, "allowed_texts": expected, "subtitles_required": has("subtitle", "subtitles", "字幕"),
-                 "subtitle_lines": [], "text_forbidden": has("no text", "without text", "禁止文字", "不得出现文字")}
-    return facts
-
-
-def _default_items(dimension: str, facts: dict[str, Any], dimension_cfg: dict[str, Any]) -> list[dict[str, Any]]:
-    items: list[dict[str, Any]] = []
-    number = 1
-    for subpoint, cfg in dimension_cfg.get("subpoints", {}).items():
-        applies = cfg.get("applies")
-        if applies and not evaluate_applies(applies, facts, None):
-            continue
-        items.append({"id": f"q{number}", "subpoint": subpoint,
-                      "question": f"视频是否满足“{cfg.get('name_zh', subpoint)}”的要求？",
-                      "kind": "yes_no", "expect": "yes", "modality": "vision",
-                      "time_hint": "全片", "weight": 1.0, "core": number == 1})
-        number += 1
-    return items
-
-
 def evaluate_applies(expression: str | None, facts: dict[str, Any], case: Case | None) -> bool:
     if not expression:
         return True
@@ -270,7 +218,7 @@ def evaluate_applies(expression: str | None, facts: dict[str, Any], case: Case |
 
 
 class JudgeClient:
-    """OpenAI-compatible judge client; absent endpoint means offline mode."""
+    """OpenAI-compatible online judge client."""
 
     def __init__(self, modality: str, base_url: str | None = None, model: str | None = None,
                  api_key: str | None = None, timeout: int = 180, role: str = "judge"):
@@ -299,14 +247,18 @@ class JudgeClient:
     def online(self) -> bool:
         return bool(self.base_url)
 
-    def complete(self, system: str, user: str | list[dict[str, Any]], *, temperature: float = 0) -> dict[str, Any]:
+    def complete(self, system: str, user: str | list[dict[str, Any]], *, temperature: float = 0,
+                 max_tokens: int | None = None) -> dict[str, Any]:
         if not self.base_url:
-            return {"status": "offline", "model": self.model}
-        payload = json.dumps({
+            raise ConfigError(f"{self.role} judge endpoint is not configured for {self.modality}")
+        request_body: dict[str, Any] = {
             "model": self.model,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": temperature,
-        }).encode()
+        }
+        if max_tokens is not None:
+            request_body["max_tokens"] = max_tokens
+        payload = json.dumps(request_body).encode()
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
@@ -358,87 +310,279 @@ def _parse_json_response(payload: Any) -> dict[str, Any] | None:
     return parsed if isinstance(parsed, dict) else None
 
 
-def make_checklist(dimension: str, facts: dict[str, Any], dimension_cfg: dict[str, Any], case: Case) -> dict[str, Any]:
-    items = _default_items(dimension, facts, dimension_cfg)
-    return {"version": 1, "dimension": dimension, "facts": facts,
-            "gates": dimension_cfg.get("gates", []), "items": items,
-            "judge_mode": "local_template", "case_id": case.case_id}
-
-
-def _judge_modality(dimension: str) -> str:
-    if dimension == "16_audio_visual_sync":
-        return "audio_visual"
-    return "audio" if dimension == "15_audio_quality_control" else "vision"
-
-
-def _normalize_checklist(payload: dict[str, Any], local: dict[str, Any], model: str | None = None) -> dict[str, Any] | None:
-    gates = payload.get("gates")
-    items = payload.get("items")
-    if not isinstance(gates, list) or not isinstance(items, list) or not items:
+def _normalize_choice_kind(kind: Any, options: Any) -> tuple[str, list[dict[str, str]]] | None:
+    normalized_kind = str(kind or "yes_no").strip().lower()
+    aliases = {"single_choice": "multiple_choice_3", "choice_3": "multiple_choice_3", "choice_4": "multiple_choice_4"}
+    normalized_kind = aliases.get(normalized_kind, normalized_kind)
+    if normalized_kind == "yes_no":
+        return normalized_kind, []
+    if normalized_kind in {"multiple_choice", "single_choice"}:
+        normalized_kind = "multiple_choice_3" if isinstance(options, list) and len(options) == 3 else "multiple_choice_4"
+    if normalized_kind not in {"multiple_choice_3", "multiple_choice_4"} or not isinstance(options, list):
         return None
-    local_items = {str(item.get("id")): item for item in local.get("items", [])}
-    normalized_items: list[dict[str, Any]] = []
-    for index, item in enumerate(items, start=1):
-        if not isinstance(item, dict):
-            continue
-        fallback = local_items.get(str(item.get("id"))) or local_items.get(f"q{index}") or {}
-        row = dict(fallback)
-        row.update(item)
-        row["id"] = str(row.get("id") or f"q{index}")
-        row.setdefault("kind", "yes_no")
-        row.setdefault("expect", "yes")
-        row.setdefault("weight", 1.0)
-        row.setdefault("core", index == 1)
-        if row.get("subpoint"):
-            normalized_items.append(row)
-    if not normalized_items:
+    expected_count = 3 if normalized_kind == "multiple_choice_3" else 4
+    if len(options) != expected_count:
         return None
-    normalized_gates = [gate for gate in gates if isinstance(gate, dict) and gate.get("id")]
-    if not normalized_gates:
-        normalized_gates = list(local.get("gates", []))
-    return {**local, "gates": normalized_gates, "items": normalized_items,
-            "judge_mode": "external", "judge_model": model}
+    normalized: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for option in options:
+        if not isinstance(option, dict):
+            return None
+        option_id = str(option.get("id", "")).strip()
+        label = str(option.get("label", "")).strip()
+        if not option_id or not label or option_id in seen:
+            return None
+        seen.add(option_id)
+        normalized.append({"id": option_id, "label": label})
+    return normalized_kind, normalized
 
 
-def generate_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
-                       facts: dict[str, Any], prompt: str) -> dict[str, Any]:
-    dimension = str(task["dimension"])
-    local = make_checklist(dimension, facts, dimension_cfg, case)
-    judge = JudgeClient(_judge_modality(dimension), role="checklist")
-    if not judge.online:
-        return local
-    request_payload = {
-        "task": "Generate the evaluation checklist for this one case.",
-        "dimension": dimension,
-        "prompt": prompt,
-        "facts": facts,
-        "dimension_config": dimension_cfg,
-        "local_template": local,
-        "output_schema": {"gates": "array", "items": "array"},
+def _normalize_item(item: dict[str, Any], configured_subpoints: set[str], index: int) -> dict[str, Any] | None:
+    if str(item.get("subpoint")) not in configured_subpoints:
+        return None
+    question = str(item.get("question") or item.get("description") or "").strip()
+    item_id = str(item.get("id") or f"q{index}")
+    if not question:
+        return None
+    normalized_choice = _normalize_choice_kind(item.get("kind", "yes_no"), item.get("options", []))
+    if normalized_choice is None:
+        return None
+    kind, options = normalized_choice
+    expect = item.get("expect", "yes")
+    if isinstance(expect, bool):
+        expect = "yes" if expect else "no"
+    expect = str(expect).strip()
+    valid_answers = {"yes", "no"} if kind == "yes_no" else {option["id"] for option in options}
+    if expect not in valid_answers:
+        return None
+    weight = float(item.get("weight", 1.0))
+    if weight not in {0.5, 1.0, 2.0}:
+        return None
+    normalized: dict[str, Any] = {
+        "id": item_id, "subpoint": str(item["subpoint"]), "question": question,
+        "kind": kind, "expect": expect, "time_hint": str(item.get("time_hint", "全片")),
+        "weight": weight, "core": bool(item.get("core", False)),
+        "evidence_required": bool(item.get("evidence_required", True)),
     }
-    content = build_judge_content(prompt, request_payload, case, judge.modality,
-                                  media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0")
-    response = judge.complete(
-        "Create a rigorous checklist from the supplied dimension configuration. Return only JSON with gates and items. "
-        "Preserve gate ids and item subpoints when the local template provides them. Do not invent unsupported dimensions.",
-        content,
-    )
-    if response.get("status") != "ok":
-        return {**local, "judge_mode": "local_fallback", "judge_error": response.get("error")}
-    parsed = _parse_json_response(response.get("response"))
-    normalized = _normalize_checklist(parsed, local, judge.model) if parsed else None
-    if normalized is None:
-        return {**local, "judge_mode": "local_fallback", "judge_error": "external checklist response was invalid"}
+    if options:
+        normalized["options"] = options
     return normalized
 
 
-def offline_answer(item: dict[str, Any], prompt: str, facts: dict[str, Any]) -> dict[str, Any]:
-    """Conservative deterministic answer used when no judge service is configured."""
-    answer = "yes"
-    evidence = "offline mode: no remote judge configured; checklist item retained for manual review"
-    if item.get("subpoint") == "music_match" and facts.get("music_forbidden"):
-        answer = "yes"
-    return {"id": item["id"], "answer": answer, "evidence": evidence, "source": "offline"}
+def _d18_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
+                           model: str | None = None) -> dict[str, Any] | None:
+    """Validate a model-authored D18 facts/checklist without local question generation."""
+    facts = payload.get("facts")
+    gates = payload.get("gates")
+    items = payload.get("items")
+    if not isinstance(facts, dict) or not isinstance(gates, list) or not isinstance(items, list):
+        return None
+    expected_keys = {"expected_texts", "allowed_texts", "subtitles_required", "subtitle_lines", "text_forbidden"}
+    if not expected_keys.issubset(facts):
+        # Accept richer model-authored facts and normalize them for local OCR.
+        requested_text = facts.get("requested_text")
+        forbidden_text = facts.get("forbidden_text")
+        requested_values = requested_text if isinstance(requested_text, list) else [requested_text]
+        requested_values = [str(item).strip() for item in requested_values if isinstance(item, str) and item.strip()]
+        quoted = []
+        for value in requested_values:
+            quoted.extend(re.findall(r"[“\"]([^”\"]+)[”\"]", value))
+        expected = quoted or requested_values
+        subtitle_values = facts.get("requested_subtitles", facts.get("subtitles", []))
+        if isinstance(subtitle_values, str):
+            subtitle_values = [subtitle_values]
+        if not isinstance(subtitle_values, list):
+            subtitle_values = []
+        subtitle_lines = [str(item).strip() for item in subtitle_values if isinstance(item, str) and item.strip()]
+        if requested_text is not None or forbidden_text is not None or "requested_subtitles" in facts or "subtitles" in facts:
+            facts = {**facts,
+                     "expected_texts": expected,
+                     "allowed_texts": expected,
+                     "subtitles_required": bool(facts.get("subtitles_required", False) or subtitle_lines),
+                     "subtitle_lines": subtitle_lines,
+                     "text_forbidden": bool(forbidden_text)}
+        else:
+            return None
+    if not isinstance(facts["expected_texts"], list) or not isinstance(facts["allowed_texts"], list):
+        return None
+    if not all(isinstance(item, str) and item.strip() for item in facts["expected_texts"] + facts["allowed_texts"]):
+        return None
+    if not isinstance(facts["subtitles_required"], bool) or not isinstance(facts["text_forbidden"], bool):
+        return None
+    if not isinstance(facts["subtitle_lines"], list) or not all(isinstance(item, str) for item in facts["subtitle_lines"]):
+        return None
+    configured_gates = {str(gate.get("id")): gate for gate in dimension_cfg.get("gates", []) if isinstance(gate, dict)}
+    if not gates or any(not isinstance(gate, dict) or str(gate.get("id")) not in configured_gates for gate in gates):
+        return None
+    if set(str(gate.get("id")) for gate in gates) != set(configured_gates) or len(gates) != len(configured_gates):
+        return None
+    normalized_gates = []
+    for gate in gates:
+        base = configured_gates[str(gate["id"])]
+        expect = gate.get("expect", base.get("expect", "yes"))
+        if isinstance(expect, bool):
+            expect = "yes" if expect else "no"
+        normalized_gates.append({**base, "question": str(gate.get("question") or base["question"]), "expect": str(expect)})
+    configured_subpoints = set((dimension_cfg.get("subpoints") or {}).keys())
+    if not items or len(items) < 3 or len(items) > 30:
+        return None
+    normalized_items = []
+    seen: set[str] = set()
+    for index, item in enumerate(items, start=1):
+        if not isinstance(item, dict):
+            return None
+        normalized = _normalize_item(item, configured_subpoints, index)
+        if normalized is None or normalized["id"] in seen:
+            return None
+        seen.add(normalized["id"])
+        normalized_items.append(normalized)
+    return {"version": 2, "dimension": "18_text_visual_consistency", "case_id": case.case_id,
+            "facts": facts, "gates": normalized_gates, "items": normalized_items,
+            "judge_mode": "external", "judge_model": model}
+
+
+def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
+                           prompt: str) -> dict[str, Any]:
+    judge = JudgeClient("vision", role="checklist")
+    if not judge.online:
+        raise ConfigError("D18 checklist requires an online checklist judge; offline mode is disabled")
+    request_payload = {
+        "task": "Understand the prompt and author the D18 checklist for this one case.",
+        "dimension": "18_text_visual_consistency",
+        "prompt": prompt,
+        "case": case.as_dict(),
+        "allowed_gates": dimension_cfg.get("gates", []),
+        "allowed_subpoints": list((dimension_cfg.get("subpoints") or {}).keys()),
+        "output_schema": {"facts": "object", "gates": "array", "items": "array"},
+    }
+    content = build_judge_content(prompt, request_payload, case, judge.modality,
+                                  media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0",
+                                  allow_media=False)
+    response = judge.complete(
+        "For D18, return exactly one JSON object and no markdown or explanatory text. "
+        "The JSON must contain exactly these top-level keys: facts, gates, items. "
+        "facts must contain exactly these keys and value types: expected_texts (array of strings), "
+        "allowed_texts (array of strings), subtitles_required (boolean), subtitle_lines (array of strings), "
+        "text_forbidden (boolean). Do not use requested_text, forbidden_text, subtitles, or other aliases. "
+        "gates must be an array containing every allowed gate exactly once; each gate must contain id, question, expect, modality, core, "
+        "and expect must be the string yes or no, never a boolean. "
+        "items must contain at least 3 items and no more than 30 items. Cover every applicable D18 subpoint when possible; "
+        "when a requirement is absent, still create a concrete no-extra-text or absence-control item so the checklist has at least 3 items. "
+        "Every JSON string must be validly escaped. Avoid unescaped double quotation marks inside question text; "
+        "use single quotation marks around quoted prompt text or encode embedded quotes as \\\". "
+        "each item must contain id, subpoint, question, kind, expect, time_hint, core, evidence_required. "
+        "kind must be yes_no, multiple_choice_3, or multiple_choice_4. For multiple-choice items include exactly 3 or 4 options, "
+        "each with id and label, and make expect one option id. "
+        "Every subpoint must be one of the allowed subpoints. Use question, never description, requirement, or other aliases. "
+        "Facts describe only requested text/subtitles/forbidden text from the prompt. Do not inspect or judge the generated video.",
+        content,
+        max_tokens=6000,
+    )
+    if response.get("status") != "ok":
+        raise ConfigError(f"D18 checklist judge failed: {response.get('error')}")
+    parsed = _parse_json_response(response.get("response"))
+    checklist = _d18_checklist_payload(parsed, dimension_cfg, case, judge.model) if parsed else None
+    if checklist is None:
+        raw = _response_content(response.get("response"))
+        preview = str(raw)[:3000].replace("\n", " ")
+        raise ConfigError(f"D18 checklist judge returned invalid facts/gates/items JSON; response={preview}")
+    return checklist
+
+
+def _model_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any], dimension: str,
+                             case: Case, model: str | None = None) -> dict[str, Any] | None:
+    """Validate a model-authored facts/checklist for any D13-D17 dimension."""
+    facts = payload.get("facts")
+    gates = payload.get("gates")
+    items = payload.get("items")
+    if not isinstance(facts, dict) or not isinstance(gates, list) or not isinstance(items, list):
+        return None
+    configured_gates = {str(gate.get("id")): gate for gate in dimension_cfg.get("gates", []) if isinstance(gate, dict)}
+    if not configured_gates:
+        return None
+    if (not gates or len(gates) != len(configured_gates)
+            or any(not isinstance(gate, dict) or str(gate.get("id")) not in configured_gates for gate in gates)
+            or {str(gate.get("id")) for gate in gates} != set(configured_gates)):
+        return None
+    normalized_gates = []
+    for gate in gates:
+        if not isinstance(gate, dict) or str(gate.get("id")) not in configured_gates:
+            return None
+        base = configured_gates[str(gate["id"])]
+        expect = gate.get("expect", base.get("expect", "yes"))
+        if isinstance(expect, bool):
+            expect = "yes" if expect else "no"
+        normalized_gates.append({**base, "question": str(gate.get("question") or base["question"]), "expect": str(expect)})
+    configured_subpoints = set((dimension_cfg.get("subpoints") or {}).keys())
+    if not items or len(items) < 3 or len(items) > 30:
+        return None
+    normalized_items = []
+    seen: set[str] = set()
+    for index, item in enumerate(items, start=1):
+        normalized = _normalize_item(item, configured_subpoints, index)
+        if normalized is None or normalized["id"] in seen:
+            return None
+        seen.add(normalized["id"])
+        normalized_items.append(normalized)
+    return {"version": 2, "dimension": dimension, "case_id": case.case_id,
+            "facts": facts, "gates": normalized_gates, "items": normalized_items,
+            "judge_mode": "external", "judge_model": model}
+
+
+def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
+                             prompt: str) -> dict[str, Any]:
+    dimension = str(task["dimension"])
+    judge = JudgeClient(_judge_modality(dimension), role="checklist")
+    if not judge.online:
+        raise ConfigError(f"{dimension} checklist requires an online checklist judge; offline mode is disabled")
+    allowed_subpoints = list((dimension_cfg.get("subpoints") or {}).keys())
+    request_payload = {
+        "task": "Understand the prompt and author the evaluation checklist for this one case.",
+        "dimension": dimension, "prompt": prompt, "case": case.as_dict(),
+        "allowed_gates": dimension_cfg.get("gates", []), "allowed_subpoints": allowed_subpoints,
+        "output_schema": {"facts": "object", "gates": "array", "items": "array"},
+    }
+    content = build_judge_content(prompt, request_payload, case, judge.modality,
+                                  media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0",
+                                  allow_media=False)
+    response = judge.complete(
+        f"For {dimension}, understand only what the prompt requests and return JSON with facts, gates, and items. "
+        "Generate all gates and case-specific items; do not inspect or judge the generated media. "
+        "Every item must use an allowed subpoint and preserve all allowed gate ids. "
+        "Generate at least 3 items and no more than 30 items. Cover the applicable requirements, and when the prompt has few requirements, "
+        "add concrete items for the most relevant allowed subpoint rather than returning fewer than 3 items. "
+        "Facts describe requested requirements, not observed output. Use booleans or yes/no consistently. "
+        "Each item must declare kind as yes_no, multiple_choice_3, or multiple_choice_4. "
+        "For multiple-choice items, provide options as an array of exactly 3 or 4 objects with id and label, "
+        "and set expect to the correct option id. Do not return markdown.",
+        content,
+        max_tokens=6000,
+    )
+    if response.get("status") != "ok":
+        raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
+    parsed = _parse_json_response(response.get("response"))
+    normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
+    if normalized is None:
+        raw = _response_content(response.get("response"))
+        preview = str(raw)[:2000].replace("\n", " ")
+        raise ConfigError(f"{dimension} checklist judge returned invalid facts/gates/items JSON; response={preview}")
+    return normalized
+
+
+def _judge_modality(dimension: str) -> str:
+    """Return the judge modality used for checklist and answer requests."""
+    if dimension == "15_audio_quality_control":
+        return "audio"
+    if dimension == "16_audio_visual_sync":
+        return "audio_visual"
+    if dimension in {
+        "13_style_visual_control",
+        "14_edit_controllable_gen",
+        "17_motion_temporal_consistency",
+        "18_text_visual_consistency",
+    }:
+        return "vision"
+    raise ConfigError(f"unsupported judge dimension: {dimension}")
 
 
 def _parse_judge_payload(payload: Any) -> dict[str, Any] | None:
@@ -448,14 +592,19 @@ def _parse_judge_payload(payload: Any) -> dict[str, Any] | None:
     return None
 
 
-def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: JudgeClient) -> dict[str, Any]:
+def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: JudgeClient,
+                     dimension: str | None = None) -> dict[str, Any]:
+    dimension = dimension or str(checklist.get("dimension", ""))
+
     if judge.online:
         request_payload = {"prompt": prompt, "case": case.as_dict(), "checklist": checklist}
         content = build_judge_content(prompt, request_payload, case, judge.modality)
         response = judge.complete(
             "Answer every supplied gate and checklist item using the media and prompt. Return only JSON with 'gates' and 'answers' arrays. "
-            "Each row must preserve the supplied id and use yes/no (or true/false for gates). Include concise evidence.",
+            "Each answer row must preserve the supplied id. For yes_no items answer yes or no; for multiple_choice items answer the id "
+            "of exactly one supplied option. Include concise evidence with a timestamp when possible.",
             content,
+            max_tokens=4096,
         )
         if response.get("status") == "ok":
             parsed = _parse_judge_payload(response.get("response"))
@@ -466,9 +615,7 @@ def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: 
                     "error": "judge response was not valid checklist JSON", "answers": [], "gates": []}
         return {"status": "error", "source": "judge", "model": judge.model,
                 "error": response.get("error"), "answers": [], "gates": []}
-    answers = [offline_answer(item, prompt, checklist.get("facts", {})) for item in checklist.get("items", [])]
-    gates = [{"id": gate["id"], "answer": gate.get("expect", "yes"), "evidence": "offline mode: gate retained for manual review", "source": "offline"} for gate in checklist.get("gates", [])]
-    return {"status": "offline", "source": "offline", "model": judge.model, "answers": answers, "gates": gates}
+    raise ConfigError(f"{dimension} answer judge endpoint is not configured")
 
 
 def normalize_answer(value: Any) -> str | None:
@@ -484,6 +631,16 @@ def normalize_answer(value: Any) -> str | None:
     return text or None
 
 
+def normalize_item_answer(item: dict[str, Any], value: Any) -> str | None:
+    answer = normalize_answer(value) if item.get("kind") == "yes_no" else (str(value).strip() if value is not None else None)
+    if answer is None:
+        return None
+    if item.get("kind") == "yes_no":
+        return answer if answer in {"yes", "no"} else None
+    option_ids = {str(option.get("id")) for option in item.get("options", []) if isinstance(option, dict)}
+    return answer if answer in option_ids else None
+
+
 def checklist_component(checklist: dict[str, Any], answers: dict[str, Any], subpoint: str, scoring: dict[str, Any]) -> dict[str, Any]:
     rows = {str(row.get("id")): row for row in answers.get("answers", []) if isinstance(row, dict)}
     selected = [item for item in checklist.get("items", []) if item.get("subpoint") == subpoint]
@@ -492,10 +649,11 @@ def checklist_component(checklist: dict[str, Any], answers: dict[str, Any], subp
     core_failed = False
     details = []
     for item in selected:
-        answer = normalize_answer(rows.get(item.get("id"), {}).get("answer"))
-        expect = normalize_answer(item.get("expect"))
+        item_row = rows.get(str(item.get("id")), {})
+        answer = normalize_item_answer(item, item_row.get("answer"))
+        expect = normalize_item_answer(item, item.get("expect"))
         if answer is None and scoring.get("unanswered_excluded", True):
-            details.append({"id": item.get("id"), "valid": False, "correct": None})
+            details.append({"id": item.get("id"), "valid": False, "correct": None, "answer": None})
             continue
         correct = answer == expect
         weight = float(item.get("weight", 1.0))
@@ -567,7 +725,7 @@ def score_subpoint(task: dict[str, Any], sp_name: str, sp_cfg: dict[str, Any], c
         else:
             result = run_component(name, case, facts)
         components[name] = result
-        if result.get("status") in {"ok", "offline"} and result.get("score") is not None:
+        if result.get("status") == "ok" and result.get("score") is not None:
             weighted += float(weight) * float(result["score"])
             total_weight += float(weight)
     score = round(weighted / total_weight, 3) if total_weight else None
@@ -578,15 +736,19 @@ def _case_output_root(task: dict[str, Any], case: Case) -> Path:
     return Path(task.get("output_dir", "outputs")) / "runs" / str(task.get("run_name", "local")) / str(task["dimension"]) / case.output_id
 
 
-def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
-                 *, use_external: bool = True) -> dict[str, Any]:
+def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case) -> dict[str, Any]:
     out_root = _case_output_root(task, case)
     out_root.mkdir(parents=True, exist_ok=True)
+    dimension = str(task["dimension"])
     prompt = read_prompt(case)
-    facts = infer_facts(str(task["dimension"]), prompt, case)
-    checklist = generate_checklist(task, dimension_cfg, case, facts, prompt) if use_external else make_checklist(
-        str(task["dimension"]), facts, dimension_cfg, case
-    )
+    supported = {
+        "13_style_visual_control", "14_edit_controllable_gen", "15_audio_quality_control",
+        "16_audio_visual_sync", "17_motion_temporal_consistency", "18_text_visual_consistency",
+    }
+    if dimension not in supported:
+        raise ConfigError(f"unsupported dimension: {dimension}")
+    checklist = generate_d18_checklist(task, dimension_cfg, case, prompt) if dimension == "18_text_visual_consistency" else generate_model_checklist(task, dimension_cfg, case, prompt)
+    facts = checklist["facts"]
     (out_root / "facts.json").write_text(json.dumps(_safe_json(facts), ensure_ascii=False, indent=2), encoding="utf-8")
     (out_root / "checklist.json").write_text(json.dumps(_safe_json(checklist), ensure_ascii=False, indent=2), encoding="utf-8")
     return checklist
@@ -606,11 +768,15 @@ def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Cas
     if checklist_path.is_file() and facts_path.is_file() and not force:
         facts = json.loads(facts_path.read_text(encoding="utf-8"))
         checklist = json.loads(checklist_path.read_text(encoding="utf-8"))
+        if (checklist.get("version") != 2 or checklist.get("judge_mode") != "external"
+                or checklist.get("dimension") != dimension
+                or checklist.get("case_id") != case.case_id):
+            raise ConfigError(f"cached checklist is not a matching external version-2 checklist: {checklist_path}")
     else:
-        facts = infer_facts(dimension, prompt, case)
-        checklist = generate_checklist(task, dimension_cfg, case, facts, prompt)
+        checklist = generate_d18_checklist(task, dimension_cfg, case, prompt) if dimension == "18_text_visual_consistency" else generate_model_checklist(task, dimension_cfg, case, prompt)
+        facts = checklist["facts"]
     judge = JudgeClient(_judge_modality(dimension), role="judge")
-    answers = answer_checklist(checklist, prompt, case, judge)
+    answers = answer_checklist(checklist, prompt, case, judge, dimension=dimension)
     gates = gate_result(checklist, answers)
     result_case_id = case.output_id
     if not case.video_path:
