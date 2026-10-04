@@ -20,9 +20,60 @@ VIDEO_EXTENSIONS = {".mp4", ".webm", ".mov", ".avi", ".mkv"}
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 AUDIO_EXTENSIONS = {".wav", ".mp3", ".flac", ".m4a", ".aac", ".ogg"}
 
+CHECKLIST_MIN_ITEMS = 6
+CHECKLIST_MAX_ITEMS = 30
+CHECKLIST_MAX_CORE_ITEMS = 3
+
+_CHECKLIST_STRATEGIES: dict[str, str] = {
+    "13_style_visual_control": (
+        "D13 strategy: create questions only for requirements actually present in the prompt. "
+        "Use style_accuracy for recognizable style and visual language; style_persistence for stability across time; "
+        "style_content_compat for whether style preserves the requested subject and action; lighting_control only for explicit lighting requirements; "
+        "color_control only for explicit color or palette requirements. Split applicable requirements into distinct observable aspects, "
+        "such as presence, execution, continuity, and absence of contradictions. Do not invent audio, editing, text, or endpoint requirements."
+    ),
+    "14_edit_controllable_gen": (
+        "D14 strategy: create questions only for editing or controllability requirements present in the prompt or input mode. "
+        "Use local_edit_accuracy for the requested edit, non_target_preservation for unaffected content, subject_replacement for identity or clothing replacement, "
+        "add_remove_object for explicit object insertion or removal, video_extension for continuation, and first_last_frame only when endpoint media exists. "
+        "Do not invent an edit, replacement, continuation, or endpoint requirement that the case does not contain."
+    ),
+    "15_audio_quality_control": (
+        "D15 strategy: create questions only for audio requirements present in the prompt. "
+        "Use dialogue_accuracy for requested dialogue or forbidden speech, voice_naturalness for audible speech quality, timbre_consistency for repeated or referenced voices, "
+        "emotion_control for explicit vocal emotion, ambient_sound for described ambience, action_sfx for named action sounds, and music_match for required or forbidden music. "
+        "When there are few audio requirements, split them into distinct observable aspects such as presence, content, timing, clarity, continuity, and unwanted audio. "
+        "Do not add visual-only, text, endpoint, or unrelated audio questions."
+    ),
+    "16_audio_visual_sync": (
+        "D16 strategy: create questions only for stated audio-visual relationships. "
+        "Use lip_sync only for dialogue and visible speech, multi_speaker_match only for multiple speakers, audio_change_alignment for named action or environment changes, "
+        "and realism only when the prompt requests realistic audio-visual behavior. Split applicable events by timing, ordering, correspondence, and absence of offset. "
+        "Do not invent dialogue, multiple speakers, or synchronization events absent from the prompt."
+    ),
+    "17_motion_temporal_consistency": (
+        "D17 strategy: create questions only for visual motion and temporal requirements present in the prompt. "
+        "Use motion_consistency for requested object or action continuity, camera_motion for explicit camera movement, subject_consistency for named subjects, "
+        "temporal_continuity for event order and state transitions, and human_motion only when people are present. "
+        "Do not add audio, text, editing, or human-body questions when the prompt has no such content."
+    ),
+    "18_text_visual_consistency": (
+        "D18 strategy: create questions only for text requirements or explicit absence of text. "
+        "Use text_accuracy for required strings, subtitle_alignment for requested subtitles, text_readability for required visible text, "
+        "text_stability for text persistence, and no_unrequested_text for unwanted text, subtitles, or watermarks. "
+        "Do not invent subtitles or required strings; when text requirements are sparse, split valid checks into content, placement, readability, stability, and unwanted-text aspects."
+    ),
+}
+
 
 def _truthy(value: Any) -> bool:
-    return value is True or (isinstance(value, str) and value.lower() in {"true", "yes", "1"})
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value.strip().lower() not in {"", "false", "no", "0", "none", "null"}
+    return bool(value)
 
 
 def _get_path(data: dict[str, Any], path: str) -> Any:
@@ -212,7 +263,7 @@ def evaluate_applies(expression: str | None, facts: dict[str, Any], case: Case |
             value = getattr(case, part[5:], None)
         else:
             value = facts.get(part)
-        if bool(value):
+        if _truthy(value):
             return True
     return False
 
@@ -355,7 +406,10 @@ def _normalize_item(item: dict[str, Any], configured_subpoints: set[str], index:
     valid_answers = {"yes", "no"} if kind == "yes_no" else {option["id"] for option in options}
     if expect not in valid_answers:
         return None
-    weight = float(item.get("weight", 1.0))
+    try:
+        weight = float(item.get("weight", 1.0))
+    except (TypeError, ValueError):
+        return None
     if weight not in {0.5, 1.0, 2.0}:
         return None
     normalized: dict[str, Any] = {
@@ -367,6 +421,38 @@ def _normalize_item(item: dict[str, Any], configured_subpoints: set[str], index:
     if options:
         normalized["options"] = options
     return normalized
+
+
+def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: dict[str, Any],
+                              case: Case) -> list[dict[str, Any]] | None:
+    """Normalize checklist items and enforce shared count, applicability, and quality constraints."""
+    if not isinstance(items, list) or not CHECKLIST_MIN_ITEMS <= len(items) <= CHECKLIST_MAX_ITEMS:
+        return None
+    subpoints = dimension_cfg.get("subpoints") or {}
+    configured_subpoints = set(subpoints)
+    normalized_items: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    seen_questions: set[str] = set()
+    core_count = 0
+    for index, item in enumerate(items, start=1):
+        if not isinstance(item, dict):
+            return None
+        normalized = _normalize_item(item, configured_subpoints, index)
+        if normalized is None:
+            return None
+        subpoint_cfg = subpoints[normalized["subpoint"]]
+        if not evaluate_applies(subpoint_cfg.get("applies"), facts, case):
+            return None
+        question_key = re.sub(r"[\W_]+", "", normalized["question"].casefold())
+        if normalized["id"] in seen_ids or not question_key or question_key in seen_questions:
+            return None
+        seen_ids.add(normalized["id"])
+        seen_questions.add(question_key)
+        core_count += int(normalized["core"])
+        if core_count > CHECKLIST_MAX_CORE_ITEMS:
+            return None
+        normalized_items.append(normalized)
+    return normalized_items
 
 
 def _d18_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
@@ -423,19 +509,9 @@ def _d18_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any
         if isinstance(expect, bool):
             expect = "yes" if expect else "no"
         normalized_gates.append({**base, "question": str(gate.get("question") or base["question"]), "expect": str(expect)})
-    configured_subpoints = set((dimension_cfg.get("subpoints") or {}).keys())
-    if not items or len(items) < 3 or len(items) > 30:
+    normalized_items = _validate_checklist_items(items, dimension_cfg, facts, case)
+    if normalized_items is None:
         return None
-    normalized_items = []
-    seen: set[str] = set()
-    for index, item in enumerate(items, start=1):
-        if not isinstance(item, dict):
-            return None
-        normalized = _normalize_item(item, configured_subpoints, index)
-        if normalized is None or normalized["id"] in seen:
-            return None
-        seen.add(normalized["id"])
-        normalized_items.append(normalized)
     return {"version": 2, "dimension": "18_text_visual_consistency", "case_id": case.case_id,
             "facts": facts, "gates": normalized_gates, "items": normalized_items,
             "judge_mode": "external", "judge_model": model}
@@ -466,14 +542,16 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
         "text_forbidden (boolean). Do not use requested_text, forbidden_text, subtitles, or other aliases. "
         "gates must be an array containing every allowed gate exactly once; each gate must contain id, question, expect, modality, core, "
         "and expect must be the string yes or no, never a boolean. "
-        "items must contain at least 3 items and no more than 30 items. Cover every applicable D18 subpoint when possible; "
-        "when a requirement is absent, still create a concrete no-extra-text or absence-control item so the checklist has at least 3 items. "
+        "items must contain at least 6 items and no more than 30 items. Include items only for applicable D18 subpoints; "
+        "do not invent a text or subtitle requirement to reach the minimum. Reach six items by testing distinct observable aspects of requirements that are actually present, "
+        "and reject the case if six relevant questions cannot be written. Include no more than 3 core items. "
         "Every JSON string must be validly escaped. Avoid unescaped double quotation marks inside question text; "
         "use single quotation marks around quoted prompt text or encode embedded quotes as \\\". "
         "each item must contain id, subpoint, question, kind, expect, time_hint, core, evidence_required. "
         "kind must be yes_no, multiple_choice_3, or multiple_choice_4. For multiple-choice items include exactly 3 or 4 options, "
         "each with id and label, and make expect one option id. "
         "Every subpoint must be one of the allowed subpoints. Use question, never description, requirement, or other aliases. "
+        f"{_CHECKLIST_STRATEGIES['18_text_visual_consistency']} "
         "Facts describe only requested text/subtitles/forbidden text from the prompt. Do not inspect or judge the generated video.",
         content,
         max_tokens=6000,
@@ -513,17 +591,9 @@ def _model_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, A
         if isinstance(expect, bool):
             expect = "yes" if expect else "no"
         normalized_gates.append({**base, "question": str(gate.get("question") or base["question"]), "expect": str(expect)})
-    configured_subpoints = set((dimension_cfg.get("subpoints") or {}).keys())
-    if not items or len(items) < 3 or len(items) > 30:
+    normalized_items = _validate_checklist_items(items, dimension_cfg, facts, case)
+    if normalized_items is None:
         return None
-    normalized_items = []
-    seen: set[str] = set()
-    for index, item in enumerate(items, start=1):
-        normalized = _normalize_item(item, configured_subpoints, index)
-        if normalized is None or normalized["id"] in seen:
-            return None
-        seen.add(normalized["id"])
-        normalized_items.append(normalized)
     return {"version": 2, "dimension": dimension, "case_id": case.case_id,
             "facts": facts, "gates": normalized_gates, "items": normalized_items,
             "judge_mode": "external", "judge_model": model}
@@ -549,12 +619,15 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         f"For {dimension}, understand only what the prompt requests and return JSON with facts, gates, and items. "
         "Generate all gates and case-specific items; do not inspect or judge the generated media. "
         "Every item must use an allowed subpoint and preserve all allowed gate ids. "
-        "Generate at least 3 items and no more than 30 items. Cover the applicable requirements, and when the prompt has few requirements, "
-        "add concrete items for the most relevant allowed subpoint rather than returning fewer than 3 items. "
+        "Generate at least 6 items and no more than 30 items. Include only requirements that are actually present and only applicable subpoints; "
+        "do not invent unrelated checks just to reach the minimum. Split each applicable requirement into distinct observable aspects when necessary, "
+        "and fail rather than adding questions unsupported by the prompt. Never repeat the same question or check the same aspect twice. "
+        "No more than 3 items may be core. Every question must be answerable from the corresponding media. "
         "Facts describe requested requirements, not observed output. Use booleans or yes/no consistently. "
         "Each item must declare kind as yes_no, multiple_choice_3, or multiple_choice_4. "
         "For multiple-choice items, provide options as an array of exactly 3 or 4 objects with id and label, "
-        "and set expect to the correct option id. Do not return markdown.",
+        "and set expect to the correct option id. Do not return markdown. "
+        f"Dimension-specific strategy: {_CHECKLIST_STRATEGIES.get(dimension, '')}",
         content,
         max_tokens=6000,
     )
