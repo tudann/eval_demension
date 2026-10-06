@@ -52,9 +52,5 @@ inputs:
 evaluation:
   subpoints:
     motion_consistency: {components: {vlm_anomaly_rate: true}}
-    camera_motion: {components: {vmbench_ois: false}}
-    subject_consistency: {components: {vmbench_mss: false}}
-    temporal_continuity: {components: {vmbench_tcs: false}}
-    human_motion: {components: {skeleton_blc_cv: false}}
 stages: [check, checklist, evaluate, score]
 output_dir: ./outputs/d17

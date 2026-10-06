@@ -51,7 +51,6 @@ inputs:
       audio_pattern: ref_audio_{index:02d}
 evaluation:
   subpoints:
-    dialogue_accuracy: {components: {asr_cer: false}}
     voice_naturalness: {components: {dnsmos_ovr: true}}
     timbre_consistency: {components: {ecapa_same_speaker: true}}
     emotion_control: {components: {emotion2vec_match: true}}

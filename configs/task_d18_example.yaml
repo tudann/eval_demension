@@ -55,6 +55,5 @@ evaluation:
     subtitle_alignment: {components: {ocr_subtitle_alignment: true}}
     text_readability: {components: {ocr_readability: true}}
     text_stability: {components: {ocr_text_stability: true}}
-    no_unrequested_text: {components: {ocr_unexpected_text_rate: false}}
 stages: [check, checklist, evaluate, score]
 output_dir: ./outputs/d18

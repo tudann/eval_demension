@@ -9,9 +9,11 @@ status ``ok``, ``not_configured``, ``not_applicable``, ``missing_input`` or
 """
 
 import difflib
+import json
 import math
 import os
 import re
+import shlex
 import subprocess
 import tempfile
 import zipfile
@@ -596,6 +598,186 @@ def ocr_component(component: str, case: Any, facts: dict[str, Any]) -> dict[str,
     return _result(component, "not_applicable", reason="unsupported OCR component")
 
 
+def _silero_speech_intervals(audio: Path) -> tuple[list[tuple[float, float]], str | None]:
+    module, error = _optional_import("silero_vad", "silero-vad")
+    if error:
+        return [], error
+    try:
+        vad = _CACHE.get("silero_vad")
+        if vad is None:
+            try:
+                vad = module.load_silero_vad(onnx=True)
+            except TypeError:
+                vad = module.load_silero_vad()
+            _CACHE["silero_vad"] = vad
+        waveform = module.read_audio(str(audio), sampling_rate=16000)
+        timestamps = module.get_speech_timestamps(
+            waveform, vad, sampling_rate=16000, return_seconds=True,
+        )
+        intervals = []
+        for row in timestamps:
+            if not isinstance(row, dict):
+                continue
+            start = _safe_float(row.get("start"))
+            end = _safe_float(row.get("end"))
+            if start is not None and end is not None and end > start:
+                intervals.append((max(0.0, start), end))
+        return intervals, None
+    except Exception as exc:  # noqa: BLE001
+        return [], f"Silero VAD failed: {exc}"
+
+
+def _bounded_speech_windows(intervals: list[tuple[float, float]], duration: float) -> list[dict[str, float]]:
+    try:
+        max_windows = max(1, int(os.getenv("V_EVAL_SYNCNET_MAX_WINDOWS", "4")))
+        max_total = max(1.0, float(os.getenv("V_EVAL_SYNCNET_MAX_TOTAL_SECONDS", "12")))
+        window_seconds = max(1.0, float(os.getenv("V_EVAL_SYNCNET_WINDOW_SECONDS", "2")))
+        if not all(math.isfinite(value) and value > 0 for value in (max_total, window_seconds)):
+            raise ValueError("invalid SyncNet window limits")
+    except (TypeError, ValueError, OverflowError):
+        max_windows, max_total, window_seconds = 4, 12.0, 2.0
+    usable_length = min(window_seconds, max_total / max_windows, duration)
+    candidates: list[dict[str, float]] = []
+    for speech_start, speech_end in intervals:
+        center = (speech_start + speech_end) / 2.0
+        start = min(max(0.0, center - usable_length / 2.0), max(0.0, duration - usable_length))
+        end = min(duration, start + usable_length)
+        if end > start:
+            candidates.append({"start": round(start, 6), "end": round(end, 6)})
+    if len(candidates) <= max_windows:
+        return candidates
+    if max_windows == 1:
+        return [candidates[len(candidates) // 2]]
+    indices = {round(index * (len(candidates) - 1) / (max_windows - 1)) for index in range(max_windows)}
+    return [candidates[index] for index in sorted(indices)]
+
+
+def _visible_face_windows(windows: list[dict[str, float]], case: Any) -> tuple[list[dict[str, float]], str | None]:
+    app, error = _load_insightface()
+    if error:
+        return [], error
+    try:
+        import cv2
+        visible: list[dict[str, float]] = []
+        for window in windows:
+            timestamp = (window["start"] + window["end"]) / 2.0
+            frame = extract_frame(case.video_path, timestamp)
+            image = cv2.imread(str(frame)) if frame else None
+            faces = app.get(image) if image is not None else []
+            has_visible_face = False
+            for face in faces:
+                bbox = getattr(face, "bbox", None)
+                if bbox is None or len(bbox) < 4:
+                    continue
+                if float(bbox[2] - bbox[0]) >= 40.0 and float(bbox[3] - bbox[1]) >= 40.0:
+                    has_visible_face = True
+                    break
+            if has_visible_face:
+                visible.append(window)
+        return visible, None
+    except Exception as exc:  # noqa: BLE001
+        return [], f"InsightFace window filtering failed: {exc}"
+
+
+def _syncnet_adapter_response(command: str, request: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
+    try:
+        completed = subprocess.run(
+            shlex.split(command), input=json.dumps(request, ensure_ascii=False),
+            capture_output=True, text=True, check=False,
+            timeout=max(1, int(os.getenv("V_EVAL_SYNCNET_TIMEOUT", "180"))),
+        )
+    except (OSError, ValueError, subprocess.SubprocessError) as exc:
+        return None, f"SyncNet adapter execution failed: {exc}"
+    if completed.returncode != 0:
+        detail = completed.stderr.strip() or completed.stdout.strip() or f"exit code {completed.returncode}"
+        return None, f"SyncNet adapter failed: {detail[:2000]}"
+    try:
+        payload = json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        return None, f"SyncNet adapter returned invalid JSON: {exc}"
+    if not isinstance(payload, dict):
+        return None, "SyncNet adapter response must be a JSON object"
+    return payload, None
+
+
+def syncnet_component(case: Any, facts: dict[str, Any]) -> dict[str, Any]:
+    """Run a configured real SyncNet adapter; never substitute an energy-correlation proxy."""
+    component = "syncnet_conf"
+    command = os.getenv("V_EVAL_SYNCNET_COMMAND", "").strip()
+    if not command:
+        return _result(component, "not_configured", reason="V_EVAL_SYNCNET_COMMAND is not configured")
+    if not facts.get("dialogues"):
+        return _result(component, "not_applicable", reason="no requested dialogue")
+    if not case.video_path or not case.video_path.is_file():
+        return _result(component, "missing_input", reason="target video is unavailable")
+    weights = os.getenv("V_EVAL_SYNCNET_WEIGHTS", "").strip()
+    if weights and not Path(weights).expanduser().is_file():
+        return _result(component, "not_configured", reason=f"SyncNet weights not found: {weights}")
+    duration = _ffprobe_duration(case.video_path)
+    audio = extract_audio(case.video_path, 16000)
+    if duration is None or duration <= 0 or audio is None:
+        return _result(component, "missing_input", reason="video duration or 16 kHz audio is unavailable")
+    intervals, vad_error = _silero_speech_intervals(audio)
+    if vad_error:
+        return _result(component, "not_configured", reason=vad_error)
+    if not intervals:
+        return _result(component, "not_applicable", reason="Silero VAD found no speech")
+    windows = _bounded_speech_windows(intervals, duration)
+    windows, face_error = _visible_face_windows(windows, case)
+    if face_error:
+        return _result(component, "not_configured", reason=face_error)
+    if not windows:
+        return _result(component, "not_applicable", reason="no speech window contains a visible face of at least 40 px")
+
+    request: dict[str, Any] = {
+        "protocol_version": 1,
+        "component": component,
+        "video_path": str(case.video_path.resolve()),
+        "audio_path": str(audio.resolve()),
+        "windows": windows,
+        "expected_output": {"confidence": "number", "offset_ms": "number", "windows": "optional array"},
+    }
+    if weights:
+        request["weights_path"] = str(Path(weights).expanduser().resolve())
+    response, adapter_error = _syncnet_adapter_response(command, request)
+    if adapter_error:
+        return _result(component, "error", reason=adapter_error, windows=windows)
+    assert response is not None
+    response_status = str(response.get("status", "ok"))
+    if response_status == "not_configured":
+        return _result(component, "not_configured", reason=str(response.get("reason") or "adapter is not configured"))
+    if response_status != "ok":
+        return _result(component, "error", reason=str(response.get("reason") or f"adapter status: {response_status}"))
+
+    confidence = _safe_float(response.get("confidence"))
+    returned_windows = response.get("windows")
+    window_confidences: list[float] = []
+    window_offsets: list[float] = []
+    if isinstance(returned_windows, list):
+        for row in returned_windows:
+            if not isinstance(row, dict):
+                continue
+            current_confidence = _safe_float(row.get("confidence"))
+            current_offset = _safe_float(row.get("offset_ms"))
+            if current_confidence is not None:
+                window_confidences.append(current_confidence)
+            if current_offset is not None:
+                window_offsets.append(current_offset)
+    if confidence is None and window_confidences:
+        confidence = sum(window_confidences) / len(window_confidences)
+    if confidence is None:
+        return _result(component, "error", reason="SyncNet adapter response has no finite confidence", windows=windows)
+    offset_ms = _safe_float(response.get("offset_ms"))
+    if offset_ms is None and window_offsets:
+        offset_ms = sum(window_offsets) / len(window_offsets)
+    return _result(
+        component, "ok", _clip_score(confidence, (7.0, 5.5, 4.0, 2.5)),
+        confidence=round(confidence, 6), offset_ms=round(offset_ms, 3) if offset_ms is not None else None,
+        windows=windows, adapter_windows=returned_windows if isinstance(returned_windows, list) else None,
+        method="syncnet_v2_external_adapter",
+    )
+
+
 def run_local_component(name: str, case: Any, facts: dict[str, Any]) -> dict[str, Any] | None:
     if name in {"csd_ref_similarity", "csd_temporal_drift"}:
         return csd_component(name, case)
@@ -615,6 +797,8 @@ def run_local_component(name: str, case: Any, facts: dict[str, Any]) -> dict[str
         return clap_component(name, case, facts)
     if name == "music_presence":
         return music_component(case, facts)
-    if name.startswith("ocr_"):
+    if name == "syncnet_conf":
+        return syncnet_component(case, facts)
+    if name in {"ocr_cer", "ocr_subtitle_alignment", "ocr_readability", "ocr_text_stability"}:
         return ocr_component(name, case, facts)
     return None

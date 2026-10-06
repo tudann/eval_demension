@@ -12,7 +12,7 @@ from typing import Any, Callable
 
 from PIL import Image
 
-from .judge_media import build_judge_content
+from .judge_media import MediaPreparationError, build_judge_content
 from .model_components import run_local_component
 
 
@@ -671,11 +671,17 @@ def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: 
 
     if judge.online:
         request_payload = {"prompt": prompt, "case": case.as_dict(), "checklist": checklist}
-        content = build_judge_content(prompt, request_payload, case, judge.modality)
+        try:
+            content = build_judge_content(prompt, request_payload, case, judge.modality)
+        except MediaPreparationError as exc:
+            return {"status": "media_error", "source": "judge", "model": judge.model,
+                    "error": str(exc), "answers": [], "gates": []}
         response = judge.complete(
-            "Answer every supplied gate and checklist item using the media and prompt. Return only JSON with 'gates' and 'answers' arrays. "
-            "Each answer row must preserve the supplied id. For yes_no items answer yes or no; for multiple_choice items answer the id "
-            "of exactly one supplied option. Include concise evidence with a timestamp when possible.",
+            "Answer every supplied gate and checklist item only when the attached target media contains enough evidence. "
+            "Never infer an answer from the prompt alone. Return only JSON with 'gates' and 'answers' arrays. "
+            "Each answer row must preserve the supplied id. Omit an item when the supplied media does not support a reliable answer. "
+            "For yes_no items answer yes or no; for multiple_choice items answer the id of exactly one supplied option. "
+            "Use the supplied exact media timestamps in concise evidence when possible.",
             content,
             max_tokens=4096,
         )
@@ -848,27 +854,35 @@ def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Cas
     else:
         checklist = generate_d18_checklist(task, dimension_cfg, case, prompt) if dimension == "18_text_visual_consistency" else generate_model_checklist(task, dimension_cfg, case, prompt)
         facts = checklist["facts"]
-    judge = JudgeClient(_judge_modality(dimension), role="judge")
-    answers = answer_checklist(checklist, prompt, case, judge, dimension=dimension)
-    gates = gate_result(checklist, answers)
     result_case_id = case.output_id
     if not case.video_path:
+        answers = {"status": "skipped", "source": "judge", "answers": [], "gates": [],
+                   "error": "video file not found"}
         status = "skipped_missing_video"
         result = {"case_id": result_case_id, "source_case_id": case.case_id, "input_id": case.task_id,
                   "dimension": dimension, "status": status, "score": None, "reason": "video file not found", "case": case.as_dict()}
     else:
-        subpoints = {name: score_subpoint(task, name, cfg, checklist, answers, case, facts, bool(gates["passed"]), scoring) for name, cfg in dimension_cfg.get("subpoints", {}).items()}
-        applicable = [row["score"] for row in subpoints.values() if row.get("applicable") and row.get("score") is not None]
-        score = round(sum(applicable) / len(applicable), 3) if applicable else None
-        if gates["passed"] is False:
-            score = float(scoring.get("invalid_gate_score", 1.0))
-            status = "gate_failed"
+        judge = JudgeClient(_judge_modality(dimension), role="judge")
+        answers = answer_checklist(checklist, prompt, case, judge, dimension=dimension)
+        gates = gate_result(checklist, answers)
+        if answers.get("status") == "media_error":
+            result = {"case_id": result_case_id, "source_case_id": case.case_id, "input_id": case.task_id,
+                      "dimension": dimension, "status": "media_error", "score": None,
+                      "reason": answers.get("error"), "gate": gates, "facts": facts, "subpoints": {},
+                      "case": case.as_dict(), "judge": {"mode": answers.get("source"), "status": "media_error"}}
         else:
-            status = "ok" if score is not None else "no_score"
-        result = {"case_id": result_case_id, "source_case_id": case.case_id, "input_id": case.task_id,
-                  "dimension": dimension, "status": status, "score": score,
-                  "gate": gates, "facts": facts, "subpoints": subpoints, "case": case.as_dict(),
-                  "judge": {"mode": answers.get("source"), "status": answers.get("status")}}
+            subpoints = {name: score_subpoint(task, name, cfg, checklist, answers, case, facts, bool(gates["passed"]), scoring) for name, cfg in dimension_cfg.get("subpoints", {}).items()}
+            applicable = [row["score"] for row in subpoints.values() if row.get("applicable") and row.get("score") is not None]
+            score = round(sum(applicable) / len(applicable), 3) if applicable else None
+            if gates["passed"] is False:
+                score = float(scoring.get("invalid_gate_score", 1.0))
+                status = "gate_failed"
+            else:
+                status = "ok" if score is not None else "no_score"
+            result = {"case_id": result_case_id, "source_case_id": case.case_id, "input_id": case.task_id,
+                      "dimension": dimension, "status": status, "score": score,
+                      "gate": gates, "facts": facts, "subpoints": subpoints, "case": case.as_dict(),
+                      "judge": {"mode": answers.get("source"), "status": answers.get("status")}}
     facts_path.write_text(json.dumps(_safe_json(facts), ensure_ascii=False, indent=2), encoding="utf-8")
     checklist_path.write_text(json.dumps(_safe_json(checklist), ensure_ascii=False, indent=2), encoding="utf-8")
     answers_path.write_text(json.dumps(_safe_json(answers), ensure_ascii=False, indent=2), encoding="utf-8")

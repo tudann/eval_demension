@@ -51,8 +51,6 @@ inputs:
       audio_pattern: ref_audio_{index:02d}
 evaluation:
   subpoints:
-    non_target_preservation: {components: {dino_bg_consistency: false, masked_lpips_static: false}}
-    add_remove_object: {components: {gdino_presence: false}}
     subject_replacement: {components: {arcface_identity_keep: true}}
     video_extension: {components: {continuation_seam_lpips: true}}
     first_last_frame: {components: {endpoint_psnr: true, endpoint_lpips: true}}

@@ -28,7 +28,7 @@ dimensions:
         components: {checklist: 0.4, csd_temporal_drift: 0.6}
       style_content_compat:
         name_zh: 风格与内容兼容
-        components: {checklist: 0.5, firm_world_consistency: 0.5}
+        components: {checklist: 1.0}
       lighting_control:
         name_zh: 光照控制
         applies: facts.target_lighting
@@ -36,10 +36,10 @@ dimensions:
       color_control:
         name_zh: 色彩控制
         applies: facts.target_colors
-        components: {checklist: 0.6, palette_match: 0.4}
+        components: {checklist: 1.0}
   14_edit_controllable_gen:
     name_zh: 编辑与可控生成
-    facts: [edit_targets, preserved, has_subject_replacement, add_objects, remove_objects, is_continuation, static_camera]
+    facts: [edit_targets, preserved, has_subject_replacement, add_objects, remove_objects, is_continuation]
     gates:
       - {id: g1, question: '需要编辑或生成的主体是否清晰可见？', expect: yes, modality: vision, core: true}
       - {id: g2, question: '视频是否足以判断编辑前后状态？', expect: yes, modality: vision, core: true}
@@ -50,7 +50,7 @@ dimensions:
         components: {checklist: 1.0}
       non_target_preservation:
         name_zh: 非目标区域保持
-        components: {checklist: 1.0, dino_bg_consistency: 0.0, masked_lpips_static: 0.0}
+        components: {checklist: 1.0}
       subject_replacement:
         name_zh: 主体替换一致性
         applies: facts.has_subject_replacement
@@ -58,7 +58,7 @@ dimensions:
       add_remove_object:
         name_zh: 增删物体
         applies: facts.add_objects or facts.remove_objects
-        components: {checklist: 1.0, gdino_presence: 0.0}
+        components: {checklist: 1.0}
       video_extension:
         name_zh: 视频延长
         applies: facts.is_continuation
@@ -77,7 +77,7 @@ dimensions:
       dialogue_accuracy:
         name_zh: 对白准确性
         applies: facts.dialogues
-        components: {checklist: 0.6, asr_cer: 0.4}
+        components: {checklist: 1.0}
       voice_naturalness:
         name_zh: 语音自然度
         components: {checklist: 0.5, dnsmos_ovr: 0.5}
@@ -115,7 +115,7 @@ dimensions:
       multi_speaker_match:
         name_zh: 多人说话人匹配
         applies: facts.multi_speaker
-        components: {checklist: 0.6, syncnet_voiceover_still: 0.4}
+        components: {checklist: 1.0}
       audio_change_alignment:
         name_zh: 音频变化同步
         applies: facts.av_events or facts.env_changes
@@ -137,18 +137,18 @@ dimensions:
       camera_motion:
         name_zh: 镜头运动控制
         applies: facts.requested_camera_motion
-        components: {checklist: 0.7, vmbench_ois: 0.3}
+        components: {checklist: 1.0}
       subject_consistency:
         name_zh: 主体一致性
         applies: facts.subjects
-        components: {checklist: 0.7, vmbench_mss: 0.3}
+        components: {checklist: 1.0}
       temporal_continuity:
         name_zh: 时间连续性
-        components: {checklist: 0.7, vmbench_tcs: 0.3}
+        components: {checklist: 1.0}
       human_motion:
         name_zh: 人体运动
         applies: facts.has_humans
-        components: {checklist: 0.7, skeleton_blc_cv: 0.3}
+        components: {checklist: 1.0}
   18_text_visual_consistency:
     name_zh: 文本与视觉一致性
     facts: [expected_texts, allowed_texts, subtitles_required, subtitle_lines, text_forbidden]
@@ -174,4 +174,4 @@ dimensions:
         components: {checklist: 0.6, ocr_text_stability: 0.4}
       no_unrequested_text:
         name_zh: 无额外文字
-        components: {checklist: 0.7, ocr_unexpected_text_rate: 0.3}
+        components: {checklist: 1.0}

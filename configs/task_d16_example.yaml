@@ -51,7 +51,8 @@ inputs:
       audio_pattern: ref_audio_{index:02d}
 evaluation:
   subpoints:
-    lip_sync: {components: {syncnet_conf: false}}
-    multi_speaker_match: {components: {syncnet_voiceover_still: false}}
+    # Disable this switch to skip the external SyncNet v2 adapter entirely.
+    # When enabled but unconfigured, scoring safely falls back to checklist only.
+    lip_sync: {components: {syncnet_conf: true}}
 stages: [check, checklist, evaluate, score]
 output_dir: ./outputs/d16
