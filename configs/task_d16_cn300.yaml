@@ -1,0 +1,56 @@
+task_name: cn300_d16
+run_name: cn300_d16
+dimension: 16_audio_visual_sync
+inputs:
+  - id: t2va
+    root: ./data/300case/d13_d18/16_audio_visual_sync/t2va
+    mode: t2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+  - id: f2va
+    root: ./data/300case/d13_d18/16_audio_visual_sync/f2va
+    mode: f2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+  - id: l2va
+    root: ./data/300case/d13_d18/16_audio_visual_sync/l2va
+    mode: l2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      last_frame_filename: input_01
+  - id: fl2va
+    root: ./data/300case/d13_d18/16_audio_visual_sync/fl2va
+    mode: fl2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+      last_frame_filename: input_02
+  - id: r2va
+    root: ./data/300case/d13_d18/16_audio_visual_sync/r2va
+    mode: r2va
+    allow_missing_root: true
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      image_pattern: input_{index:02d}
+      video_pattern: ref_video_{index:02d}
+      audio_pattern: ref_audio_{index:02d}
+evaluation:
+  subpoints:
+    # Disable this switch to skip the external SyncNet v2 adapter entirely.
+    lip_sync: {components: {syncnet_conf: true}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d16

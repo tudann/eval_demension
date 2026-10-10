@@ -1,0 +1,17 @@
+{
+  "case_id": "cn300v2_be7fd66838ca1baa43abd60d",
+  "dimension": "15_audio_quality_control",
+  "benchmark_level1_id": 15,
+  "mode": "t2va",
+  "source_task_type": "t2v",
+  "source_csv": "中文三任务300条基准集 V2.csv",
+  "duration_seconds": 6,
+  "resolution_class": "720P",
+  "aspect_ratio": "9:16",
+  "video": {
+    "filename": "video.mp4",
+    "present": false
+  },
+  "references": [],
+  "prompt_cited_image_indices": []
+}

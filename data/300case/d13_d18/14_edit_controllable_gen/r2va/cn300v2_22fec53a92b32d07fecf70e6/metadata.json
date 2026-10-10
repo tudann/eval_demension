@@ -1,0 +1,45 @@
+{
+  "case_id": "cn300v2_22fec53a92b32d07fecf70e6",
+  "dimension": "14_edit_controllable_gen",
+  "benchmark_level1_id": 14,
+  "mode": "r2va",
+  "source_task_type": "ref2v",
+  "source_csv": "中文三任务300条基准集 V2.csv",
+  "duration_seconds": 5,
+  "resolution_class": "720P",
+  "aspect_ratio": "9:16",
+  "video": {
+    "filename": "video.mp4",
+    "present": false
+  },
+  "references": [
+    {
+      "role": "reference",
+      "filename": "input_01.jpg",
+      "source_index": 0,
+      "source_url": "https://cos-aigc-default.agnes-ai.com/pixa/chat_attachment/f58ad0dd-6845-44ac-a2ed-bf7cb11ef9f6/1778905922_101487a9.jpg",
+      "original_path": "/kwkj-k8s/SQL/data/用户输入/有水印/图片/316148927288074240_0.jpg",
+      "cited_by_prompt": false,
+      "downloaded": true
+    },
+    {
+      "role": "reference",
+      "filename": "input_02.jpg",
+      "source_index": 1,
+      "source_url": "https://cos-aigc-default.agnes-ai.com/pixa/chat_attachment/f58ad0dd-6845-44ac-a2ed-bf7cb11ef9f6/1778905922_3d51affe.jpg",
+      "original_path": "/kwkj-k8s/SQL/data/用户输入/有水印/图片/316148927288074240_1.jpg",
+      "cited_by_prompt": false,
+      "downloaded": true
+    },
+    {
+      "role": "reference",
+      "filename": "input_03.png",
+      "source_index": 2,
+      "source_url": "https://cos-aigc-default.agnes-ai.com/pixa/chat_attachment/f58ad0dd-6845-44ac-a2ed-bf7cb11ef9f6/1778905922_d1ecd723.png",
+      "original_path": "/kwkj-k8s/SQL/data/用户输入/有水印/图片/316148927288074240_2.png",
+      "cited_by_prompt": false,
+      "downloaded": true
+    }
+  ],
+  "prompt_cited_image_indices": []
+}

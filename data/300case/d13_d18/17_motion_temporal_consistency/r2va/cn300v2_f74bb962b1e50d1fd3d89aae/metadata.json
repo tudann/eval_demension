@@ -1,0 +1,36 @@
+{
+  "case_id": "cn300v2_f74bb962b1e50d1fd3d89aae",
+  "dimension": "17_motion_temporal_consistency",
+  "benchmark_level1_id": 17,
+  "mode": "r2va",
+  "source_task_type": "ref2v",
+  "source_csv": "中文三任务300条基准集 V2.csv",
+  "duration_seconds": 8,
+  "resolution_class": "720P",
+  "aspect_ratio": "9:16",
+  "video": {
+    "filename": "video.mp4",
+    "present": false
+  },
+  "references": [
+    {
+      "role": "reference",
+      "filename": "input_01.jpg",
+      "source_index": 0,
+      "source_url": "https://cos-aigc-default.agnes-ai.com/2/ugc_image/363451e4-2f81-4ab5-af96-ee8ac4bb951d/1777281421_af0fbd0b.png",
+      "original_path": "/kwkj-k8s/SQL/data/用户输入/有水印/图片/307084046937128960_0.png",
+      "cited_by_prompt": false,
+      "downloaded": true
+    },
+    {
+      "role": "reference",
+      "filename": "input_02.jpg",
+      "source_index": 1,
+      "source_url": "https://cos-aigc-default.agnes-ai.com/2/ugc_image/363451e4-2f81-4ab5-af96-ee8ac4bb951d/1777281427_4392f0aa.png",
+      "original_path": "/kwkj-k8s/SQL/data/用户输入/有水印/图片/307084046937128960_1.png",
+      "cited_by_prompt": false,
+      "downloaded": true
+    }
+  ],
+  "prompt_cited_image_indices": []
+}

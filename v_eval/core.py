@@ -65,6 +65,105 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
     ),
 }
 
+# Models often rename these keys. Applies checks only the names in dims_13_18.yaml.
+_FACT_ALIASES: dict[str, dict[str, tuple[str, ...]]] = {
+    "13_style_visual_control": {
+        "target_lighting": ("lighting_requirement", "requested_lighting", "lighting"),
+        "target_colors": ("color_requirement", "requested_colors", "colors", "palette"),
+        "style_spec": ("style_requirement", "requested_style", "style"),
+        "reference_image_roles": ("reference_roles", "reference_image_role"),
+    },
+    "14_edit_controllable_gen": {
+        "edit_targets": ("edit_target", "requested_edit", "local_edit", "subject_edit"),
+        "preserved": ("non_target_preservation", "preservation"),
+        "has_subject_replacement": ("subject_replacement", "subject_edit", "replacement"),
+        "add_objects": ("added_objects", "objects_to_add"),
+        "remove_objects": ("removed_objects", "objects_to_remove"),
+        "is_continuation": ("continuation", "video_extension"),
+    },
+    "15_audio_quality_control": {
+        "dialogues": ("dialogue", "dialogue_requirement", "requested_dialogue"),
+        "voice_forbidden": ("forbidden_voice", "no_voice", "no_speech"),
+        "has_repeated_speaker": ("repeated_speaker",),
+        "dialogue_emotions": ("emotion", "emotion_requirement", "vocal_emotion"),
+        "ambient": ("ambient_requirement", "ambient_sound", "ambience"),
+        "sfx": ("sfx_requirement", "action_sfx", "sound_effects"),
+        "music_required": ("music_requirement", "requested_music", "background_music"),
+        "music_forbidden": ("forbidden_music", "no_music", "no_background_music"),
+        "reference_audio_role": ("reference_audio",),
+    },
+    "16_audio_visual_sync": {
+        "dialogues": ("dialogue", "dialogue_requirement", "requested_dialogue"),
+        "multi_speaker": ("multiple_speakers", "speakers"),
+        "av_events": ("actions", "av_event", "audio_events"),
+        "env_changes": ("environment_changes", "env_change"),
+        "realistic": ("realism", "realism_requirement", "audio_layers"),
+    },
+    "17_motion_temporal_consistency": {
+        "subjects": ("subject", "subject_consistency", "requested_subject"),
+        "main_subject_noun": ("main_subject",),
+        "has_humans": ("human", "human_motion", "has_human"),
+        "requested_camera_motion": ("camera_motion", "camera_movement"),
+    },
+}
+
+_BOOL_FACTS = {
+    "has_subject_replacement", "is_continuation", "voice_forbidden", "has_repeated_speaker",
+    "dialogue_emotions", "music_required", "music_forbidden", "multi_speaker", "realistic", "has_humans",
+}
+_TEXT_COMPANIONS = {
+    "music_required": "music_description",
+    "dialogue_emotions": "target_emotion",
+    "ambient": "ambient_description",
+    "sfx": "sfx_description",
+}
+
+_FACT_SCHEMAS: dict[str, str] = {
+    "13_style_visual_control": (
+        "facts must use exactly these keys: target_lighting (string, empty when no lighting is requested), "
+        "target_colors (string, empty when no color or palette is requested), style_spec (string, empty when no visual style is requested), "
+        "reference_image_roles (array of strings, empty when none). "
+        "Do not rename them to lighting_requirement, color_requirement, or style_requirement. "
+        "lighting_control items require non-empty target_lighting. color_control items require non-empty target_colors. "
+        "style_accuracy, style_persistence, and style_content_compat are always allowed."
+    ),
+    "14_edit_controllable_gen": (
+        "facts must use exactly these keys: edit_targets (string or array, empty when there is no local edit), "
+        "preserved (string, empty when nothing must stay unchanged), has_subject_replacement (boolean), "
+        "add_objects (string or array, empty when none), remove_objects (string or array, empty when none), is_continuation (boolean). "
+        "local_edit_accuracy requires non-empty edit_targets. subject_replacement requires has_subject_replacement true. "
+        "add_remove_object requires add_objects or remove_objects. video_extension requires is_continuation true. "
+        "first_last_frame items are allowed only when case.first_frame or case.last_frame exists. non_target_preservation is always allowed."
+    ),
+    "15_audio_quality_control": (
+        "facts must use exactly these keys: dialogues (requested speech text, or false when none), voice_forbidden (boolean), "
+        "has_repeated_speaker (boolean), dialogue_emotions (boolean), target_emotion (string, empty unless dialogue_emotions is true), "
+        "ambient (string, empty when none), ambient_description (the same ambient text, or empty), "
+        "sfx (string, empty when none), sfx_description (the same effect text, or empty), "
+        "music_required (boolean), music_forbidden (boolean), music_description (string, empty unless music is required), "
+        "reference_audio_role (string, empty when none). "
+        "dialogue_accuracy requires non-empty dialogues. emotion_control requires dialogue_emotions true. "
+        "ambient_sound requires non-empty ambient. action_sfx requires non-empty sfx. "
+        "music_match requires music_required or music_forbidden. timbre_consistency requires has_repeated_speaker or reference_audio_role. "
+        "voice_naturalness is always allowed."
+    ),
+    "16_audio_visual_sync": (
+        "facts must use exactly these keys: dialogues (spoken text, or false when there is no speech), multi_speaker (boolean), "
+        "av_events (string, empty when no action sound must match a visible event), env_changes (string, empty when none), "
+        "realistic (boolean, true only when the prompt requests realistic audio-visual behavior). "
+        "Do not use dialogue, actions, or audio_layers as fact keys. "
+        "lip_sync requires non-empty dialogues. multi_speaker_match requires multi_speaker true. "
+        "audio_change_alignment requires av_events or env_changes. realism requires realistic true."
+    ),
+    "17_motion_temporal_consistency": (
+        "facts must use exactly these keys: subjects (named subjects, empty string when none), main_subject_noun (string), "
+        "has_humans (boolean), requested_camera_motion (string, empty when camera movement is not specified). "
+        "Do not use camera_motion, subject_consistency, or human_motion as fact keys. "
+        "camera_motion items require non-empty requested_camera_motion. subject_consistency requires non-empty subjects. "
+        "human_motion requires has_humans true. motion_consistency and temporal_continuity are always allowed."
+    ),
+}
+
 
 def _truthy(value: Any) -> bool:
     if isinstance(value, bool):
@@ -493,6 +592,8 @@ def _d18_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any
         return None
     if not all(isinstance(item, str) and item.strip() for item in facts["expected_texts"] + facts["allowed_texts"]):
         return None
+    if not any(str(item).strip() for item in facts["expected_texts"]) and facts["allowed_texts"]:
+        facts = {**facts, "expected_texts": [str(item).strip() for item in facts["allowed_texts"] if str(item).strip()]}
     if not isinstance(facts["subtitles_required"], bool) or not isinstance(facts["text_forbidden"], bool):
         return None
     if not isinstance(facts["subtitle_lines"], list) or not all(isinstance(item, str) for item in facts["subtitle_lines"]):
@@ -522,13 +623,19 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
     judge = JudgeClient("vision", role="checklist")
     if not judge.online:
         raise ConfigError("D18 checklist requires an online checklist judge; offline mode is disabled")
+    subpoint_applies = {
+        name: (cfg.get("applies") or "always")
+        for name, cfg in (dimension_cfg.get("subpoints") or {}).items()
+        if isinstance(cfg, dict)
+    }
     request_payload = {
         "task": "Understand the prompt and author the D18 checklist for this one case.",
         "dimension": "18_text_visual_consistency",
         "prompt": prompt,
         "case": case.as_dict(),
         "allowed_gates": dimension_cfg.get("gates", []),
-        "allowed_subpoints": list((dimension_cfg.get("subpoints") or {}).keys()),
+        "allowed_subpoints": list(subpoint_applies),
+        "subpoint_applies": subpoint_applies,
         "output_schema": {"facts": "object", "gates": "array", "items": "array"},
     }
     content = build_judge_content(prompt, request_payload, case, judge.modality,
@@ -543,6 +650,8 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
         "gates must be an array containing every allowed gate exactly once; each gate must contain id, question, expect, modality, core, "
         "and expect must be the string yes or no, never a boolean. "
         "items must contain at least 6 items and no more than 30 items. Include items only for applicable D18 subpoints; "
+        "honor subpoint_applies exactly. Spoken dialogue or quoted speech is not expected_texts or subtitle_lines unless the prompt asks to display that sentence on screen or as subtitles. "
+        "subtitle_alignment items are allowed only when subtitles_required is true. Do not write hypothetical questions such as whether subtitles would be synchronized if they appeared. "
         "do not invent a text or subtitle requirement to reach the minimum. Reach six items by testing distinct observable aspects of requirements that are actually present, "
         "and reject the case if six relevant questions cannot be written. Include no more than 3 core items. "
         "Every JSON string must be validly escaped. Avoid unescaped double quotation marks inside question text; "
@@ -567,6 +676,30 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
     return checklist
 
 
+def _attach_fact_companion(facts: dict[str, Any], canonical: str) -> None:
+    """Keep boolean gates boolean, and preserve a text description for numeric matchers."""
+    value = facts.get(canonical)
+    companion = _TEXT_COMPANIONS.get(canonical)
+    if isinstance(value, str) and _truthy(value):
+        if companion and not _truthy(facts.get(companion)):
+            facts[companion] = value
+        if canonical in _BOOL_FACTS:
+            facts[canonical] = True
+
+
+def _canonicalize_facts(dimension: str, facts: dict[str, Any]) -> dict[str, Any]:
+    """Copy known alias keys onto the fact names that applies expressions read."""
+    normalized = dict(facts)
+    for canonical, aliases in _FACT_ALIASES.get(dimension, {}).items():
+        if not _truthy(normalized.get(canonical)):
+            for alias in aliases:
+                if _truthy(normalized.get(alias)):
+                    normalized[canonical] = normalized[alias]
+                    break
+        _attach_fact_companion(normalized, canonical)
+    return normalized
+
+
 def _model_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any], dimension: str,
                              case: Case, model: str | None = None) -> dict[str, Any] | None:
     """Validate a model-authored facts/checklist for any D13-D17 dimension."""
@@ -575,6 +708,7 @@ def _model_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, A
     items = payload.get("items")
     if not isinstance(facts, dict) or not isinstance(gates, list) or not isinstance(items, list):
         return None
+    facts = _canonicalize_facts(dimension, facts)
     configured_gates = {str(gate.get("id")): gate for gate in dimension_cfg.get("gates", []) if isinstance(gate, dict)}
     if not configured_gates:
         return None
@@ -610,6 +744,12 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         "task": "Understand the prompt and author the evaluation checklist for this one case.",
         "dimension": dimension, "prompt": prompt, "case": case.as_dict(),
         "allowed_gates": dimension_cfg.get("gates", []), "allowed_subpoints": allowed_subpoints,
+        "subpoint_applies": {
+            name: (cfg.get("applies") or "always")
+            for name, cfg in (dimension_cfg.get("subpoints") or {}).items()
+            if isinstance(cfg, dict)
+        },
+        "fact_schema": _FACT_SCHEMAS.get(dimension, ""),
         "output_schema": {"facts": "object", "gates": "array", "items": "array"},
     }
     content = build_judge_content(prompt, request_payload, case, judge.modality,
@@ -624,6 +764,8 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         "and fail rather than adding questions unsupported by the prompt. Never repeat the same question or check the same aspect twice. "
         "No more than 3 items may be core. Every question must be answerable from the corresponding media. "
         "Facts describe requested requirements, not observed output. Use booleans or yes/no consistently. "
+        "For yes_no items, expect must be the string yes or no. "
+        f"Fact schema: {_FACT_SCHEMAS.get(dimension, '')} "
         "Each item must declare kind as yes_no, multiple_choice_3, or multiple_choice_4. "
         "For multiple-choice items, provide options as an array of exactly 3 or 4 objects with id and label, "
         "and set expect to the correct option id. Do not return markdown. "

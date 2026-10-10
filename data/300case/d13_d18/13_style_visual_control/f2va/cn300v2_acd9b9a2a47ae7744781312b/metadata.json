@@ -1,0 +1,27 @@
+{
+  "case_id": "cn300v2_acd9b9a2a47ae7744781312b",
+  "dimension": "13_style_visual_control",
+  "benchmark_level1_id": 13,
+  "mode": "f2va",
+  "source_task_type": "i2v",
+  "source_csv": "中文三任务300条基准集 V2.csv",
+  "duration_seconds": 10,
+  "resolution_class": "720P",
+  "aspect_ratio": "16:9",
+  "video": {
+    "filename": "video.mp4",
+    "present": false
+  },
+  "references": [
+    {
+      "role": "first_frame",
+      "filename": "input_01.png",
+      "source_index": 0,
+      "source_url": "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/0b64cd28-2ce8-4301-8a8a-5461f0eea5b6/1781689688_41b47c82.png",
+      "original_path": "/kwkj-k8s/SQL/data/用户输入/有水印/图片/325572748235857920_0.png",
+      "cited_by_prompt": false,
+      "downloaded": true
+    }
+  ],
+  "prompt_cited_image_indices": []
+}

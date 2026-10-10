@@ -130,6 +130,7 @@ def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], 
     # the online checklist judge; older/local caches must not be reused.
     dimension_cfg = dims["dimensions"][task["dimension"]]
     prepared = []
+    failures: list[str] = []
     for case in cases:
         checklist_path = output_base(task) / str(task["dimension"]) / case.output_id / "checklist.json"
         if checklist_path.is_file() and not force:
@@ -137,8 +138,18 @@ def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], 
             if _is_valid_external_checklist(cached, str(task["dimension"]), case.case_id):
                 prepared.append(cached)
                 continue
-        prepared.append(prepare_case(task, dimension_cfg, case))
-    print(f"checklist: prepared {len(prepared)} external case records")
+        print(f"checklist: {case.output_id}", flush=True)
+        try:
+            prepared.append(prepare_case(task, dimension_cfg, case))
+        except ConfigError as exc:
+            error_path = checklist_path.parent / "checklist_error.json"
+            write_json(error_path, {"case_id": case.case_id, "input_id": case.task_id, "error": str(exc)})
+            failures.append(case.output_id)
+            print(f"checklist failed: {case.output_id}: {exc}", flush=True)
+    print(f"checklist: prepared {len(prepared)} external case records, failed {len(failures)}", flush=True)
+    if failures:
+        preview = ", ".join(failures[:8])
+        raise ConfigError(f"{len(failures)} checklist(s) failed: {preview}")
 
 
 def run_evaluate(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> list[dict[str, Any]]:
