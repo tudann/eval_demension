@@ -65,6 +65,11 @@ weights/
 *.pdiparams
 *.pdiparams.info
 
+# Case images stay on disk and are not pushed
+data/**/*.png
+data/**/*.jpg
+data/**/*.jpeg
+
 # Large local data and media
 *.npy
 *.npz

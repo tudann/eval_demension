@@ -162,14 +162,15 @@ class SyncNetAdapterTests(unittest.TestCase):
             "items": [{"id": "q1", "subpoint": "lip_sync", "kind": "yes_no",
                        "expect": "yes", "weight": 1.0, "core": False}]
         }
-        answers = {"answers": [{"id": "q1", "answer": "yes"}]}
+        answers = {"answers": [{"id": "q1", "score": 5}]}
         case = Case("case", Path("."), "t2va", None, None)
         config = {"applies": "facts.dialogues", "components": {"checklist": 0.7, "syncnet_conf": 0.3}}
         unavailable = {"component": "syncnet_conf", "status": "not_configured", "score": None}
         with patch("v_eval.core.run_component", return_value=unavailable):
             result = score_subpoint({}, "lip_sync", config, checklist, answers, case,
-                                    {"dialogues": True}, True, {"unanswered_excluded": True})
-        self.assertEqual(result["score"], 5.0)
+                                    {"dialogues": True}, True, {})
+        self.assertEqual(result["score"], 4.0)
+        self.assertEqual(result["score_basis"], "checklist_only")
         self.assertEqual(result["components"]["syncnet_conf"]["status"], "not_configured")
 
 

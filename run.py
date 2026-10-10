@@ -121,7 +121,7 @@ def _is_valid_external_checklist(value: Any, dimension: str, case_id: str) -> bo
         and isinstance(value.get("items"), list)
         and value.get("judge_mode") == "external"
         and value.get("case_id") == case_id
-        and all(isinstance(item, dict) and str(item.get("kind", "yes_no")) in {"yes_no", "multiple_choice_3", "multiple_choice_4"} for item in value.get("items", []))
+        and all(isinstance(item, dict) and str(item.get("kind", "yes_no")) in {"yes_no", "multiple_choice_3", "multiple_choice_4", "rubric_5"} for item in value.get("items", []))
     )
 
 

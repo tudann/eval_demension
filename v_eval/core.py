@@ -20,17 +20,44 @@ VIDEO_EXTENSIONS = {".mp4", ".webm", ".mov", ".avi", ".mkv"}
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 AUDIO_EXTENSIONS = {".wav", ".mp3", ".flac", ".m4a", ".aac", ".ogg"}
 
-CHECKLIST_MIN_ITEMS = 6
+CHECKLIST_MIN_ITEMS = 1
 CHECKLIST_MAX_ITEMS = 30
 CHECKLIST_MAX_CORE_ITEMS = 3
+RUBRIC_KIND = "rubric_5"
+_RUBRIC_SCORES = {1, 2, 3, 4, 5}
+_MEASUREMENT_MISSING = {"not_configured", "error"}
+
+_RUBRIC_GENERATION_RULES = (
+    "Each item uses kind rubric_5 and states one requirement. "
+    "Write at most one item for each applicable subpoint, and do not add items to reach a count of six. "
+    "A later score of 5 means that requirement is fully achieved. Do not set expect to yes or no, and do not use yes_no or multiple-choice items. "
+    "Mark core true only for a requirement the prompt insists on, and mark at most 3 items core. "
+    "A prohibition is core only when that absence is itself the demand. "
+    "Do not split one requirement into separate questions about incidental absences such as watermarks, timestamps, or tickers."
+)
+
+_ANSWER_RUBRIC = (
+    "Score every checklist item with an integer from 1 to 5. Do not answer yes or no. "
+    "5: the requirement is fully and accurately achieved, natural and stable, with almost no perceptible problem. "
+    "4: the core of the requirement is achieved, with only a slight flaw or local deviation that does not obviously affect viewing. "
+    "3: the requirement is basically achieved, but a clear problem, omission, or unnatural result remains. "
+    "2: the requirement is only partly achieved, and the error, absence, or instability already affects whether the content holds. "
+    "1: the requirement is basically missed, or the result is severely broken or unusable. "
+    "For a yes_no item, expect decides what 5 means: expect yes means the described state is fully present; "
+    "expect no means the named problem is fully absent. "
+    "For a rubric_5 item, 5 means the requirement written in the question is fully achieved. "
+    "Score multiple-choice items on the same 1-5 scale; do not return an option id. "
+    "Return only JSON with gates and answers. Each answer object contains id and score. "
+    "Gates still use an answer of yes or no. Omit an item only when the media cannot support a score."
+)
 
 _CHECKLIST_STRATEGIES: dict[str, str] = {
     "13_style_visual_control": (
         "D13 strategy: create questions only for requirements actually present in the prompt. "
         "Use style_accuracy for recognizable style and visual language; style_persistence for stability across time; "
         "style_content_compat for whether style preserves the requested subject and action; lighting_control only for explicit lighting requirements; "
-        "color_control only for explicit color or palette requirements. Split applicable requirements into distinct observable aspects, "
-        "such as presence, execution, continuity, and absence of contradictions. Do not invent audio, editing, text, or endpoint requirements."
+        "color_control only for explicit color or palette requirements. "
+        "Do not invent audio, editing, text, or endpoint requirements."
     ),
     "14_edit_controllable_gen": (
         "D14 strategy: create questions only for editing or controllability requirements present in the prompt or input mode. "
@@ -42,13 +69,12 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
         "D15 strategy: create questions only for audio requirements present in the prompt. "
         "Use dialogue_accuracy for requested dialogue or forbidden speech, voice_naturalness for audible speech quality, timbre_consistency for repeated or referenced voices, "
         "emotion_control for explicit vocal emotion, ambient_sound for described ambience, action_sfx for named action sounds, and music_match for required or forbidden music. "
-        "When there are few audio requirements, split them into distinct observable aspects such as presence, content, timing, clarity, continuity, and unwanted audio. "
         "Do not add visual-only, text, endpoint, or unrelated audio questions."
     ),
     "16_audio_visual_sync": (
         "D16 strategy: create questions only for stated audio-visual relationships. "
         "Use lip_sync only for dialogue and visible speech, multi_speaker_match only for multiple speakers, audio_change_alignment for named action or environment changes, "
-        "and realism only when the prompt requests realistic audio-visual behavior. Split applicable events by timing, ordering, correspondence, and absence of offset. "
+        "and realism only when the prompt requests realistic audio-visual behavior. "
         "Do not invent dialogue, multiple speakers, or synchronization events absent from the prompt."
     ),
     "17_motion_temporal_consistency": (
@@ -61,7 +87,7 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
         "D18 strategy: create questions only for text requirements or explicit absence of text. "
         "Use text_accuracy for required strings, subtitle_alignment for requested subtitles, text_readability for required visible text, "
         "text_stability for text persistence, and no_unrequested_text for unwanted text, subtitles, or watermarks. "
-        "Do not invent subtitles or required strings; when text requirements are sparse, split valid checks into content, placement, readability, stability, and unwanted-text aspects."
+        "Do not invent subtitles or required strings, and do not split one text requirement across several questions."
     ),
 }
 
@@ -462,8 +488,11 @@ def _parse_json_response(payload: Any) -> dict[str, Any] | None:
 
 def _normalize_choice_kind(kind: Any, options: Any) -> tuple[str, list[dict[str, str]]] | None:
     normalized_kind = str(kind or "yes_no").strip().lower()
-    aliases = {"single_choice": "multiple_choice_3", "choice_3": "multiple_choice_3", "choice_4": "multiple_choice_4"}
+    aliases = {"single_choice": "multiple_choice_3", "choice_3": "multiple_choice_3", "choice_4": "multiple_choice_4",
+               "rubric": RUBRIC_KIND, "score_5": RUBRIC_KIND}
     normalized_kind = aliases.get(normalized_kind, normalized_kind)
+    if normalized_kind == RUBRIC_KIND:
+        return normalized_kind, []
     if normalized_kind == "yes_no":
         return normalized_kind, []
     if normalized_kind in {"multiple_choice", "single_choice"}:
@@ -498,13 +527,6 @@ def _normalize_item(item: dict[str, Any], configured_subpoints: set[str], index:
     if normalized_choice is None:
         return None
     kind, options = normalized_choice
-    expect = item.get("expect", "yes")
-    if isinstance(expect, bool):
-        expect = "yes" if expect else "no"
-    expect = str(expect).strip()
-    valid_answers = {"yes", "no"} if kind == "yes_no" else {option["id"] for option in options}
-    if expect not in valid_answers:
-        return None
     try:
         weight = float(item.get("weight", 1.0))
     except (TypeError, ValueError):
@@ -513,10 +535,19 @@ def _normalize_item(item: dict[str, Any], configured_subpoints: set[str], index:
         return None
     normalized: dict[str, Any] = {
         "id": item_id, "subpoint": str(item["subpoint"]), "question": question,
-        "kind": kind, "expect": expect, "time_hint": str(item.get("time_hint", "全片")),
+        "kind": kind, "time_hint": str(item.get("time_hint", "全片")),
         "weight": weight, "core": bool(item.get("core", False)),
         "evidence_required": bool(item.get("evidence_required", True)),
     }
+    if kind != RUBRIC_KIND:
+        expect = item.get("expect", "yes")
+        if isinstance(expect, bool):
+            expect = "yes" if expect else "no"
+        expect = str(expect).strip()
+        valid_answers = {"yes", "no"} if kind == "yes_no" else {option["id"] for option in options}
+        if expect not in valid_answers:
+            return None
+        normalized["expect"] = expect
     if options:
         normalized["options"] = options
     return normalized
@@ -532,12 +563,15 @@ def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: 
     normalized_items: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     seen_questions: set[str] = set()
+    seen_subpoints: set[str] = set()
     core_count = 0
     for index, item in enumerate(items, start=1):
         if not isinstance(item, dict):
             return None
         normalized = _normalize_item(item, configured_subpoints, index)
-        if normalized is None:
+        if normalized is None or normalized["kind"] != RUBRIC_KIND:
+            return None
+        if normalized["subpoint"] in seen_subpoints:
             return None
         subpoint_cfg = subpoints[normalized["subpoint"]]
         if not evaluate_applies(subpoint_cfg.get("applies"), facts, case):
@@ -547,6 +581,7 @@ def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: 
             return None
         seen_ids.add(normalized["id"])
         seen_questions.add(question_key)
+        seen_subpoints.add(normalized["subpoint"])
         core_count += int(normalized["core"])
         if core_count > CHECKLIST_MAX_CORE_ITEMS:
             return None
@@ -649,16 +684,13 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
         "text_forbidden (boolean). Do not use requested_text, forbidden_text, subtitles, or other aliases. "
         "gates must be an array containing every allowed gate exactly once; each gate must contain id, question, expect, modality, core, "
         "and expect must be the string yes or no, never a boolean. "
-        "items must contain at least 6 items and no more than 30 items. Include items only for applicable D18 subpoints; "
-        "honor subpoint_applies exactly. Spoken dialogue or quoted speech is not expected_texts or subtitle_lines unless the prompt asks to display that sentence on screen or as subtitles. "
+        "Include items only for applicable D18 subpoints and honor subpoint_applies exactly. "
+        "Spoken dialogue or quoted speech is not expected_texts or subtitle_lines unless the prompt asks to display that sentence on screen or as subtitles. "
         "subtitle_alignment items are allowed only when subtitles_required is true. Do not write hypothetical questions such as whether subtitles would be synchronized if they appeared. "
-        "do not invent a text or subtitle requirement to reach the minimum. Reach six items by testing distinct observable aspects of requirements that are actually present, "
-        "and reject the case if six relevant questions cannot be written. Include no more than 3 core items. "
+        f"{_RUBRIC_GENERATION_RULES} "
         "Every JSON string must be validly escaped. Avoid unescaped double quotation marks inside question text; "
         "use single quotation marks around quoted prompt text or encode embedded quotes as \\\". "
-        "each item must contain id, subpoint, question, kind, expect, time_hint, core, evidence_required. "
-        "kind must be yes_no, multiple_choice_3, or multiple_choice_4. For multiple-choice items include exactly 3 or 4 options, "
-        "each with id and label, and make expect one option id. "
+        "each item must contain id, subpoint, question, kind, time_hint, core, evidence_required. "
         "Every subpoint must be one of the allowed subpoints. Use question, never description, requirement, or other aliases. "
         f"{_CHECKLIST_STRATEGIES['18_text_visual_consistency']} "
         "Facts describe only requested text/subtitles/forbidden text from the prompt. Do not inspect or judge the generated video.",
@@ -759,16 +791,12 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         f"For {dimension}, understand only what the prompt requests and return JSON with facts, gates, and items. "
         "Generate all gates and case-specific items; do not inspect or judge the generated media. "
         "Every item must use an allowed subpoint and preserve all allowed gate ids. "
-        "Generate at least 6 items and no more than 30 items. Include only requirements that are actually present and only applicable subpoints; "
-        "do not invent unrelated checks just to reach the minimum. Split each applicable requirement into distinct observable aspects when necessary, "
-        "and fail rather than adding questions unsupported by the prompt. Never repeat the same question or check the same aspect twice. "
-        "No more than 3 items may be core. Every question must be answerable from the corresponding media. "
-        "Facts describe requested requirements, not observed output. Use booleans or yes/no consistently. "
-        "For yes_no items, expect must be the string yes or no. "
+        "Include only requirements that are actually present and only applicable subpoints. "
+        f"{_RUBRIC_GENERATION_RULES} "
+        "Never repeat the same question. Every question must be answerable from the corresponding media. "
+        "Facts describe requested requirements, not observed output. Use booleans or yes/no consistently for fact values. "
         f"Fact schema: {_FACT_SCHEMAS.get(dimension, '')} "
-        "Each item must declare kind as yes_no, multiple_choice_3, or multiple_choice_4. "
-        "For multiple-choice items, provide options as an array of exactly 3 or 4 objects with id and label, "
-        "and set expect to the correct option id. Do not return markdown. "
+        "Do not return markdown. "
         f"Dimension-specific strategy: {_CHECKLIST_STRATEGIES.get(dimension, '')}",
         content,
         max_tokens=6000,
@@ -819,10 +847,9 @@ def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: 
             return {"status": "media_error", "source": "judge", "model": judge.model,
                     "error": str(exc), "answers": [], "gates": []}
         response = judge.complete(
-            "Answer every supplied gate and checklist item only when the attached target media contains enough evidence. "
-            "Never infer an answer from the prompt alone. Return only JSON with 'gates' and 'answers' arrays. "
-            "Each answer row must preserve the supplied id. Omit an item when the supplied media does not support a reliable answer. "
-            "For yes_no items answer yes or no; for multiple_choice items answer the id of exactly one supplied option. "
+            "Answer every supplied gate, and score every checklist item, only when the attached target media contains enough evidence. "
+            "Never infer a score from the prompt alone. "
+            f"{_ANSWER_RUBRIC} "
             "Use the supplied exact media timestamps in concise evidence when possible.",
             content,
             max_tokens=4096,
@@ -852,43 +879,69 @@ def normalize_answer(value: Any) -> str | None:
     return text or None
 
 
-def normalize_item_answer(item: dict[str, Any], value: Any) -> str | None:
-    answer = normalize_answer(value) if item.get("kind") == "yes_no" else (str(value).strip() if value is not None else None)
-    if answer is None:
+def rubric_score(value: Any) -> int | None:
+    """Parse a 1-5 rubric score. yes/no is not a score."""
+    if isinstance(value, bool) or value is None:
         return None
-    if item.get("kind") == "yes_no":
-        return answer if answer in {"yes", "no"} else None
-    option_ids = {str(option.get("id")) for option in item.get("options", []) if isinstance(option, dict)}
-    return answer if answer in option_ids else None
+    if isinstance(value, (int, float)) and float(value) in _RUBRIC_SCORES and float(value) == int(value):
+        return int(value)
+    text = str(value).strip()
+    if text in {"1", "2", "3", "4", "5"}:
+        return int(text)
+    return None
 
 
 def checklist_component(checklist: dict[str, Any], answers: dict[str, Any], subpoint: str, scoring: dict[str, Any]) -> dict[str, Any]:
+    """Score one subpoint from 1-5 item grades. The subpoint grade is the lowest item grade."""
+    del scoring
     rows = {str(row.get("id")): row for row in answers.get("answers", []) if isinstance(row, dict)}
     selected = [item for item in checklist.get("items", []) if item.get("subpoint") == subpoint]
-    weighted_total = 0.0
-    weighted_correct = 0.0
-    core_failed = False
+    if not selected:
+        return {"status": "no_answer", "score": None, "core_score": None, "noncore_flaw": False, "details": []}
     details = []
+    answered: list[int] = []
+    core_answered: list[int] = []
+    core_skipped = False
+    noncore_flaw = False
     for item in selected:
         item_row = rows.get(str(item.get("id")), {})
-        answer = normalize_item_answer(item, item_row.get("answer"))
-        expect = normalize_item_answer(item, item.get("expect"))
-        if answer is None and scoring.get("unanswered_excluded", True):
-            details.append({"id": item.get("id"), "valid": False, "correct": None, "answer": None})
+        raw = item_row.get("score", item_row.get("answer"))
+        grade = rubric_score(raw)
+        is_core = bool(item.get("core"))
+        if grade is None:
+            if is_core:
+                core_skipped = True
+            else:
+                noncore_flaw = True
+            details.append({"id": item.get("id"), "valid": False, "score": None, "core": is_core})
             continue
-        correct = answer == expect
-        weight = float(item.get("weight", 1.0))
-        weighted_total += weight
-        weighted_correct += weight if correct else 0.0
-        core_failed = core_failed or (bool(item.get("core")) and not correct)
-        details.append({"id": item.get("id"), "valid": True, "correct": correct, "answer": answer})
-    if weighted_total == 0:
-        return {"status": "no_answer", "score": None, "details": details}
-    ratio = weighted_correct / weighted_total
-    score = 5.0 if ratio >= 1.0 else 4.0 if ratio >= 0.8 else 3.0 if ratio >= 0.6 else 2.0 if ratio >= 0.3 else 1.0
-    if core_failed:
-        score = min(score, float(scoring.get("core_failure_cap", 2.0)))
-    return {"status": "ok", "score": score, "ratio": ratio, "details": details, "core_failed": core_failed}
+        answered.append(grade)
+        if is_core:
+            core_answered.append(grade)
+        elif grade < 5:
+            noncore_flaw = True
+        details.append({"id": item.get("id"), "valid": True, "score": grade, "core": is_core})
+    has_core = any(bool(item.get("core")) for item in selected)
+    if not answered and not core_skipped and not noncore_flaw:
+        return {"status": "no_answer", "score": None, "core_score": None, "noncore_flaw": False, "details": details}
+    if not answered:
+        score: float | None = 3.0
+        status = "unanswered_cap"
+    else:
+        score = float(min(answered))
+        status = "ok"
+        if len(answered) < len(selected):
+            score = min(score, 3.0)
+            status = "unanswered_cap"
+    core_score: float | None = None
+    if has_core:
+        if core_answered:
+            core_score = float(min(core_answered))
+            if core_skipped:
+                core_score = min(core_score, 3.0)
+        else:
+            core_score = 3.0
+    return {"status": status, "score": score, "core_score": core_score, "noncore_flaw": noncore_flaw, "details": details}
 
 
 def gate_result(checklist: dict[str, Any], answers: dict[str, Any]) -> dict[str, Any]:
@@ -930,27 +983,92 @@ def component_enabled(task: dict[str, Any], subpoint: str, component: str) -> bo
     return True
 
 
+def _blend_component_scores(base: float | None, checklist_weight: float, numeric_ok: list[tuple[float, float]],
+                            missing_measurement: bool) -> float | None:
+    """Keep a missing numeric model from being folded into a perfect checklist score."""
+    if base is None and not numeric_ok:
+        return None
+    if missing_measurement:
+        if base is None:
+            return None
+        return float(min(base, 4.0))
+    if base is None:
+        weight = sum(item_weight for item_weight, _score in numeric_ok)
+        return round(sum(item_weight * item_score for item_weight, item_score in numeric_ok) / weight, 3)
+    if not numeric_ok:
+        return float(base)
+    weighted = checklist_weight * base + sum(item_weight * item_score for item_weight, item_score in numeric_ok)
+    total = checklist_weight + sum(item_weight for item_weight, _score in numeric_ok)
+    return round(weighted / total, 3) if total else float(base)
+
+
 def score_subpoint(task: dict[str, Any], sp_name: str, sp_cfg: dict[str, Any], checklist: dict[str, Any], answers: dict[str, Any], case: Case, facts: dict[str, Any], gates_ok: bool, scoring: dict[str, Any]) -> dict[str, Any]:
     if not evaluate_applies(sp_cfg.get("applies"), facts, case):
         return {"applicable": False, "status": "not_applicable", "score": None, "components": {}}
     components: dict[str, Any] = {}
     if not gates_ok:
-        return {"applicable": True, "status": "gate_failed", "score": float(scoring.get("invalid_gate_score", 1.0)), "components": {}, "checklist": None}
-    weighted = 0.0
-    total_weight = 0.0
+        return {"applicable": True, "status": "gate_failed", "score": float(scoring.get("invalid_gate_score", 1.0)),
+                "core_score": float(scoring.get("invalid_gate_score", 1.0)), "noncore_flaw": False,
+                "components": {}, "checklist": None}
+    numeric_ok: list[tuple[float, float]] = []
+    missing_measurement = False
+    checklist_result: dict[str, Any] | None = None
+    checklist_weight = 0.0
     for name, weight in (sp_cfg.get("components") or {}).items():
         if not component_enabled(task, sp_name, name):
             continue
         if name == "checklist":
-            result = checklist_component(checklist, answers, sp_name, scoring)
+            checklist_result = checklist_component(checklist, answers, sp_name, scoring)
+            components[name] = checklist_result
+            checklist_weight = float(weight)
         else:
             result = run_component(name, case, facts)
-        components[name] = result
-        if result.get("status") == "ok" and result.get("score") is not None:
-            weighted += float(weight) * float(result["score"])
-            total_weight += float(weight)
-    score = round(weighted / total_weight, 3) if total_weight else None
-    return {"applicable": True, "status": "ok" if score is not None else "no_component_score", "score": score, "components": components}
+            components[name] = result
+            if result.get("status") == "ok" and result.get("score") is not None:
+                numeric_ok.append((float(weight), float(result["score"])))
+            elif result.get("status") in _MEASUREMENT_MISSING:
+                missing_measurement = True
+    base = None if checklist_result is None else checklist_result.get("score")
+    core_base = None if checklist_result is None else checklist_result.get("core_score")
+    noncore_flaw = bool(checklist_result.get("noncore_flaw")) if checklist_result else False
+    score = _blend_component_scores(base if isinstance(base, (int, float)) else None, checklist_weight, numeric_ok, missing_measurement)
+    core_score = _blend_component_scores(core_base if isinstance(core_base, (int, float)) else None, checklist_weight, numeric_ok, missing_measurement)
+    basis = "checklist_only" if missing_measurement else "weighted"
+    return {"applicable": True, "status": "ok" if score is not None else "no_component_score", "score": score,
+            "core_score": core_score, "noncore_flaw": noncore_flaw, "score_basis": basis, "components": components}
+
+
+def dimension_score(subpoints: dict[str, Any]) -> float | None:
+    """Cap the dimension by the worst core subpoint. Non-core flaws can only lower a 5 to a 4."""
+    core_values: list[float] = []
+    flaw = False
+    any_score = False
+    for row in subpoints.values():
+        if not isinstance(row, dict) or not row.get("applicable"):
+            continue
+        score = row.get("score")
+        core_value = row.get("core_score")
+        if isinstance(score, (int, float)):
+            any_score = True
+        if isinstance(core_value, (int, float)):
+            core_values.append(float(core_value))
+        elif isinstance(score, (int, float)) and float(score) < 5:
+            flaw = True
+        if row.get("noncore_flaw"):
+            flaw = True
+    if core_values:
+        worst = min(core_values)
+        if worst < 4:
+            return round(worst, 3)
+        if worst < 5 or flaw:
+            return 4.0
+        return 5.0
+    if not any_score:
+        return None
+    if flaw or any(isinstance(row.get("score"), (int, float)) and float(row["score"]) < 5
+                   for row in subpoints.values() if isinstance(row, dict) and row.get("applicable")):
+        return 4.0
+    return 5.0
 
 
 def _case_output_root(task: dict[str, Any], case: Case) -> Path:
@@ -1014,8 +1132,7 @@ def evaluate_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Cas
                       "case": case.as_dict(), "judge": {"mode": answers.get("source"), "status": "media_error"}}
         else:
             subpoints = {name: score_subpoint(task, name, cfg, checklist, answers, case, facts, bool(gates["passed"]), scoring) for name, cfg in dimension_cfg.get("subpoints", {}).items()}
-            applicable = [row["score"] for row in subpoints.values() if row.get("applicable") and row.get("score") is not None]
-            score = round(sum(applicable) / len(applicable), 3) if applicable else None
+            score = dimension_score(subpoints)
             if gates["passed"] is False:
                 score = float(scoring.get("invalid_gate_score", 1.0))
                 status = "gate_failed"

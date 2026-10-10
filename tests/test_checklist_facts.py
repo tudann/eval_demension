@@ -5,7 +5,16 @@ from pathlib import Path
 
 import yaml
 
-from v_eval.core import Case, _d18_checklist_payload, _model_checklist_payload
+from unittest.mock import patch
+
+from v_eval.core import (
+    Case,
+    _d18_checklist_payload,
+    _model_checklist_payload,
+    checklist_component,
+    dimension_score,
+    score_subpoint,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,8 +32,8 @@ def _gates(dimension: str) -> list[dict]:
     ]
 
 
-def _item(index: int, subpoint: str, question: str) -> dict:
-    return {"id": f"i{index}", "subpoint": subpoint, "question": question, "kind": "yes_no", "expect": True}
+def _item(index: int, subpoint: str, question: str, core: bool = False) -> dict:
+    return {"id": f"i{index}", "subpoint": subpoint, "question": question, "kind": "rubric_5", "core": core}
 
 
 class ChecklistFactAliasTests(unittest.TestCase):
@@ -38,12 +47,11 @@ class ChecklistFactAliasTests(unittest.TestCase):
             },
             "gates": _gates(dimension),
             "items": [
-                _item(1, "style_accuracy", "是否为超写实风格？"),
+                _item(1, "style_accuracy", "风格是否达到超写实？"),
                 _item(2, "style_persistence", "超写实风格是否全程稳定？"),
-                _item(3, "lighting_control", "是否使用电影光影？"),
-                _item(4, "color_control", "背景是否为深红色？"),
+                _item(3, "lighting_control", "光照是否达到电影光影？"),
+                _item(4, "color_control", "色彩是否达到深红色背景？"),
                 _item(5, "style_content_compat", "风格是否保留人物主体？"),
-                _item(6, "style_accuracy", "材质细节是否逼真？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
@@ -51,7 +59,8 @@ class ChecklistFactAliasTests(unittest.TestCase):
         self.assertEqual(checklist["facts"]["target_lighting"], "电影光影")
         self.assertEqual(checklist["facts"]["target_colors"], "深红色背景")
         self.assertEqual(checklist["facts"]["style_spec"], "超写实")
-        self.assertEqual(len(checklist["items"]), 6)
+        self.assertEqual(len(checklist["items"]), 5)
+        self.assertTrue(all(item["kind"] == "rubric_5" for item in checklist["items"]))
 
     def test_d15_music_and_sfx_aliases_enable_conditional_items(self) -> None:
         dimension = "15_audio_quality_control"
@@ -59,12 +68,9 @@ class ChecklistFactAliasTests(unittest.TestCase):
             "facts": {"music_requirement": "童话风格配乐", "sfx_requirement": "叮一声的问号音效"},
             "gates": _gates(dimension),
             "items": [
-                _item(1, "music_match", "是否有童话风格配乐？"),
-                _item(2, "music_match", "配乐是否贯穿需要配乐的段落？"),
-                _item(3, "music_match", "配乐是否盖过人声或音效？"),
-                _item(4, "action_sfx", "是否出现问号音效？"),
-                _item(5, "action_sfx", "问号音效是否与问号出现同步？"),
-                _item(6, "voice_naturalness", "如果出现人声，人声是否自然？"),
+                _item(1, "music_match", "配乐是否达到童话风格？"),
+                _item(2, "action_sfx", "动作音效是否达到叮一声的问号音效？"),
+                _item(3, "voice_naturalness", "人声是否自然？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
@@ -81,11 +87,7 @@ class ChecklistFactAliasTests(unittest.TestCase):
             "gates": _gates(dimension),
             "items": [
                 _item(1, "lip_sync", "口型是否与台词同步？"),
-                _item(2, "lip_sync", "台词开始时嘴是否张开？"),
-                _item(3, "lip_sync", "台词结束后嘴是否闭合？"),
-                _item(4, "lip_sync", "口型是否覆盖整句台词？"),
-                _item(5, "realism", "人声是否比背景音乐更清晰？"),
-                _item(6, "realism", "音画关系是否自然？"),
+                _item(2, "realism", "音画关系是否自然？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
@@ -103,12 +105,10 @@ class ChecklistFactAliasTests(unittest.TestCase):
             },
             "gates": _gates(dimension),
             "items": [
-                _item(1, "camera_motion", "镜头是否持续跟随男子？"),
-                _item(2, "subject_consistency", "男子的风衣是否保持一致？"),
-                _item(3, "subject_consistency", "男子身高是否保持一致？"),
-                _item(4, "temporal_continuity", "从酒吧到森林是否连续？"),
-                _item(5, "temporal_continuity", "是否没有突然跳帧？"),
-                _item(6, "human_motion", "行走姿态是否自然？"),
+                _item(1, "camera_motion", "镜头运动是否达到连续跟随长镜头？"),
+                _item(2, "subject_consistency", "棕色皮风衣男子是否保持一致？"),
+                _item(3, "temporal_continuity", "从酒吧到森林是否连续？"),
+                _item(4, "human_motion", "男子行走是否自然？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
@@ -129,17 +129,72 @@ class ChecklistFactAliasTests(unittest.TestCase):
             },
             "gates": _gates(dimension),
             "items": [
-                _item(1, "text_readability", "招牌文字是否清晰可读？"),
-                _item(2, "text_stability", "招牌文字是否全程稳定？"),
-                _item(3, "text_stability", "招牌文字是否没有位置偏移？"),
-                _item(4, "text_accuracy", "画面是否出现“老板,给我来根儿烤肠!”？"),
-                _item(5, "no_unrequested_text", "是否没有额外水印？"),
-                _item(6, "no_unrequested_text", "是否没有无关字幕？"),
+                _item(1, "text_readability", "要求出现的文字是否清晰可读？"),
+                _item(2, "text_stability", "要求出现的文字是否全程稳定？"),
+                _item(3, "text_accuracy", "画面文字是否准确呈现要求的句子？"),
+                _item(4, "no_unrequested_text", "画面是否没有未被要求的文字？"),
             ],
         }
         checklist = _d18_checklist_payload(payload, DIMS[dimension], _case())
         self.assertIsNotNone(checklist)
         self.assertEqual(checklist["facts"]["expected_texts"], ["老板,给我来根儿烤肠!"])
+
+    def test_rubric_items_reject_duplicate_subpoints_and_yes_no(self) -> None:
+        dimension = "13_style_visual_control"
+        payload = {
+            "facts": {"style_spec": "写实"},
+            "gates": _gates(dimension),
+            "items": [_item(1, "style_accuracy", "风格是否达到写实？")],
+        }
+        checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
+        self.assertEqual(len(checklist["items"]), 1)
+        payload["items"].append(_item(2, "style_accuracy", "另一种风格问法？"))
+        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
+        payload["items"] = [{"id": "i1", "subpoint": "style_accuracy", "question": "是否写实？", "kind": "yes_no", "expect": "yes"}]
+        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
+
+
+class RubricScoreTests(unittest.TestCase):
+    def test_subpoint_uses_lowest_grade_and_caps_skipped_items(self) -> None:
+        checklist = {"items": [
+            {"id": "a", "subpoint": "lip_sync", "core": True},
+            {"id": "b", "subpoint": "lip_sync", "core": False},
+        ]}
+        both = checklist_component(checklist, {"answers": [{"id": "a", "score": 5}, {"id": "b", "score": 2}]}, "lip_sync", {})
+        self.assertEqual(both["score"], 2.0)
+        self.assertEqual(both["core_score"], 5.0)
+        self.assertTrue(both["noncore_flaw"])
+        skipped = checklist_component(checklist, {"answers": [{"id": "a", "score": 5}]}, "lip_sync", {})
+        self.assertEqual(skipped["score"], 3.0)
+        self.assertEqual(skipped["core_score"], 5.0)
+
+    def test_dimension_cap_follows_core_and_limits_noncore_to_four(self) -> None:
+        self.assertEqual(dimension_score({
+            "core": {"applicable": True, "score": 5, "core_score": 5, "noncore_flaw": False},
+            "other": {"applicable": True, "score": 5, "core_score": None, "noncore_flaw": False},
+        }), 5.0)
+        self.assertEqual(dimension_score({
+            "core": {"applicable": True, "score": 2, "core_score": 2, "noncore_flaw": False},
+            "other": {"applicable": True, "score": 5, "core_score": None, "noncore_flaw": False},
+        }), 2.0)
+        self.assertEqual(dimension_score({
+            "core": {"applicable": True, "score": 1, "core_score": 5, "noncore_flaw": True},
+        }), 4.0)
+        self.assertEqual(dimension_score({
+            "only": {"applicable": True, "score": 1, "core_score": None, "noncore_flaw": True},
+        }), 4.0)
+
+    def test_successful_numeric_component_stays_in_the_weighted_average(self) -> None:
+        checklist = {"items": [{"id": "q1", "subpoint": "text_accuracy", "core": True}]}
+        answers = {"answers": [{"id": "q1", "score": 5}]}
+        case = Case("case", Path("."), "t2va", None, None)
+        config = {"components": {"checklist": 0.6, "ocr_cer": 0.4}}
+        measured = {"component": "ocr_cer", "status": "ok", "score": 2.0}
+        with patch("v_eval.core.run_component", return_value=measured):
+            result = score_subpoint({}, "text_accuracy", config, checklist, answers, case, {}, True, {})
+        self.assertEqual(result["score"], 3.8)
+        self.assertEqual(result["score_basis"], "weighted")
+        self.assertEqual(result["core_score"], 3.8)
 
 
 if __name__ == "__main__":
