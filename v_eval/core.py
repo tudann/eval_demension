@@ -89,6 +89,17 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
         "text_stability for text persistence, and no_unrequested_text for unwanted text, subtitles, or watermarks. "
         "Do not invent subtitles or required strings, and do not split one text requirement across several questions."
     ),
+    "20_performance_emotion": (
+        "D20 strategy: create one rubric_5 question only for performance requirements present in the prompt. "
+        "Use emotion_accuracy for whether expression, posture, and vocal tone match the specified emotion and situation; "
+        "expression_transition for a requested change of expression with a visible transition rather than a sudden cut or a frozen face; "
+        "gaze_attention for looking at the named person, object, or away from camera; "
+        "micro_motion for blinks, breathing, and small head movement when a person is present; "
+        "reaction_timing for a reaction that follows hearing a line, being touched, or seeing an event; "
+        "dialogue_performance for spoken words, facial expression, and body action expressing the same intent. "
+        "Do not invent an emotion, gaze target, reaction, or line that the prompt does not contain. "
+        "Do not add style, editing, text, or camera-only questions."
+    ),
 }
 
 # Models often rename these keys. Applies checks only the names in dims_13_18.yaml.
@@ -130,6 +141,15 @@ _FACT_ALIASES: dict[str, dict[str, tuple[str, ...]]] = {
         "main_subject_noun": ("main_subject",),
         "has_humans": ("human", "human_motion", "has_human"),
         "requested_camera_motion": ("camera_motion", "camera_movement"),
+    },
+    "20_performance_emotion": {
+        "has_humans": ("human", "has_human", "person"),
+        "target_emotion": ("emotion", "emotion_requirement", "requested_emotion"),
+        "character_situation": ("situation", "character_context", "scene_situation"),
+        "emotion_change": ("expression_change", "emotion_transition", "expression_transition"),
+        "gaze_target": ("gaze", "look_at", "attention_target"),
+        "reaction_event": ("reaction", "trigger_event", "reaction_trigger"),
+        "dialogues": ("dialogue", "dialogue_text", "requested_dialogue"),
     },
 }
 
@@ -187,6 +207,20 @@ _FACT_SCHEMAS: dict[str, str] = {
         "Do not use camera_motion, subject_consistency, or human_motion as fact keys. "
         "camera_motion items require non-empty requested_camera_motion. subject_consistency requires non-empty subjects. "
         "human_motion requires has_humans true. motion_consistency and temporal_continuity are always allowed."
+    ),
+    "20_performance_emotion": (
+        "facts must use exactly these keys: has_humans (boolean), "
+        "target_emotion (string, empty when no emotion is specified), "
+        "character_situation (string, empty when no character situation is specified), "
+        "emotion_change (string describing the requested expression change, empty when none), "
+        "gaze_target (string, empty when no looking target or attention is specified), "
+        "reaction_event (string describing the heard line, touch, or seen event that should trigger a reaction, empty when none), "
+        "dialogues (spoken text, or false when there is no speech). "
+        "Do not use emotion, gaze, reaction, or dialogue as fact keys. "
+        "emotion_accuracy requires target_emotion or character_situation. "
+        "expression_transition requires non-empty emotion_change. gaze_attention requires non-empty gaze_target. "
+        "micro_motion requires has_humans true. reaction_timing requires non-empty reaction_event. "
+        "dialogue_performance requires non-empty dialogues."
     ),
 }
 
@@ -816,7 +850,7 @@ def _judge_modality(dimension: str) -> str:
     """Return the judge modality used for checklist and answer requests."""
     if dimension == "15_audio_quality_control":
         return "audio"
-    if dimension == "16_audio_visual_sync":
+    if dimension in {"16_audio_visual_sync", "20_performance_emotion"}:
         return "audio_visual"
     if dimension in {
         "13_style_visual_control",
@@ -1083,6 +1117,7 @@ def prepare_case(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case
     supported = {
         "13_style_visual_control", "14_edit_controllable_gen", "15_audio_quality_control",
         "16_audio_visual_sync", "17_motion_temporal_consistency", "18_text_visual_consistency",
+        "20_performance_emotion",
     }
     if dimension not in supported:
         raise ConfigError(f"unsupported dimension: {dimension}")

@@ -175,3 +175,34 @@ dimensions:
       no_unrequested_text:
         name_zh: 无额外文字
         components: {checklist: 1.0}
+  20_performance_emotion:
+    name_zh: 人物表演与情绪表达
+    facts: [has_humans, target_emotion, character_situation, emotion_change, gaze_target, reaction_event, dialogues]
+    gates:
+      - {id: g1, question: '需要判断表演的人物是否清晰可见？', expect: yes, modality: audio_visual, core: true}
+      - {id: g2, question: '视频是否有足够连续的人物表演和时间关系？', expect: yes, modality: audio_visual, core: true}
+    subpoints:
+      emotion_accuracy:
+        name_zh: 情绪表达准确性
+        applies: facts.target_emotion or facts.character_situation
+        components: {checklist: 1.0}
+      expression_transition:
+        name_zh: 表情变化自然性
+        applies: facts.emotion_change
+        components: {checklist: 1.0}
+      gaze_attention:
+        name_zh: 视线与注意力
+        applies: facts.gaze_target
+        components: {checklist: 1.0}
+      micro_motion:
+        name_zh: 微动作自然性
+        applies: facts.has_humans
+        components: {checklist: 1.0}
+      reaction_timing:
+        name_zh: 反应时机合理性
+        applies: facts.reaction_event
+        components: {checklist: 1.0}
+      dialogue_performance:
+        name_zh: 台词与表演匹配
+        applies: facts.dialogues
+        components: {checklist: 1.0}

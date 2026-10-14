@@ -153,6 +153,46 @@ class ChecklistFactAliasTests(unittest.TestCase):
         payload["items"] = [{"id": "i1", "subpoint": "style_accuracy", "question": "是否写实？", "kind": "yes_no", "expect": "yes"}]
         self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
 
+    def test_d20_aliases_keep_only_applicable_performance_items(self) -> None:
+        dimension = "20_performance_emotion"
+        payload = {
+            "facts": {
+                "emotion": "压着的担心",
+                "situation": "医院走廊里捏着检查单",
+                "expression_change": "从平静慢慢变成惊喜",
+                "look_at": "先看小熊再看店门口",
+                "reaction": "客人走进来后停一拍再抬头",
+                "dialogue": "你先别过来。",
+                "has_human": True,
+            },
+            "gates": _gates(dimension),
+            "items": [
+                _item(1, "emotion_accuracy", "表情、姿态和语气是否符合压着的担心？", core=True),
+                _item(2, "expression_transition", "表情是否从平静慢慢过渡到惊喜？"),
+                _item(3, "gaze_attention", "视线是否先落到小熊再转到店门口？"),
+                _item(4, "micro_motion", "眨眼和呼吸是否自然，而不是机械重复？"),
+                _item(5, "reaction_timing", "客人走进来后，柜台后的人是否停一拍再抬头？"),
+                _item(6, "dialogue_performance", "说“你先别过来”时，表情和语气是否一致？", core=True),
+            ],
+        }
+        checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
+        self.assertIsNotNone(checklist)
+        self.assertEqual(checklist["facts"]["target_emotion"], "压着的担心")
+        self.assertEqual(checklist["facts"]["character_situation"], "医院走廊里捏着检查单")
+        self.assertEqual(checklist["facts"]["emotion_change"], "从平静慢慢变成惊喜")
+        self.assertEqual(checklist["facts"]["gaze_target"], "先看小熊再看店门口")
+        self.assertEqual(checklist["facts"]["reaction_event"], "客人走进来后停一拍再抬头")
+        self.assertEqual(checklist["facts"]["dialogues"], "你先别过来。")
+        self.assertIs(checklist["facts"]["has_humans"], True)
+        self.assertEqual(
+            [item["subpoint"] for item in checklist["items"]],
+            ["emotion_accuracy", "expression_transition", "gaze_attention", "micro_motion", "reaction_timing", "dialogue_performance"],
+        )
+        self.assertEqual(checklist["gates"][0]["modality"], "audio_visual")
+        payload["items"] = [_item(1, "gaze_attention", "视线是否看向老板？")]
+        payload["facts"] = {"has_humans": True, "target_emotion": "", "character_situation": "", "emotion_change": "", "gaze_target": "", "reaction_event": "", "dialogues": False}
+        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
+
 
 class RubricScoreTests(unittest.TestCase):
     def test_subpoint_uses_lowest_grade_and_caps_skipped_items(self) -> None:

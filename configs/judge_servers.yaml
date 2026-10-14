@@ -29,6 +29,7 @@ audio:
   used_by:
     - 15_audio_quality_control
     - 16_audio_visual_sync
+    - 20_performance_emotion
 # The evaluator falls back to these only when the modality-specific variables
 # are absent. Modality-specific variables are recommended.
 legacy:
