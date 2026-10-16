@@ -1,0 +1,17 @@
+{
+  "case_id": "020703",
+  "primary_dimension": "2. 视觉质量",
+  "secondary_id": "2.7",
+  "secondary_dimension": "2.7 美学质量",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/020703.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/020703/01.jpeg"
+    }
+  ],
+  "video": null
+}

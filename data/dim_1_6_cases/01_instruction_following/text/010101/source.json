@@ -1,0 +1,11 @@
+{
+  "case_id": "010101",
+  "primary_dimension": "1. 指令理解与遵循",
+  "secondary_id": "1.1",
+  "secondary_dimension": "1.1 主体正确性",
+  "mode": "text",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/010101.txt",
+  "images": [],
+  "video": null
+}

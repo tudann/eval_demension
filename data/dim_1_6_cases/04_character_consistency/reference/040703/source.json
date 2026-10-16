@@ -1,0 +1,17 @@
+{
+  "case_id": "040703",
+  "primary_dimension": "4. 角色一致性",
+  "secondary_id": "4.7",
+  "secondary_dimension": "4.7 多视角一致性",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/040703.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/040703/01.png"
+    }
+  ],
+  "video": null
+}

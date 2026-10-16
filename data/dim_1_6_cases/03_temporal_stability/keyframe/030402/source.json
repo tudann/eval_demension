@@ -1,0 +1,17 @@
+{
+  "case_id": "030402",
+  "primary_dimension": "3. 时序稳定性",
+  "secondary_id": "3.4",
+  "secondary_dimension": "3.4 纹理稳定性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/030402.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/030402/01.png"
+    }
+  ],
+  "video": null
+}

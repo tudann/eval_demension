@@ -1,0 +1,17 @@
+{
+  "case_id": "060702",
+  "primary_dimension": "6. 人物与物体交互",
+  "secondary_id": "6.7",
+  "secondary_dimension": "6.7 多主体交互",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/060702.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060702/01.jpeg"
+    }
+  ],
+  "video": null
+}

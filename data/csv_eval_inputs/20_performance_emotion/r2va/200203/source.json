@@ -1,0 +1,38 @@
+{
+  "case_id": "200203",
+  "csv_row": 109,
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "表情变化自然性",
+  "ratio": "9:16",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7694977382541216720",
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200203/input_01.jpg",
+      "bytes": 195963,
+      "width": 768,
+      "height": 1024,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200203/agnes.mp4",
+      "bytes": 3544674,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280,
+      "model": "agnes"
+    }
+  ]
+}

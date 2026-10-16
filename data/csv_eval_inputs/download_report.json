@@ -1,0 +1,5138 @@
+{
+  "summary": {
+    "output": "data/csv_eval_inputs",
+    "cases": 120,
+    "ready_cases": 120,
+    "media_ready": 226,
+    "media_failed": 0,
+    "failed_by_kind": {},
+    "missing_target_video": [
+      "140503",
+      "200403"
+    ],
+    "reference_prompts_adapted": 32,
+    "target_without_audio": [],
+    "failed_errors": {},
+    "images_redownloaded": 103
+  },
+  "cases": [
+    {
+      "case_id": "130101",
+      "csv_row": 2,
+      "dimension": "13_style_visual_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "风格准确性",
+      "ratio": "16:9",
+      "seconds": "15",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/t2va/130101/video.mp4",
+          "bytes": 4426201,
+          "duration": 12.256,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130102",
+      "csv_row": 3,
+      "dimension": "13_style_visual_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "风格准确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206145593510871",
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130102/input_01.jpg",
+          "bytes": 632765,
+          "width": 1280,
+          "height": 1006,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130102/video.mp4",
+          "bytes": 3497991,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 928,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130103",
+      "csv_row": 4,
+      "dimension": "13_style_visual_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "风格准确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962301866265588",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130103/input_01.jpg",
+          "bytes": 148447,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695962310725028828",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130103/input_02.jpg",
+          "bytes": 56019,
+          "width": 589,
+          "height": 730,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130103/video.mp4",
+          "bytes": 4485323,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130201",
+      "csv_row": 5,
+      "dimension": "13_style_visual_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "风格持续性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/t2va/130201/video.mp4",
+          "bytes": 3923234,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130202",
+      "csv_row": 6,
+      "dimension": "13_style_visual_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "风格持续性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206178701052860",
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130202/input_01.jpg",
+          "bytes": 215850,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130202/video.mp4",
+          "bytes": 764572,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130203",
+      "csv_row": 7,
+      "dimension": "13_style_visual_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "风格持续性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962321451633633",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130203/input_01.jpg",
+          "bytes": 91822,
+          "width": 1280,
+          "height": 850,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695962333412969434",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130203/input_02.jpg",
+          "bytes": 32138,
+          "width": 538,
+          "height": 612,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130203/video.mp4",
+          "bytes": 4303449,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130301",
+      "csv_row": 8,
+      "dimension": "13_style_visual_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "风格与内容兼容",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/t2va/130301/video.mp4",
+          "bytes": 2268120,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130302",
+      "csv_row": 9,
+      "dimension": "13_style_visual_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "风格与内容兼容",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206207099079610",
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130302/input_01.jpg",
+          "bytes": 462081,
+          "width": 1280,
+          "height": 1792,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130302/video.mp4",
+          "bytes": 1583972,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 1024
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130303",
+      "csv_row": 10,
+      "dimension": "13_style_visual_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "风格与内容兼容",
+      "ratio": "9:16",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972012913659093",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130303/input_01.jpg",
+          "bytes": 127141,
+          "width": 1024,
+          "height": 1484,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130303/video.mp4",
+          "bytes": 5450241,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130401",
+      "csv_row": 11,
+      "dimension": "13_style_visual_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "光照控制",
+      "ratio": "9:16",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/t2va/130401/video.mp4",
+          "bytes": 1391926,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130402",
+      "csv_row": 12,
+      "dimension": "13_style_visual_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "光照控制",
+      "ratio": "9:16",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695207886749830095",
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130402/input_01.jpg",
+          "bytes": 311468,
+          "width": 1280,
+          "height": 1707,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130402/video.mp4",
+          "bytes": 634018,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 960
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130403",
+      "csv_row": 13,
+      "dimension": "13_style_visual_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "光照控制",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "ref_video_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "ref_video_01",
+          "kind": "reference_video",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130403/ref_video_01.mp4",
+          "bytes": 5070207,
+          "duration": 4.458,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 2560,
+          "height": 1440
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130403/video.mp4",
+          "bytes": 2097187,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130501",
+      "csv_row": 14,
+      "dimension": "13_style_visual_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "色彩控制",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/t2va/130501/video.mp4",
+          "bytes": 1487571,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130502",
+      "csv_row": 15,
+      "dimension": "13_style_visual_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "色彩控制",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206236165295070",
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130502/input_01.jpg",
+          "bytes": 374033,
+          "width": 1280,
+          "height": 853,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/f2va/130502/video.mp4",
+          "bytes": 2971053,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1088,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "130503",
+      "csv_row": 16,
+      "dimension": "13_style_visual_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "色彩控制",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695594358057651183",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130503/input_01.jpg",
+          "bytes": 306627,
+          "width": 1280,
+          "height": 854,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695594369197542330",
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130503/input_02.jpg",
+          "bytes": 119882,
+          "width": 1280,
+          "height": 1259,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "13_style_visual_control/r2va/130503/video.mp4",
+          "bytes": 3410270,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140101",
+      "csv_row": 17,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "局部修改准确性",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/t2va/140101/video.mp4",
+          "bytes": 1199576,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140102",
+      "csv_row": 18,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "局部修改准确性",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206260584762325",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140102/input_01.jpg",
+          "bytes": 322097,
+          "width": 1280,
+          "height": 800,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140102/video.mp4",
+          "bytes": 627500,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1152,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140103",
+      "csv_row": 19,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "局部修改准确性",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695594379599563752",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140103/input_01.jpg",
+          "bytes": 116623,
+          "width": 1280,
+          "height": 854,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695594385061088225",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140103/input_02.jpg",
+          "bytes": 151884,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140103/video.mp4",
+          "bytes": 983577,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140201",
+      "csv_row": 20,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "非目标区域保持",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/t2va/140201/video.mp4",
+          "bytes": 1134547,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140202",
+      "csv_row": 21,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "非目标区域保持",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206292549323748",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140202/input_01.jpg",
+          "bytes": 198385,
+          "width": 1280,
+          "height": 853,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140202/video.mp4",
+          "bytes": 730398,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1088,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140203",
+      "csv_row": 22,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "非目标区域保持",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "ref_video_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "ref_video_01",
+          "kind": "reference_video",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140203/ref_video_01.mp4",
+          "bytes": 4765652,
+          "duration": 11.968,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140203/video.mp4",
+          "bytes": 3993523,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140301",
+      "csv_row": 23,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "主体替换一致性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/t2va/140301/video.mp4",
+          "bytes": 2421049,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140302",
+      "csv_row": 24,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "主体替换一致性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206315555163124",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140302/input_01.jpg",
+          "bytes": 333988,
+          "width": 1280,
+          "height": 1017,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140302/video.mp4",
+          "bytes": 1484009,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 896,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140303",
+      "csv_row": 25,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "主体替换一致性",
+      "ratio": "9:16",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "ref_video_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972014360300760",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140303/input_01.jpg",
+          "bytes": 107328,
+          "width": 587,
+          "height": 916,
+          "format": "JPEG"
+        },
+        {
+          "stem": "ref_video_01",
+          "kind": "reference_video",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140303/ref_video_01.mp4",
+          "bytes": 1202077,
+          "duration": 7.067,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140303/video.mp4",
+          "bytes": 5653157,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140401",
+      "csv_row": 26,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "增删物体",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/t2va/140401/video.mp4",
+          "bytes": 1690368,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140402",
+      "csv_row": 27,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "增删物体",
+      "ratio": "9:16",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206349713476560",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140402/input_01.jpg",
+          "bytes": 317914,
+          "width": 1280,
+          "height": 1920,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140402/video.mp4",
+          "bytes": 1157908,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 1088
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140403",
+      "csv_row": 28,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "增删物体",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962343071271908",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140403/input_01.jpg",
+          "bytes": 71543,
+          "width": 1280,
+          "height": 848,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695962353179347899",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140403/input_02.jpg",
+          "bytes": 54055,
+          "width": 1188,
+          "height": 1280,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140403/video.mp4",
+          "bytes": 1035963,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140501",
+      "csv_row": 29,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "视频延长",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/t2va/140501/video.mp4",
+          "bytes": 3201046,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140502",
+      "csv_row": 30,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "视频延长",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695207915698883565",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140502/input_01.jpg",
+          "bytes": 502206,
+          "width": 1280,
+          "height": 962,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/f2va/140502/video.mp4",
+          "bytes": 4237770,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140503",
+      "csv_row": 31,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "视频延长",
+      "ratio": "9:16",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "ref_video_01"
+      ],
+      "missing_output_url": true,
+      "media": [
+        {
+          "stem": "ref_video_01",
+          "kind": "reference_video",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140503/ref_video_01.webm",
+          "bytes": 8136399,
+          "duration": 30.524,
+          "has_audio": true,
+          "video_codec": "vp8",
+          "width": 1080,
+          "height": 1920
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140601",
+      "csv_row": 32,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "首尾帧控制",
+      "ratio": "9:16",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/t2va/140601/video.mp4",
+          "bytes": 728244,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140602",
+      "csv_row": 33,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "fl2va",
+      "source_mode": "first_and_last_frame",
+      "subdimension": "首尾帧控制",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972011081174249",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/fl2va/140602/input_01.jpg",
+          "bytes": 199777,
+          "width": 1672,
+          "height": 941,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7694972012485725385",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/fl2va/140602/input_02.jpg",
+          "bytes": 375488,
+          "width": 1672,
+          "height": 941,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/fl2va/140602/video.mp4",
+          "bytes": 1860255,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "140603",
+      "csv_row": 34,
+      "dimension": "14_edit_controllable_gen",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "首尾帧控制",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208452917889984",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140603/input_01.jpg",
+          "bytes": 26195,
+          "width": 512,
+          "height": 494,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695208459603676111",
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140603/input_02.jpg",
+          "bytes": 202564,
+          "width": 1280,
+          "height": 853,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "14_edit_controllable_gen/r2va/140603/video.mp4",
+          "bytes": 3204335,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150101",
+      "csv_row": 35,
+      "dimension": "15_audio_quality_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "对白内容正确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/t2va/150101/video.mp4",
+          "bytes": 2013857,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150102",
+      "csv_row": 36,
+      "dimension": "15_audio_quality_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "对白内容正确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695207955327601616",
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150102/input_01.jpg",
+          "bytes": 279327,
+          "width": 1280,
+          "height": 1045,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150102/video.mp4",
+          "bytes": 1207945,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 896,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150103",
+      "csv_row": 37,
+      "dimension": "15_audio_quality_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "对白内容正确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972012771085498",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150103/input_01.jpg",
+          "bytes": 274801,
+          "width": 2624,
+          "height": 1472,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150103/video.mp4",
+          "bytes": 2649461,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150201",
+      "csv_row": 38,
+      "dimension": "15_audio_quality_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "声音自然度",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/t2va/150201/video.mp4",
+          "bytes": 2376836,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150202",
+      "csv_row": 39,
+      "dimension": "15_audio_quality_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "声音自然度",
+      "ratio": "9:16",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7696445499902315537",
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150202/input_01.jpg",
+          "bytes": 229307,
+          "width": 1280,
+          "height": 853,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150202/video.mp4",
+          "bytes": 263523,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 960
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150203",
+      "csv_row": 40,
+      "dimension": "15_audio_quality_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "声音自然度",
+      "ratio": "16:9",
+      "seconds": "10",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695590963834194932",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150203/input_01.jpg",
+          "bytes": 269866,
+          "width": 1024,
+          "height": 576,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150203/video.mp4",
+          "bytes": 3763626,
+          "duration": 10.144,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150301",
+      "csv_row": 41,
+      "dimension": "15_audio_quality_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "音色一致性",
+      "ratio": "16:9",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/t2va/150301/video.mp4",
+          "bytes": 1566007,
+          "duration": 7.328,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150302",
+      "csv_row": 42,
+      "dimension": "15_audio_quality_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "音色一致性",
+      "ratio": "9:16",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206422619032545",
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150302/input_01.jpg",
+          "bytes": 402328,
+          "width": 1280,
+          "height": 1707,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150302/video.mp4",
+          "bytes": 1529000,
+          "duration": 7.3,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 960
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150303",
+      "csv_row": 43,
+      "dimension": "15_audio_quality_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "音色一致性",
+      "ratio": "9:16",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972015073135816",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150303/input_01.jpg",
+          "bytes": 149744,
+          "width": 720,
+          "height": 1280,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7694972011366321370",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150303/input_02.jpg",
+          "bytes": 64794,
+          "width": 720,
+          "height": 1280,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150303/video.mp4",
+          "bytes": 1137769,
+          "duration": 7.328,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150401",
+      "csv_row": 44,
+      "dimension": "15_audio_quality_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "情绪匹配",
+      "ratio": "16:9",
+      "seconds": "10",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/t2va/150401/video.mp4",
+          "bytes": 4792209,
+          "duration": 10.144,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150402",
+      "csv_row": 45,
+      "dimension": "15_audio_quality_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "情绪匹配",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206451895176139",
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150402/input_01.jpg",
+          "bytes": 618033,
+          "width": 1275,
+          "height": 991,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150402/video.mp4",
+          "bytes": 640311,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 928,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150403",
+      "csv_row": 46,
+      "dimension": "15_audio_quality_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "情绪匹配",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695207990164491245",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150403/input_01.jpg",
+          "bytes": 75141,
+          "width": 1280,
+          "height": 853,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695207996195949537",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150403/input_02.jpg",
+          "bytes": 72777,
+          "width": 604,
+          "height": 453,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150403/video.mp4",
+          "bytes": 1999947,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150501",
+      "csv_row": 47,
+      "dimension": "15_audio_quality_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "环境音",
+      "ratio": "16:9",
+      "seconds": "12",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/t2va/150501/video.mp4",
+          "bytes": 5636682,
+          "duration": 12.256,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150502",
+      "csv_row": 48,
+      "dimension": "15_audio_quality_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "环境音",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206492227767224",
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150502/input_01.jpg",
+          "bytes": 383446,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150502/video.mp4",
+          "bytes": 1805063,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150503",
+      "csv_row": 49,
+      "dimension": "15_audio_quality_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "环境音",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695594397446687732",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150503/input_01.jpg",
+          "bytes": 257156,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695594408447888353",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150503/input_02.jpg",
+          "bytes": 183789,
+          "width": 1024,
+          "height": 986,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150503/video.mp4",
+          "bytes": 5520778,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150601",
+      "csv_row": 50,
+      "dimension": "15_audio_quality_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "动作音效",
+      "ratio": "16:9",
+      "seconds": "4",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/t2va/150601/video.mp4",
+          "bytes": 642878,
+          "duration": 4.48,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150602",
+      "csv_row": 51,
+      "dimension": "15_audio_quality_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "动作音效",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206520392322005",
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150602/input_01.jpg",
+          "bytes": 209420,
+          "width": 1280,
+          "height": 999,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/f2va/150602/video.mp4",
+          "bytes": 298407,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 928,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "150603",
+      "csv_row": 52,
+      "dimension": "15_audio_quality_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "动作音效",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695590979336424412",
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150603/input_01.jpg",
+          "bytes": 131209,
+          "width": 1408,
+          "height": 768,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "15_audio_quality_control/r2va/150603/video.mp4",
+          "bytes": 2762437,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160101",
+      "csv_row": 53,
+      "dimension": "16_audio_visual_sync",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "口型同步",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/t2va/160101/video.mp4",
+          "bytes": 1324698,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160102",
+      "csv_row": 54,
+      "dimension": "16_audio_visual_sync",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "口型同步",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206545558195180",
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160102/input_01.jpg",
+          "bytes": 176311,
+          "width": 1280,
+          "height": 857,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160102/video.mp4",
+          "bytes": 1105929,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1088,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160103",
+      "csv_row": 55,
+      "dimension": "16_audio_visual_sync",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "口型同步",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962362042502093",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160103/input_01.jpg",
+          "bytes": 87840,
+          "width": 1280,
+          "height": 854,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695962371546467306",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160103/input_02.jpg",
+          "bytes": 46363,
+          "width": 512,
+          "height": 768,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160103/video.mp4",
+          "bytes": 1912942,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160201",
+      "csv_row": 56,
+      "dimension": "16_audio_visual_sync",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "动作音同步",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/t2va/160201/video.mp4",
+          "bytes": 3784477,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160202",
+      "csv_row": 57,
+      "dimension": "16_audio_visual_sync",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "动作音同步",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206572078730209",
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160202/input_01.jpg",
+          "bytes": 427649,
+          "width": 1280,
+          "height": 1920,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160202/video.mp4",
+          "bytes": 1330793,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 1088
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160203",
+      "csv_row": 58,
+      "dimension": "16_audio_visual_sync",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "动作音同步",
+      "ratio": "16:9",
+      "seconds": "12",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "input_03",
+        "input_04",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972012531961052",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160203/input_01.jpg",
+          "bytes": 33382,
+          "width": 685,
+          "height": 369,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7694972014607731908",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160203/input_02.jpg",
+          "bytes": 319308,
+          "width": 3104,
+          "height": 1408,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_03",
+          "kind": "image",
+          "file_id": "7694972011680910517",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160203/input_03.jpg",
+          "bytes": 24966,
+          "width": 622,
+          "height": 426,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_04",
+          "kind": "image",
+          "file_id": "7694972013370707142",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160203/input_04.jpg",
+          "bytes": 44701,
+          "width": 683,
+          "height": 349,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160203/video.mp4",
+          "bytes": 6950797,
+          "duration": 12.256,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160301",
+      "csv_row": 59,
+      "dimension": "16_audio_visual_sync",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "环境音同步",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/t2va/160301/video.mp4",
+          "bytes": 4338528,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160302",
+      "csv_row": 60,
+      "dimension": "16_audio_visual_sync",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "环境音同步",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962381860686798",
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160302/input_01.jpg",
+          "bytes": 95906,
+          "width": 1280,
+          "height": 854,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160302/video.mp4",
+          "bytes": 1652779,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1088,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160303",
+      "csv_row": 61,
+      "dimension": "16_audio_visual_sync",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "环境音同步",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972012695473346",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160303/input_01.jpg",
+          "bytes": 717113,
+          "width": 2624,
+          "height": 1472,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7694972011743939880",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160303/input_02.jpg",
+          "bytes": 361949,
+          "width": 1472,
+          "height": 2624,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160303/video.mp4",
+          "bytes": 2944124,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160401",
+      "csv_row": 62,
+      "dimension": "16_audio_visual_sync",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "多人对白匹配",
+      "ratio": "16:9",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/t2va/160401/video.mp4",
+          "bytes": 1656732,
+          "duration": 7.328,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160402",
+      "csv_row": 63,
+      "dimension": "16_audio_visual_sync",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "多人对白匹配",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206618237045697",
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160402/input_01.jpg",
+          "bytes": 718348,
+          "width": 1275,
+          "height": 972,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/f2va/160402/video.mp4",
+          "bytes": 1128761,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "160403",
+      "csv_row": 64,
+      "dimension": "16_audio_visual_sync",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "多人对白匹配",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972011366436058",
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160403/input_01.jpg",
+          "bytes": 385236,
+          "width": 2848,
+          "height": 1600,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "16_audio_visual_sync/r2va/160403/video.mp4",
+          "bytes": 1016960,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170101",
+      "csv_row": 65,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "人体畸变率",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170101/video.mp4",
+          "bytes": 2549658,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170102",
+      "csv_row": 66,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "人体畸变率",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208016416869338",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170102/input_01.png",
+          "bytes": 1400557,
+          "width": 1280,
+          "height": 906,
+          "format": "PNG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170102/video.mp4",
+          "bytes": 524227,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1024,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170103",
+      "csv_row": 67,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "人体畸变率",
+      "ratio": "9:16",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208042846636996",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170103/input_01.jpg",
+          "bytes": 402328,
+          "width": 1280,
+          "height": 1707,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695208047450672115",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170103/input_02.jpg",
+          "bytes": 158342,
+          "width": 956,
+          "height": 1598,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170103/video.mp4",
+          "bytes": 2391381,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170201",
+      "csv_row": 68,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "主体消失率",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170201/video.mp4",
+          "bytes": 1773797,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170202",
+      "csv_row": 69,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "主体消失率",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206654891051977",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170202/input_01.jpg",
+          "bytes": 386100,
+          "width": 1280,
+          "height": 1707,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170202/video.mp4",
+          "bytes": 733086,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 960
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170203",
+      "csv_row": 70,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "主体消失率",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962395608861648",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170203/input_01.jpg",
+          "bytes": 87054,
+          "width": 1280,
+          "height": 854,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695962405366385630",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170203/input_02.jpg",
+          "bytes": 35331,
+          "width": 666,
+          "height": 410,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170203/video.mp4",
+          "bytes": 2085431,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170301",
+      "csv_row": 71,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "主体复制率",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170301/video.mp4",
+          "bytes": 9985694,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170302",
+      "csv_row": 72,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "主体复制率",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206674356800495",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170302/input_01.jpg",
+          "bytes": 301820,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170302/video.mp4",
+          "bytes": 1965199,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170303",
+      "csv_row": 73,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "主体复制率",
+      "ratio": "9:16",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972015119338725",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170303/input_01.jpg",
+          "bytes": 154562,
+          "width": 1152,
+          "height": 2048,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170303/video.mp4",
+          "bytes": 3128357,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170401",
+      "csv_row": 74,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "属性漂移率",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170401/video.mp4",
+          "bytes": 2896874,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170402",
+      "csv_row": 75,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "属性漂移率",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206699430415322",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170402/input_01.jpg",
+          "bytes": 166108,
+          "width": 447,
+          "height": 570,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170402/video.mp4",
+          "bytes": 499112,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 928
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170403",
+      "csv_row": 76,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "属性漂移率",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972013920767159",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170403/input_01.jpg",
+          "bytes": 180021,
+          "width": 1333,
+          "height": 1333,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170403/video.mp4",
+          "bytes": 4160762,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170501",
+      "csv_row": 77,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "穿模问题",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170501/video.mp4",
+          "bytes": 6832784,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170502",
+      "csv_row": 78,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "穿模问题",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206720984976353",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170502/input_01.jpg",
+          "bytes": 121083,
+          "width": 1280,
+          "height": 853,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170502/video.mp4",
+          "bytes": 496753,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1088,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170503",
+      "csv_row": 79,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "穿模问题",
+      "ratio": "9:16",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972013068848309",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170503/input_01.jpg",
+          "bytes": 149361,
+          "width": 574,
+          "height": 1024,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170503/video.mp4",
+          "bytes": 2138680,
+          "duration": 7.328,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170601",
+      "csv_row": 80,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "镜头异常率",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170601/video.mp4",
+          "bytes": 1186180,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170602",
+      "csv_row": 81,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "镜头异常率",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208069634116577",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170602/input_01.jpg",
+          "bytes": 91439,
+          "width": 640,
+          "height": 480,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170602/video.mp4",
+          "bytes": 408852,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170603",
+      "csv_row": 82,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "镜头异常率",
+      "ratio": "9:16",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "input_03",
+        "input_04",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694972012385553624",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170603/input_01.jpg",
+          "bytes": 314228,
+          "width": 1280,
+          "height": 2278,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7694972013370608838",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170603/input_02.jpg",
+          "bytes": 440091,
+          "width": 1600,
+          "height": 2848,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_03",
+          "kind": "image",
+          "file_id": "7694977215745838048",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170603/input_03.jpg",
+          "bytes": 486508,
+          "width": 1600,
+          "height": 2656,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_04",
+          "kind": "image",
+          "file_id": "7694972013903334331",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170603/input_04.jpg",
+          "bytes": 241899,
+          "width": 1728,
+          "height": 2304,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170603/video.mp4",
+          "bytes": 3241814,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170701",
+      "csv_row": 83,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "崩坏持续时间",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/t2va/170701/video.mp4",
+          "bytes": 746234,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170702",
+      "csv_row": 84,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "崩坏持续时间",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206756615556024",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170702/input_01.jpg",
+          "bytes": 276382,
+          "width": 1280,
+          "height": 720,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/f2va/170702/video.mp4",
+          "bytes": 2935498,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "170703",
+      "csv_row": 85,
+      "dimension": "17_failure_anomaly_control",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "崩坏持续时间",
+      "ratio": "21:9",
+      "seconds": "12",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694977234203331553",
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170703/input_01.jpg",
+          "bytes": 339590,
+          "width": 4000,
+          "height": 1703,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "17_failure_anomaly_control/r2va/170703/video.mp4",
+          "bytes": 4920957,
+          "duration": 12.256,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1470,
+          "height": 630
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180101",
+      "csv_row": 86,
+      "dimension": "18_text_visual_consistency",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "文字内容准确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/t2va/180101/video.mp4",
+          "bytes": 4872791,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180102",
+      "csv_row": 87,
+      "dimension": "18_text_visual_consistency",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "文字内容准确性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208090852936682",
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180102/input_01.jpg",
+          "bytes": 300183,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180102/video.mp4",
+          "bytes": 1271275,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180103",
+      "csv_row": 88,
+      "dimension": "18_text_visual_consistency",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "文字内容准确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695594417446226900",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180103/input_01.jpg",
+          "bytes": 130790,
+          "width": 1280,
+          "height": 721,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695594427687259073",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180103/input_02.jpg",
+          "bytes": 132332,
+          "width": 640,
+          "height": 538,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180103/video.mp4",
+          "bytes": 4626281,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180201",
+      "csv_row": 89,
+      "dimension": "18_text_visual_consistency",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "字幕内容完整性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/t2va/180201/video.mp4",
+          "bytes": 2221206,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180202",
+      "csv_row": 90,
+      "dimension": "18_text_visual_consistency",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "字幕内容完整性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206785543736289",
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180202/input_01.jpg",
+          "bytes": 252937,
+          "width": 1280,
+          "height": 1027,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180202/video.mp4",
+          "bytes": 1705147,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 896,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180203",
+      "csv_row": 91,
+      "dimension": "18_text_visual_consistency",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "字幕内容完整性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695594438181571514",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180203/input_01.jpg",
+          "bytes": 219944,
+          "width": 1280,
+          "height": 720,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695594446910065633",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180203/input_02.jpg",
+          "bytes": 217170,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180203/video.mp4",
+          "bytes": 2531707,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180301",
+      "csv_row": 92,
+      "dimension": "18_text_visual_consistency",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "字体与文字可读性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/t2va/180301/video.mp4",
+          "bytes": 1857219,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180302",
+      "csv_row": 93,
+      "dimension": "18_text_visual_consistency",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "字体与文字可读性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206805827455931",
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180302/input_01.jpg",
+          "bytes": 403722,
+          "width": 1280,
+          "height": 996,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180302/video.mp4",
+          "bytes": 2125810,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 928,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180303",
+      "csv_row": 94,
+      "dimension": "18_text_visual_consistency",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "字体与文字可读性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695594459458866121",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180303/input_01.jpg",
+          "bytes": 517767,
+          "width": 1280,
+          "height": 964,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695594465436519390",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180303/input_02.jpg",
+          "bytes": 303282,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180303/video.mp4",
+          "bytes": 5727794,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180401",
+      "csv_row": 95,
+      "dimension": "18_text_visual_consistency",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "文字时序稳定性",
+      "ratio": "16:9",
+      "seconds": "12",
+      "size": "1080P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/t2va/180401/video.mp4",
+          "bytes": 19436116,
+          "duration": 12.25,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180402",
+      "csv_row": 96,
+      "dimension": "18_text_visual_consistency",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "文字时序稳定性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206830267534266",
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180402/input_01.jpg",
+          "bytes": 77906,
+          "width": 640,
+          "height": 480,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/f2va/180402/video.mp4",
+          "bytes": 961191,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180403",
+      "csv_row": 97,
+      "dimension": "18_text_visual_consistency",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "文字时序稳定性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206865892314074",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180403/input_01.jpg",
+          "bytes": 713171,
+          "width": 1280,
+          "height": 1920,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695207701940325352",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180403/input_02.jpg",
+          "bytes": 488960,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180403/video.mp4",
+          "bytes": 2569264,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180501",
+      "csv_row": 98,
+      "dimension": "18_text_visual_consistency",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "无要求字幕控制",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/t2va/180501/video.mp4",
+          "bytes": 4142155,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180502",
+      "csv_row": 99,
+      "dimension": "18_text_visual_consistency",
+      "mode": "fl2va",
+      "source_mode": "first_and_last_frame",
+      "subdimension": "无要求字幕控制",
+      "ratio": "16:9",
+      "seconds": "12",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694977322990799820",
+          "status": "ready",
+          "path": "18_text_visual_consistency/fl2va/180502/input_01.jpg",
+          "bytes": 265934,
+          "width": 1672,
+          "height": 941,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7694977333761657796",
+          "status": "ready",
+          "path": "18_text_visual_consistency/fl2va/180502/input_02.jpg",
+          "bytes": 268936,
+          "width": 1672,
+          "height": 941,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/fl2va/180502/video.mp4",
+          "bytes": 4447239,
+          "duration": 12.25,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "180503",
+      "csv_row": 100,
+      "dimension": "18_text_visual_consistency",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "无要求字幕控制",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208111879195596",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180503/input_01.jpg",
+          "bytes": 420580,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695208119558966241",
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180503/input_02.jpg",
+          "bytes": 273926,
+          "width": 1280,
+          "height": 852,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "18_text_visual_consistency/r2va/180503/video.mp4",
+          "bytes": 9255258,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "190101",
+      "csv_row": 101,
+      "dimension": "19_time_cost",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "视频生成耗时",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "19_time_cost/t2va/190101/video.mp4",
+          "bytes": 3801487,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "190102",
+      "csv_row": 102,
+      "dimension": "19_time_cost",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "视频生成耗时",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208147052465140",
+          "status": "ready",
+          "path": "19_time_cost/f2va/190102/input_01.jpg",
+          "bytes": 167511,
+          "width": 1280,
+          "height": 1098,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "19_time_cost/f2va/190102/video.mp4",
+          "bytes": 365082,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 832,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "190103",
+      "csv_row": 103,
+      "dimension": "19_time_cost",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "视频生成耗时",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "19_time_cost/r2va/190103/video.mp4",
+          "bytes": 1830838,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200101",
+      "csv_row": 104,
+      "dimension": "20_performance_emotion",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "情绪表达准确性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/t2va/200101/video.mp4",
+          "bytes": 1286969,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200102",
+      "csv_row": 105,
+      "dimension": "20_performance_emotion",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "情绪表达准确性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962414517324764",
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200102/input_01.jpg",
+          "bytes": 120884,
+          "width": 854,
+          "height": 1280,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200102/video.mp4",
+          "bytes": 1297734,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 1088
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200103",
+      "csv_row": 106,
+      "dimension": "20_performance_emotion",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "情绪表达准确性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694977369035115451",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200103/input_01.jpg",
+          "bytes": 78098,
+          "width": 693,
+          "height": 390,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200103/video.mp4",
+          "bytes": 2321042,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200201",
+      "csv_row": 107,
+      "dimension": "20_performance_emotion",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "表情变化自然性",
+      "ratio": "16:9",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/t2va/200201/video.mp4",
+          "bytes": 1063834,
+          "duration": 7.328,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200202",
+      "csv_row": 108,
+      "dimension": "20_performance_emotion",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "表情变化自然性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206941630532540",
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200202/input_01.jpg",
+          "bytes": 150033,
+          "width": 1135,
+          "height": 1536,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200202/video.mp4",
+          "bytes": 243896,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 960
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200203",
+      "csv_row": 109,
+      "dimension": "20_performance_emotion",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "表情变化自然性",
+      "ratio": "9:16",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694977382541216720",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200203/input_01.jpg",
+          "bytes": 195963,
+          "width": 768,
+          "height": 1024,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200203/video.mp4",
+          "bytes": 3544674,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200301",
+      "csv_row": 110,
+      "dimension": "20_performance_emotion",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "视线与注意力",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/t2va/200301/video.mp4",
+          "bytes": 3289082,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200302",
+      "csv_row": 111,
+      "dimension": "20_performance_emotion",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "视线与注意力",
+      "ratio": "9:16",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695206965097630676",
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200302/input_01.jpg",
+          "bytes": 389346,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200302/video.mp4",
+          "bytes": 2019848,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 960,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200303",
+      "csv_row": 112,
+      "dimension": "20_performance_emotion",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "视线与注意力",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208178524163017",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200303/input_01.jpg",
+          "bytes": 199692,
+          "width": 1280,
+          "height": 970,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695208186630015968",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200303/input_02.jpg",
+          "bytes": 67389,
+          "width": 1280,
+          "height": 960,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200303/video.mp4",
+          "bytes": 1479293,
+          "duration": 6.592,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200401",
+      "csv_row": 113,
+      "dimension": "20_performance_emotion",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "微动作自然性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/t2va/200401/video.mp4",
+          "bytes": 1320543,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200402",
+      "csv_row": 114,
+      "dimension": "20_performance_emotion",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "微动作自然性",
+      "ratio": "9:16",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695207000057105388",
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200402/input_01.jpg",
+          "bytes": 1230361,
+          "width": 1280,
+          "height": 1910,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200402/video.mp4",
+          "bytes": 1142615,
+          "duration": 6.583,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 1088
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200403",
+      "csv_row": 115,
+      "dimension": "20_performance_emotion",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "微动作自然性",
+      "ratio": "16:9",
+      "seconds": "6",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "input_01",
+        "input_02"
+      ],
+      "missing_output_url": true,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695962427896564687",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200403/input_01.jpg",
+          "bytes": 86689,
+          "width": 1280,
+          "height": 854,
+          "format": "JPEG"
+        },
+        {
+          "stem": "input_02",
+          "kind": "image",
+          "file_id": "7695962435082013658",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200403/input_02.jpg",
+          "bytes": 29754,
+          "width": 1152,
+          "height": 256,
+          "format": "JPEG"
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200501",
+      "csv_row": 116,
+      "dimension": "20_performance_emotion",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "反应时机合理性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/t2va/200501/video.mp4",
+          "bytes": 1386933,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200502",
+      "csv_row": 117,
+      "dimension": "20_performance_emotion",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "反应时机合理性",
+      "ratio": "16:9",
+      "seconds": "7",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695207021326502882",
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200502/input_01.jpg",
+          "bytes": 410323,
+          "width": 1280,
+          "height": 1052,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200502/video.mp4",
+          "bytes": 1637500,
+          "duration": 7.3,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 864,
+          "height": 704
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200503",
+      "csv_row": 118,
+      "dimension": "20_performance_emotion",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "反应时机合理性",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": true,
+      "expected": [
+        "ref_video_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "ref_video_01",
+          "kind": "reference_video",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200503/ref_video_01.mp4",
+          "bytes": 3423847,
+          "duration": 10.144,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 720,
+          "height": 1280
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200503/video.mp4",
+          "bytes": 2257562,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200601",
+      "csv_row": 119,
+      "dimension": "20_performance_emotion",
+      "mode": "t2va",
+      "source_mode": "text",
+      "subdimension": "台词与表演匹配",
+      "ratio": "16:9",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/t2va/200601/video.mp4",
+          "bytes": 1671372,
+          "duration": 5.184,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200602",
+      "csv_row": 120,
+      "dimension": "20_performance_emotion",
+      "mode": "f2va",
+      "source_mode": "first_frame",
+      "subdimension": "台词与表演匹配",
+      "ratio": "9:16",
+      "seconds": "5",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7695208214641200089",
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200602/input_01.jpg",
+          "bytes": 714675,
+          "width": 1280,
+          "height": 1947,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/f2va/200602/video.mp4",
+          "bytes": 2301420,
+          "duration": 5.175,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 704,
+          "height": 1088
+        }
+      ],
+      "ready": true
+    },
+    {
+      "case_id": "200603",
+      "csv_row": 121,
+      "dimension": "20_performance_emotion",
+      "mode": "r2va",
+      "source_mode": "reference",
+      "subdimension": "台词与表演匹配",
+      "ratio": "16:9",
+      "seconds": "8",
+      "size": "720P",
+      "prompt_adapted": false,
+      "expected": [
+        "input_01",
+        "video"
+      ],
+      "missing_output_url": false,
+      "media": [
+        {
+          "stem": "input_01",
+          "kind": "image",
+          "file_id": "7694977417697381304",
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200603/input_01.jpg",
+          "bytes": 1125088,
+          "width": 5079,
+          "height": 2856,
+          "format": "JPEG"
+        },
+        {
+          "stem": "video",
+          "kind": "target",
+          "file_id": null,
+          "status": "ready",
+          "path": "20_performance_emotion/r2va/200603/video.mp4",
+          "bytes": 3236490,
+          "duration": 8.0,
+          "has_audio": true,
+          "video_codec": "h264",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "ready": true
+    }
+  ]
+}

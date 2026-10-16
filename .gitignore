@@ -50,10 +50,10 @@ runs/
 wandb/
 tensorboard/
 
-# Model weights and checkpoints
+# Model weights and checkpoints. `models/` matches every models directory,
+# including serving/models.
 checkpoints/
 models/
-checkpoints/
 weights/
 *.pt
 *.pth
@@ -64,6 +64,15 @@ weights/
 *.pdmodel
 *.pdiparams
 *.pdiparams.info
+*.gguf
+*.engine
+*.plan
+*.msgpack
+*.mar
+*.tflite
+*.mlmodel
+serving/logs/
+*.pid
 
 # Case images stay on disk and are not pushed
 data/**/*.png
@@ -78,8 +87,17 @@ data/**/*.jpeg
 *.mp4
 *.avi
 *.mov
+*.webm
+*.mkv
+*.m4v
+*.ts
+*.gif
 *.wav
 *.flac
+*.mp3
+*.m4a
+*.aac
+*.ogg
 
 # Jupyter
 .ipynb_checkpoints/

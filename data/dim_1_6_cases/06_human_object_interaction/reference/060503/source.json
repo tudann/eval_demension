@@ -1,0 +1,22 @@
+{
+  "case_id": "060503",
+  "primary_dimension": "6. 人物与物体交互",
+  "secondary_id": "6.5",
+  "secondary_dimension": "6.5 食物与饮品交互",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/060503.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060503/01.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_02.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060503/02.jpeg"
+    }
+  ],
+  "video": null
+}

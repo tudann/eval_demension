@@ -9,7 +9,7 @@ from typing import Any
 
 import yaml
 
-from v_eval.cases import ConfigError, discover_cases
+from v_eval.cases import ConfigError, _prompt_reference_indices, discover_cases
 from v_eval.workflow import evaluate_case, prepare_case
 
 
@@ -114,6 +114,23 @@ def run_check(task: dict[str, Any]) -> list[Any]:
     return cases
 
 
+def missing_required_images(case: Any) -> list[str]:
+    """Return required condition images that are absent for image-conditioned modes."""
+    missing: list[str] = []
+    if case.mode in {"f2va", "fl2va"} and not case.first_frame:
+        missing.append("input_01 image")
+    if case.mode in {"l2va", "fl2va"} and not case.last_frame:
+        missing.append("last-frame image")
+    if case.mode == "r2va":
+        prompt = read_prompt_text(case) if case.prompt_path else ""
+        wants_images = bool(_prompt_reference_indices(prompt, "image"))
+        if wants_images and not case.reference_images:
+            missing.append("reference image")
+        elif not case.reference_images and not case.reference_videos and not case.reference_audios:
+            missing.append("reference image")
+    return missing
+
+
 def validate_cases_ready(cases: list[Any]) -> None:
     incomplete = []
     for case in cases:
@@ -122,15 +139,57 @@ def validate_cases_ready(cases: list[Any]) -> None:
             missing.append("prompt_final.txt (nonempty)")
         if not case.video_path:
             missing.append("video.mp4")
-        if case.mode in {"f2va", "fl2va"} and not case.first_frame:
-            missing.append("input_01 image")
-        if case.mode in {"l2va", "fl2va"} and not case.last_frame:
-            missing.append("last-frame image")
         if missing:
             incomplete.append(f"{case.output_id}: {', '.join(missing)}")
     if incomplete:
         preview = "; ".join(incomplete[:8])
         raise ConfigError(f"{len(incomplete)} incomplete case(s); {preview}")
+
+
+def partition_ready_cases(cases: list[Any]) -> tuple[list[Any], list[Any]]:
+    """Keep image-conditioned cases only when their required images exist."""
+    ready: list[Any] = []
+    skipped: list[Any] = []
+    for case in cases:
+        missing = missing_required_images(case)
+        if missing:
+            print(
+                f"check warning: {case.output_id} missing {', '.join(missing)}; skip evaluation",
+                flush=True,
+            )
+            skipped.append(case)
+            continue
+        ready.append(case)
+    if skipped:
+        print(
+            f"check: skip {len(skipped)} case(s) without required images; evaluate {len(ready)}",
+            flush=True,
+        )
+    return ready, skipped
+
+
+def write_skipped_image_results(task: dict[str, Any], cases: list[Any]) -> list[dict[str, Any]]:
+    """Persist skipped image-conditioned cases so summary counts them as unscored."""
+    results: list[dict[str, Any]] = []
+    dimension = str(task["dimension"])
+    for case in cases:
+        missing = missing_required_images(case)
+        reason = f"missing required images: {', '.join(missing)}"
+        result = {
+            "case_id": case.output_id,
+            "source_case_id": case.case_id,
+            "input_id": case.task_id,
+            "dimension": dimension,
+            "status": "skipped_missing_image",
+            "score": None,
+            "reason": reason,
+            "case": case.as_dict(),
+        }
+        out_root = output_base(task) / dimension / case.output_id
+        write_json(out_root / "result.json", result)
+        results.append(result)
+        print(f"skip: {case.output_id} ({reason})", flush=True)
+    return results
 
 
 def read_prompt_text(case: Any) -> str:
@@ -207,6 +266,7 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
             "n": len(mode_rows),
             "scored": len(mode_scores),
             "skipped": sum(row.get("score") is None for row in mode_rows),
+            "skipped_missing_image": sum(row.get("status") == "skipped_missing_image" for row in mode_rows),
             "gate_failed": sum(row.get("status") == "gate_failed" for row in mode_rows),
             "mean_score": round(sum(mode_scores) / len(mode_scores), 3) if mode_scores else None,
         }
@@ -216,6 +276,7 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
         "n": len(results),
         "scored": len(scored),
         "skipped": sum(row.get("score") is None for row in results),
+        "skipped_missing_image": sum(row.get("status") == "skipped_missing_image" for row in results),
         "gate_failed": sum(row.get("status") == "gate_failed" for row in results),
         "mean_score": round(sum(scores) / len(scores), 3) if scores else None,
         "min_score": min(scores) if scores else None,
@@ -225,14 +286,20 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
     write_json(base / "summary.json", summary)
     (base / "per_case.jsonl").write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in results), encoding="utf-8")
     mode_lines = "".join(
-        f"- {mode}: {row['scored']}/{row['n']} scored, mean {row['mean_score']} / 5\n"
+        f"- {mode}: {row['scored']}/{row['n']} scored, skip_image {row['skipped_missing_image']}, mean {row['mean_score']} / 5\n"
         for mode, row in per_mode.items()
     )
     (base / "summary.md").write_text(
-        f"# {dimension}\n\n- Cases: {summary['n']}\n- Scored: {summary['scored']}\n- Gate failed: {summary['gate_failed']}\n- Mean score: {summary['mean_score']} / 5\n\n## By input mode\n\n{mode_lines}",
+        f"# {dimension}\n\n- Cases: {summary['n']}\n- Scored: {summary['scored']}\n"
+        f"- Skipped missing image: {summary['skipped_missing_image']}\n"
+        f"- Gate failed: {summary['gate_failed']}\n- Mean score: {summary['mean_score']} / 5\n\n"
+        f"## By input mode\n\n{mode_lines}",
         encoding="utf-8",
     )
-    print(f"score: mean={summary['mean_score']} scored={summary['scored']} gate_failed={summary['gate_failed']}")
+    print(
+        f"score: mean={summary['mean_score']} scored={summary['scored']} "
+        f"skipped_missing_image={summary['skipped_missing_image']} gate_failed={summary['gate_failed']}"
+    )
     return summary
 
 
@@ -251,12 +318,19 @@ def main(argv: list[str] | None = None) -> int:
         cases = run_check(task) if "check" in stages else discover_cases(task)
         if not cases and any(stage in stages for stage in ("checklist", "evaluate", "score")):
             raise ConfigError(f"no cases found for {task['dimension']}; add case directories before evaluating")
+        ready_cases, skipped_image_cases = partition_ready_cases(cases)
         if any(stage in stages for stage in ("checklist", "evaluate")):
-            validate_cases_ready(cases)
-        if "checklist" in stages:
-            run_checklist(task, dims, cases, args.force)
+            validate_cases_ready(ready_cases)
+        if not ready_cases and skipped_image_cases and any(stage in stages for stage in ("checklist", "evaluate", "score")):
+            print("check warning: every discovered case is missing required images; nothing to evaluate", flush=True)
+        if "checklist" in stages and ready_cases:
+            run_checklist(task, dims, ready_cases, args.force)
+        evaluated: list[dict[str, Any]] = []
         if "evaluate" in stages:
-            run_evaluate(task, dims, cases, args.force)
+            if ready_cases:
+                evaluated.extend(run_evaluate(task, dims, ready_cases, args.force))
+            if skipped_image_cases:
+                evaluated.extend(write_skipped_image_results(task, skipped_image_cases))
         if "score" in stages:
             run_score(task, cases)
         return 0

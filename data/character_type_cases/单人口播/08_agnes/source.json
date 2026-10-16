@@ -1,0 +1,20 @@
+{
+  "case_id": "08_agnes",
+  "character_type": "单人口播",
+  "model": "agnes",
+  "source_filename": "agnes单人口播08.mp4",
+  "media": [
+    {
+      "stem": "video",
+      "kind": "target",
+      "status": "ready",
+      "path": "character_type_cases/单人口播/08_agnes/video.mp4",
+      "bytes": 2687319,
+      "duration": 7.328,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280
+    }
+  ]
+}

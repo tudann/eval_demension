@@ -1,0 +1,71 @@
+{
+  "case_id": "160203",
+  "csv_row": 58,
+  "evaluation_dimension": "16_audio_visual_sync",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "动作音同步",
+  "ratio": "16:9",
+  "seconds": "12",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7694972012531961052",
+      "status": "ready",
+      "path": "16_audio_visual_sync/r2va/160203/input_01.jpg",
+      "bytes": 33382,
+      "width": 685,
+      "height": 369,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_02",
+      "kind": "image",
+      "file_id": "7694972014607731908",
+      "status": "ready",
+      "path": "16_audio_visual_sync/r2va/160203/input_02.jpg",
+      "bytes": 319308,
+      "width": 3104,
+      "height": 1408,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_03",
+      "kind": "image",
+      "file_id": "7694972011680910517",
+      "status": "ready",
+      "path": "16_audio_visual_sync/r2va/160203/input_03.jpg",
+      "bytes": 24966,
+      "width": 622,
+      "height": 426,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_04",
+      "kind": "image",
+      "file_id": "7694972013370707142",
+      "status": "ready",
+      "path": "16_audio_visual_sync/r2va/160203/input_04.jpg",
+      "bytes": 44701,
+      "width": 683,
+      "height": 349,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "16_audio_visual_sync/r2va/160203/agnes.mp4",
+      "bytes": 6950797,
+      "duration": 12.256,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "model": "agnes"
+    }
+  ]
+}

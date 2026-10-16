@@ -1,0 +1,42 @@
+{
+  "case_id": "060203",
+  "primary_dimension": "6. 人物与物体交互",
+  "secondary_id": "6.2",
+  "secondary_dimension": "6.2 抓握合理性",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/060203.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060203/01.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_02.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060203/02.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_03.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060203/03.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_04.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060203/04.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_05.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060203/05.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_06.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060203/06.jpeg"
+    }
+  ],
+  "video": null
+}

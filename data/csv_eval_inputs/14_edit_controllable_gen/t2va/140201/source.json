@@ -1,0 +1,27 @@
+{
+  "case_id": "140201",
+  "csv_row": 20,
+  "evaluation_dimension": "14_edit_controllable_gen",
+  "evaluation_mode": "t2va",
+  "source_subdimension": "非目标区域保持",
+  "ratio": "16:9",
+  "seconds": "5",
+  "size": "720P",
+  "prompt_reference_legend": false,
+  "media": [
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "14_edit_controllable_gen/t2va/140201/agnes.mp4",
+      "bytes": 1134547,
+      "duration": 5.184,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "model": "agnes"
+    }
+  ]
+}

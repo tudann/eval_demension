@@ -1,0 +1,35 @@
+{
+  "case_id": "200403",
+  "csv_row": 115,
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "微动作自然性",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7695962427896564687",
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200403/input_01.jpg",
+      "bytes": 86689,
+      "width": 1280,
+      "height": 854,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_02",
+      "kind": "image",
+      "file_id": "7695962435082013658",
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200403/input_02.jpg",
+      "bytes": 29754,
+      "width": 1152,
+      "height": 256,
+      "format": "JPEG"
+    }
+  ]
+}

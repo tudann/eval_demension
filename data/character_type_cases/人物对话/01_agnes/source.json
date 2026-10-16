@@ -1,0 +1,20 @@
+{
+  "case_id": "01_agnes",
+  "character_type": "人物对话",
+  "model": "agnes",
+  "source_filename": "agnes人物对话01.mp4",
+  "media": [
+    {
+      "stem": "video",
+      "kind": "target",
+      "status": "ready",
+      "path": "character_type_cases/人物对话/01_agnes/video.mp4",
+      "bytes": 2959185,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280
+    }
+  ]
+}

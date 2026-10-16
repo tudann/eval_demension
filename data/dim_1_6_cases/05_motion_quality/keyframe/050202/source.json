@@ -1,0 +1,17 @@
+{
+  "case_id": "050202",
+  "primary_dimension": "5. 动作质量",
+  "secondary_id": "5.2",
+  "secondary_dimension": "5.2 动作流畅性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/050202.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/050202/01.jpeg"
+    }
+  ],
+  "video": null
+}

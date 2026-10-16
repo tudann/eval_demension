@@ -1,0 +1,22 @@
+{
+  "case_id": "020602",
+  "primary_dimension": "2. 视觉质量",
+  "secondary_id": "2.6",
+  "secondary_dimension": "2.6 视觉伪影",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/020602.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/020602/01.png"
+    },
+    {
+      "role": "source_keyframe_2",
+      "file": "input_02.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/020602/02.png"
+    }
+  ],
+  "video": null
+}

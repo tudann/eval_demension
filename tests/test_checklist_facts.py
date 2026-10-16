@@ -157,7 +157,9 @@ class ChecklistFactAliasTests(unittest.TestCase):
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
         self.assertEqual(len(checklist["items"]), 1)
         payload["items"].append(_item(2, "style_accuracy", "另一种风格问法？"))
-        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
+        deduped = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
+        self.assertIsNotNone(deduped)
+        self.assertEqual([item["id"] for item in deduped["items"]], ["q1"])
         payload["items"] = [{"id": "i1", "subpoint": "style_accuracy", "question": "是否写实？", "kind": "yes_no", "expect": "yes"}]
         self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
 

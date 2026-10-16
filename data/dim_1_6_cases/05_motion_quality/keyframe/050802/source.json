@@ -1,0 +1,11 @@
+{
+  "case_id": "050802",
+  "primary_dimension": "5. 动作质量",
+  "secondary_id": "5.8",
+  "secondary_dimension": "5.8 高动态运动能力",
+  "mode": "keyframe",
+  "prompt_complete": false,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/050802.txt",
+  "images": [],
+  "video": null
+}

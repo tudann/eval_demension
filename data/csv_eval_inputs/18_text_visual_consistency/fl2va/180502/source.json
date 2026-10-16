@@ -1,0 +1,49 @@
+{
+  "case_id": "180502",
+  "csv_row": 99,
+  "evaluation_dimension": "18_text_visual_consistency",
+  "evaluation_mode": "fl2va",
+  "source_subdimension": "无要求字幕控制",
+  "ratio": "16:9",
+  "seconds": "12",
+  "size": "720P",
+  "prompt_reference_legend": false,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7694977322990799820",
+      "status": "ready",
+      "path": "18_text_visual_consistency/fl2va/180502/input_01.jpg",
+      "bytes": 265934,
+      "width": 1672,
+      "height": 941,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_02",
+      "kind": "image",
+      "file_id": "7694977333761657796",
+      "status": "ready",
+      "path": "18_text_visual_consistency/fl2va/180502/input_02.jpg",
+      "bytes": 268936,
+      "width": 1672,
+      "height": 941,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "18_text_visual_consistency/fl2va/180502/agnes.mp4",
+      "bytes": 4447239,
+      "duration": 12.25,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 704,
+      "model": "agnes"
+    }
+  ]
+}

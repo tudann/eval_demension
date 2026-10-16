@@ -33,8 +33,11 @@ _ANSWER_RUBRIC = (
     "expect no means the named problem is fully absent. "
     "For a rubric_5 item, 5 means the requirement written in the question is fully achieved. "
     "Score multiple-choice items on the same 1-5 scale; do not return an option id. "
-    "Return only JSON with gates and answers. Each answer object contains id and score. "
-    "Gates still use an answer of yes or no. Omit an item only when the media cannot support a score."
+    "Return only JSON with gates and answers. "
+    "Each gate object contains id, answer, and 回答依据. The answer is the string yes or no. "
+    "Each answer object contains id, score, and 回答依据. The score is an integer from 1 to 5. "
+    "回答依据 is one short sentence that cites what is visible or audible, including a media timestamp when the frames supply one. "
+    "Do not leave 回答依据 empty. Omit an item only when the media cannot support a score."
 )
 
 _CHECKLIST_STRATEGIES: dict[str, str] = {
@@ -300,13 +303,15 @@ def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: 
         if normalized is None or normalized["kind"] != RUBRIC_KIND:
             return None
         if normalized["subpoint"] in seen_subpoints:
-            return None
+            # Keep the first question for each subpoint; later duplicates are dropped.
+            continue
         subpoint_cfg = subpoints[normalized["subpoint"]]
         if not evaluate_applies(subpoint_cfg.get("applies"), facts, case):
-            return None
+            # Drop invented questions for subpoints that do not apply to this case.
+            continue
         question_key = re.sub(r"[\W_]+", "", normalized["question"].casefold())
         if normalized["id"] in seen_ids or not question_key or question_key in seen_questions:
-            return None
+            continue
         seen_ids.add(normalized["id"])
         seen_questions.add(question_key)
         seen_subpoints.add(normalized["subpoint"])
@@ -314,6 +319,8 @@ def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: 
         if core_count > CHECKLIST_MAX_CORE_ITEMS:
             return None
         normalized_items.append(normalized)
+    if not CHECKLIST_MIN_ITEMS <= len(normalized_items) <= CHECKLIST_MAX_ITEMS:
+        return None
     return normalized_items
 
 
@@ -515,7 +522,7 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
     content = build_judge_content(prompt, request_payload, case, judge.modality,
                                   media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0",
                                   allow_media=False)
-    response = judge.complete(
+    system = (
         f"For {dimension}, understand only what the prompt requests and return JSON with facts, gates, and items. "
         "Generate all gates and case-specific items; do not inspect or judge the generated media. "
         "Every item must use an allowed subpoint and preserve all allowed gate ids. "
@@ -525,14 +532,26 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         "Facts describe requested requirements, not observed output. Use booleans or yes/no consistently for fact values. "
         f"Fact schema: {_FACT_SCHEMAS.get(dimension, '')} "
         "Do not return markdown. "
-        f"Dimension-specific strategy: {_CHECKLIST_STRATEGIES.get(dimension, '')}",
-        content,
-        max_tokens=6000,
+        f"Dimension-specific strategy: {_CHECKLIST_STRATEGIES.get(dimension, '')}"
     )
+    response = judge.complete(system, content, max_tokens=6000)
     if response.get("status") != "ok":
         raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
     parsed = _parse_json_response(response.get("response"))
     normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
+    if normalized is None:
+        from .eval_log import log_event
+        log_event("checklist", "清单未通过校验，使用 temperature=0.4 重出一次", case_id=case.case_id)
+        response = judge.complete(
+            system + " Your previous JSON was rejected. Use each subpoint at most once, keep at most 3 core items, and return only valid JSON.",
+            content,
+            temperature=0.4,
+            max_tokens=6000,
+        )
+        if response.get("status") != "ok":
+            raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
+        parsed = _parse_json_response(response.get("response"))
+        normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
     if normalized is None:
         raw = _response_content(response.get("response"))
         preview = str(raw)[:2000].replace("\n", " ")
@@ -556,11 +575,59 @@ def _judge_modality(dimension: str) -> str:
     raise ConfigError(f"unsupported judge dimension: {dimension}")
 
 
+def _answer_basis(row: dict[str, Any]) -> str:
+    for key in ("回答依据", "basis", "evidence", "reason"):
+        value = row.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return ""
+
+
+def _with_basis(rows: list[Any]) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        item = dict(row)
+        item["回答依据"] = _answer_basis(item)
+        normalized.append(item)
+    return normalized
+
+
+def _normalize_gate_answers(gates: Any) -> list[dict[str, Any]]:
+    if isinstance(gates, dict):
+        gates = [{"id": key, "answer": value} for key, value in gates.items()]
+    if isinstance(gates, list):
+        return _with_basis(gates)
+    return []
+
+
 def _parse_judge_payload(payload: Any) -> dict[str, Any] | None:
     parsed = _parse_json_response(payload)
-    if isinstance(parsed, dict) and isinstance(parsed.get("answers"), list):
-        return {"answers": parsed["answers"], "gates": parsed.get("gates", [])}
+    if not isinstance(parsed, dict):
+        return None
+    answers = parsed.get("answers")
+    if not isinstance(answers, list):
+        answers = parsed.get("items")
+    if isinstance(answers, list):
+        return {"answers": _with_basis(answers), "gates": _normalize_gate_answers(parsed.get("gates", []))}
     return None
+
+
+def _log_answer_basis(parsed: dict[str, Any]) -> None:
+    from .eval_log import log_event
+
+    for gate in parsed.get("gates") or []:
+        if isinstance(gate, dict):
+            log_event("judge", f"门槛 {gate.get('id')}", answer=gate.get("answer"), 回答依据=gate.get("回答依据") or "")
+    for row in parsed.get("answers") or []:
+        if isinstance(row, dict):
+            log_event("judge", f"检查题 {row.get('id')}", score=row.get("score"), 回答依据=row.get("回答依据") or "")
+
+
+def _missing_answer_basis(parsed: dict[str, Any]) -> bool:
+    rows = [*(parsed.get("gates") or []), *(parsed.get("answers") or [])]
+    return any(isinstance(row, dict) and not str(row.get("回答依据") or "").strip() for row in rows)
 
 
 def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: JudgeClient,
@@ -574,21 +641,35 @@ def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: 
         except MediaPreparationError as exc:
             return {"status": "media_error", "source": "judge", "model": judge.model,
                     "error": str(exc), "answers": [], "gates": []}
-        response = judge.complete(
+        system = (
             "Answer every supplied gate, and score every checklist item, only when the attached target media contains enough evidence. "
             "Never infer a score from the prompt alone. "
             f"{_ANSWER_RUBRIC} "
-            "Use the supplied exact media timestamps in concise evidence when possible.",
-            content,
-            max_tokens=4096,
+            "Use the supplied exact media timestamps in concise evidence when possible. "
+            "The JSON object must use the keys gates and answers. "
+            "Every gate and every answer must include a non-empty 回答依据."
         )
+        response = judge.complete(system, content, max_tokens=4096)
         if response.get("status") == "ok":
             parsed = _parse_judge_payload(response.get("response"))
-            if parsed is not None:
+            if parsed is None or _missing_answer_basis(parsed):
+                from .eval_log import log_event
+                reason = "作答 JSON 无法解析" if parsed is None else "作答缺少回答依据"
+                log_event("judge", f"{reason}，使用 temperature=0.4 重试一次")
+                response = judge.complete(
+                    system + " Your previous response was rejected. Return only one JSON object, and every gate and answer must include a non-empty 回答依据.",
+                    content,
+                    temperature=0.4,
+                    max_tokens=4096,
+                )
+                parsed = _parse_judge_payload(response.get("response")) if response.get("status") == "ok" else None
+            if parsed is not None and response.get("status") == "ok":
+                _log_answer_basis(parsed)
                 return {"status": "ok", "source": "judge", "model": judge.model,
                         "raw": response.get("response"), **parsed}
+            preview = str(_response_content(response.get("response")))[:2000].replace("\n", " ")
             return {"status": "error", "source": "judge", "model": judge.model,
-                    "error": "judge response was not valid checklist JSON", "answers": [], "gates": []}
+                    "error": f"judge response was not valid checklist JSON: {preview}", "answers": [], "gates": []}
         return {"status": "error", "source": "judge", "model": judge.model,
                 "error": response.get("error"), "answers": [], "gates": []}
     raise ConfigError(f"{dimension} answer judge endpoint is not configured")

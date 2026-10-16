@@ -1,0 +1,27 @@
+{
+  "case_id": "200401",
+  "csv_row": 113,
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "t2va",
+  "source_subdimension": "微动作自然性",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_reference_legend": false,
+  "media": [
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "20_performance_emotion/t2va/200401/agnes.mp4",
+      "bytes": 1320543,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "model": "agnes"
+    }
+  ]
+}

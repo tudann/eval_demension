@@ -14,6 +14,7 @@ import math
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import tempfile
 import zipfile
@@ -95,15 +96,33 @@ def extract_frame(video: Path | None, seconds: float = 0.0) -> Path | None:
     return temp
 
 
-def video_frames(video: Path | None, count: int = 16) -> list[Path]:
+def sampled_video_frames(video: Path | None, count: int = 16) -> list[tuple[float, Path]]:
     if not video or not video.is_file():
         return []
     duration = _ffprobe_duration(video)
     if duration is None or duration <= 0:
         frame = extract_frame(video)
-        return [frame] if frame else []
+        return [(0.0, frame)] if frame else []
     timestamps = [0.0] if count <= 1 else [duration * i / (count - 1) for i in range(count)]
-    return [frame for timestamp in timestamps if (frame := extract_frame(video, timestamp)) is not None]
+    samples: list[tuple[float, Path]] = []
+    for timestamp in timestamps:
+        frame = extract_frame(video, timestamp)
+        if frame is not None:
+            samples.append((timestamp, frame))
+    return samples
+
+
+def video_frames(video: Path | None, count: int = 16) -> list[Path]:
+    return [path for _, path in sampled_video_frames(video, count)]
+
+
+def _feature_tensor(output: Any) -> Any:
+    """Normalize CLIP image features across transformers versions."""
+    if hasattr(output, "pooler_output") and output.pooler_output is not None:
+        return output.pooler_output
+    if hasattr(output, "image_embeds") and output.image_embeds is not None:
+        return output.image_embeds
+    return output
 
 
 def extract_audio(video: Path | None, sample_rate: int = 16000) -> Path | None:
@@ -128,9 +147,74 @@ def extract_audio(video: Path | None, sample_rate: int = 16000) -> Path | None:
     return temp
 
 
+def _stage_local_model(source: Path) -> Path:
+    """Copy a model off the shared filesystem once, so later loads are not silent multi-minute reads."""
+    cache_root = Path(os.getenv("V_EVAL_LOCAL_CACHE", "/var/tmp/v_eval_models"))
+    dest = cache_root / source.name
+    marker = dest / ".staged_from"
+    signature = str(source.resolve())
+    if marker.is_file() and marker.read_text(encoding="utf-8").strip() == signature and any(dest.glob("*.safetensors")):
+        return dest
+    try:
+        dest.mkdir(parents=True, exist_ok=True)
+        probe = dest / ".write_probe"
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink()
+    except OSError:
+        return source
+    from .eval_log import wait_log
+
+    with wait_log("numeric", f"复制 {source.name} 到本地缓存", source=str(source), dest=str(dest)):
+        for item in source.iterdir():
+            if item.name in {".staged_from", ".write_probe"}:
+                continue
+            if item.name == "pytorch_model.bin" and (source / "model.safetensors").is_file():
+                continue
+            target = dest / item.name
+            if item.is_dir():
+                shutil.copytree(item, target, dirs_exist_ok=True)
+                continue
+            if target.is_file() and target.stat().st_size == item.stat().st_size:
+                continue
+            shutil.copy2(item, target)
+        marker.write_text(signature, encoding="utf-8")
+    return dest
+
+
+def _clip_device() -> str:
+    """Place D13 CLIP on GPU 3 beside the vision judge, unless that GPU is hidden or full."""
+    requested = os.getenv("V_EVAL_CLIP_DEVICE", "cuda:3").strip() or "cuda:3"
+    if requested.lower() == "cpu":
+        return "cpu"
+    torch, error = _optional_import("torch", "torch")
+    if error or not torch.cuda.is_available():
+        return "cpu"
+    index = int(requested.split(":")[-1]) if ":" in requested else 0
+    if index < torch.cuda.device_count():
+        return f"cuda:{index}"
+    return "cpu"
+
+
+def _clip_inputs(processor: Any, images: list[Any], device: str, dtype: Any) -> dict[str, Any]:
+    import torch
+
+    batch = processor(images=images, return_tensors="pt")
+    moved: dict[str, Any] = {}
+    for key, value in batch.items():
+        if not hasattr(value, "to"):
+            moved[key] = value
+        elif torch.is_floating_point(value):
+            moved[key] = value.to(device=device, dtype=dtype)
+        else:
+            moved[key] = value.to(device=device)
+    return moved
+
+
 def _load_clip() -> tuple[Any | None, Any | None, str | None]:
     if "clip" in _CACHE:
         return (*_CACHE["clip"], None)
+    from .eval_log import log_event, wait_log
+
     transformers, error = _optional_import("transformers", "transformers")
     if error:
         return None, None, error
@@ -138,48 +222,79 @@ def _load_clip() -> tuple[Any | None, Any | None, str | None]:
     if not local.is_dir():
         return None, None, f"model directory not found: {local}"
     try:
-        processor = transformers.CLIPProcessor.from_pretrained(str(local), local_files_only=True)
-        model = transformers.CLIPModel.from_pretrained(str(local), local_files_only=True)
-        model.eval()
+        import torch
+
+        local = _stage_local_model(local)
+        device = _clip_device()
+        with wait_log("numeric", "加载 CLIP ViT-L/14", path=str(local), device=device):
+            processor = transformers.CLIPProcessor.from_pretrained(str(local), local_files_only=True)
+            model = transformers.CLIPModel.from_pretrained(str(local), local_files_only=True)
+            if device.startswith("cuda"):
+                try:
+                    index = int(device.split(":")[-1])
+                    total_gb = torch.cuda.get_device_properties(index).total_memory / (1024 ** 3)
+                    torch.cuda.set_per_process_memory_fraction(min(0.9, 6.0 / total_gb), index)
+                    model = model.to(device=device, dtype=torch.float16)
+                except Exception as exc:  # noqa: BLE001
+                    log_event("numeric", "3 号卡放不下 CLIP，改在 CPU 上运行", reason=str(exc))
+                    model = model.to(device="cpu", dtype=torch.float32)
+            model.eval()
         _CACHE["clip"] = (processor, model)
+        log_event("numeric", "CLIP 已缓存，本进程后续 case 直接复用", device=str(next(model.parameters()).device), dtype=str(next(model.parameters()).dtype))
         return processor, model, None
     except Exception as exc:  # noqa: BLE001
         return None, None, f"CLIP load failed: {exc}"
 
 
 def csd_component(component: str, case: Any) -> dict[str, Any]:
+    from .eval_log import archive_frames, log_event, wait_log
+
     processor, model, error = _load_clip()
     if error:
+        log_event("numeric", f"{component} 未配置", reason=error)
         return _result(component, "not_configured", reason=error)
-    frames = video_frames(case.video_path, 16)
+    samples = sampled_video_frames(case.video_path, 16)
+    archived = archive_frames(f"clip_{component}", samples)
+    frames = [path for _, path in samples]
     if not frames:
+        log_event("numeric", f"{component} 抽帧失败")
         return _result(component, "missing_input", reason="cannot extract video frames")
     references = list(case.reference_images)
     if component == "csd_ref_similarity" and not references:
-        return _result(component, "not_applicable", reason="no reference image")
+        result = _result(component, "not_applicable", reason="no reference image", frames=archived)
+        log_event("numeric", f"{component} 不适用：没有参考图", frames=len(archived))
+        return result
     if component == "csd_temporal_drift":
         references = []
     try:
         import torch
         images = [Image.open(path).convert("RGB") for path in frames]
-        with torch.no_grad():
-            frame_inputs = processor(images=images, return_tensors="pt")
-            frame_features = model.get_image_features(**frame_inputs)
-            frame_features = frame_features / frame_features.norm(dim=-1, keepdim=True)
-            if references:
-                ref_images = [Image.open(path).convert("RGB") for path in references]
-                ref_inputs = processor(images=ref_images, return_tensors="pt")
-                ref_features = model.get_image_features(**ref_inputs)
-                ref_features = ref_features / ref_features.norm(dim=-1, keepdim=True)
-                similarities = (frame_features @ ref_features.T).max(dim=1).values.cpu().tolist()
-                value = sum(similarities) / len(similarities)
-                return _result(component, "ok", _clip_score(value, (0.80, 0.65, 0.50, 0.35)), value=round(value, 6), method="clip_vit_large_patch14")
-            mean = frame_features.mean(dim=0, keepdim=True)
-            mean = mean / mean.norm(dim=-1, keepdim=True)
-            drift = float((1.0 - (frame_features @ mean.T).squeeze(-1)).mean().item())
-            return _result(component, "ok", _clip_score(drift, (0.05, 0.10, 0.18, 0.28), higher=False), value=round(drift, 6), method="clip_vit_large_patch14")
+        with wait_log("numeric", f"{component} CLIP 推理", frames=len(frames)):
+            with torch.no_grad():
+                clip_device = str(next(model.parameters()).device)
+                clip_dtype = next(model.parameters()).dtype
+                frame_inputs = _clip_inputs(processor, images, clip_device, clip_dtype)
+                frame_features = _feature_tensor(model.get_image_features(**frame_inputs))
+                frame_features = frame_features / frame_features.norm(dim=-1, keepdim=True)
+                if references:
+                    ref_images = [Image.open(path).convert("RGB") for path in references]
+                    ref_inputs = _clip_inputs(processor, ref_images, clip_device, clip_dtype)
+                    ref_features = _feature_tensor(model.get_image_features(**ref_inputs))
+                    ref_features = ref_features / ref_features.norm(dim=-1, keepdim=True)
+                    similarities = (frame_features @ ref_features.T).max(dim=1).values.cpu().tolist()
+                    value = sum(similarities) / len(similarities)
+                    result = _result(component, "ok", _clip_score(value, (0.80, 0.65, 0.50, 0.35)), value=round(value, 6), method="clip_vit_large_patch14", frames=archived)
+                    log_event("numeric", f"{component} 完成", score=result["score"], value=result["value"], frames=len(archived))
+                    return result
+                mean = frame_features.mean(dim=0, keepdim=True)
+                mean = mean / mean.norm(dim=-1, keepdim=True)
+                drift = float((1.0 - (frame_features @ mean.T).squeeze(-1)).mean().item())
+                result = _result(component, "ok", _clip_score(drift, (0.05, 0.10, 0.18, 0.28), higher=False), value=round(drift, 6), method="clip_vit_large_patch14", frames=archived)
+                log_event("numeric", f"{component} 完成", score=result["score"], value=result["value"], frames=len(archived))
+                return result
     except Exception as exc:  # noqa: BLE001
-        return _result(component, "error", reason=f"CSD inference failed: {exc}")
+        log_event("numeric", f"{component} 推理失败", reason=str(exc))
+        return _result(component, "error", reason=f"CSD inference failed: {exc}", frames=archived)
 
 
 def _load_lpips() -> tuple[Any | None, str | None]:
@@ -542,14 +657,27 @@ def _load_ocr() -> tuple[Any | None, str | None]:
     if not det.is_dir() or not rec.is_dir():
         return None, "PP-OCRv5 model directories not found"
     try:
-        ocr = paddleocr.PaddleOCR(
-            text_detection_model_dir=str(det),
-            text_recognition_model_dir=str(rec),
-            use_doc_orientation_classify=False,
-            use_doc_unwarping=False,
-            use_textline_orientation=False,
-            device=os.getenv("V_EVAL_OCR_DEVICE", "cpu"),
-        )
+        # Default to physical GPU 3, the same card as the vision judge.
+        # CPU oneDNN + PIR on Paddle 3.x raises ConvertPirAttribute2RuntimeAttribute,
+        # so mkldnn stays off only for the CPU fallback.
+        device = os.getenv("V_EVAL_OCR_DEVICE", "gpu:3").strip() or "gpu:3"
+        kwargs: dict[str, Any] = {
+            "text_detection_model_name": "PP-OCRv5_server_det",
+            "text_detection_model_dir": str(det),
+            "text_recognition_model_name": "PP-OCRv5_server_rec",
+            "text_recognition_model_dir": str(rec),
+            "use_doc_orientation_classify": False,
+            "use_doc_unwarping": False,
+            "use_textline_orientation": False,
+            "device": device,
+        }
+        if device.lower().startswith("cpu"):
+            kwargs["enable_mkldnn"] = False
+        elif device.lower().startswith("gpu"):
+            paddle, _paddle_error = _optional_import("paddle", "paddlepaddle-gpu")
+            if paddle is not None:
+                paddle.set_device(device)
+        ocr = paddleocr.PaddleOCR(**kwargs)
         _CACHE["ocr"] = ocr
         return ocr, None
     except Exception as exc:  # noqa: BLE001
@@ -557,10 +685,15 @@ def _load_ocr() -> tuple[Any | None, str | None]:
 
 
 def _ocr_texts(case: Any) -> tuple[list[str], str | None]:
+    video = getattr(case, "video_path", None)
+    cache_key = f"ocr_texts:{video}"
+    cached = _CACHE.get(cache_key)
+    if isinstance(cached, tuple):
+        return cached
     ocr, error = _load_ocr()
     if error:
         return [], error
-    frames = video_frames(case.video_path, 8)
+    frames = video_frames(video, 8)
     texts: list[str] = []
     try:
         for frame in frames:
@@ -568,7 +701,9 @@ def _ocr_texts(case: Any) -> tuple[list[str], str | None]:
             for result in results:
                 data = result.get("rec_texts", []) if hasattr(result, "get") else []
                 texts.extend(str(item) for item in data if str(item).strip())
-        return texts, None
+        value = (texts, None)
+        _CACHE[cache_key] = value
+        return value
     except Exception as exc:  # noqa: BLE001
         return [], f"OCR inference failed: {exc}"
 

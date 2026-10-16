@@ -1,0 +1,17 @@
+{
+  "case_id": "010902",
+  "primary_dimension": "1. 指令理解与遵循",
+  "secondary_id": "1.9",
+  "secondary_dimension": "1.9 摄影语言遵循",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/010902.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010902/01.png"
+    }
+  ],
+  "video": null
+}

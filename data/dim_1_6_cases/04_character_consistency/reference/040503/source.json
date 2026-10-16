@@ -1,0 +1,22 @@
+{
+  "case_id": "040503",
+  "primary_dimension": "4. 角色一致性",
+  "secondary_id": "4.5",
+  "secondary_dimension": "4.5 配饰一致性",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/040503.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/040503/01.png"
+    },
+    {
+      "role": "reference",
+      "file": "input_02.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/040503/02.png"
+    }
+  ],
+  "video": null
+}

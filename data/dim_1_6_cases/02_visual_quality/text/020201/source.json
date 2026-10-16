@@ -1,0 +1,11 @@
+{
+  "case_id": "020201",
+  "primary_dimension": "2. 视觉质量",
+  "secondary_id": "2.2",
+  "secondary_dimension": "2.2 细节丰富度",
+  "mode": "text",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/020201.txt",
+  "images": [],
+  "video": null
+}

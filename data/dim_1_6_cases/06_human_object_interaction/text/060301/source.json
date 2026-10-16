@@ -1,0 +1,11 @@
+{
+  "case_id": "060301",
+  "primary_dimension": "6. 人物与物体交互",
+  "secondary_id": "6.3",
+  "secondary_dimension": "6.3 拿取与放置",
+  "mode": "text",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/060301.txt",
+  "images": [],
+  "video": null
+}

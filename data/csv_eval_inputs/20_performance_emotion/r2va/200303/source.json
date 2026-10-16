@@ -1,0 +1,49 @@
+{
+  "case_id": "200303",
+  "csv_row": 112,
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "视线与注意力",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7695208178524163017",
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200303/input_01.jpg",
+      "bytes": 199692,
+      "width": 1280,
+      "height": 970,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_02",
+      "kind": "image",
+      "file_id": "7695208186630015968",
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200303/input_02.jpg",
+      "bytes": 67389,
+      "width": 1280,
+      "height": 960,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200303/agnes.mp4",
+      "bytes": 1479293,
+      "duration": 6.592,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "model": "agnes"
+    }
+  ]
+}

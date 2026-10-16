@@ -1,0 +1,11 @@
+{
+  "case_id": "040201",
+  "primary_dimension": "4. 角色一致性",
+  "secondary_id": "4.2",
+  "secondary_dimension": "4.2 五官一致性",
+  "mode": "text",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/040201.txt",
+  "images": [],
+  "video": null
+}

@@ -1,0 +1,17 @@
+{
+  "case_id": "030102",
+  "primary_dimension": "3. 时序稳定性",
+  "secondary_id": "3.1",
+  "secondary_dimension": "3.1 帧间连续性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/030102.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/030102/01.jpeg"
+    }
+  ],
+  "video": null
+}

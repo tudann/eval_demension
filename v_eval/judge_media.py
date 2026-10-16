@@ -65,6 +65,9 @@ def _image_block(path: Path) -> dict[str, Any]:
 def _audio_block(path: Path) -> dict[str, Any]:
     suffix = path.suffix.lower()
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    if os.getenv("V_EVAL_AUDIO_CONTENT_FORMAT", "input_audio") == "audio_url":
+        mime = "audio/wav" if suffix == ".wav" else mimetypes.guess_type(path.name)[0] or "audio/wav"
+        return {"type": "audio_url", "audio_url": {"url": f"data:{mime};base64,{encoded}"}}
     return {"type": "input_audio", "input_audio": {"data": encoded, "format": _AUDIO_FORMAT.get(suffix, "wav")}}
 
 
@@ -127,6 +130,8 @@ def _extract_video_frames(video: Path, directory: Path, *, fps: float, limit: in
         if not _extract_one_frame(video, timestamp, target, size, quality):
             return []
         frames.append(TimedFrame(target, timestamp))
+    from .eval_log import archive_frames
+    archive_frames(f"judge_{label}", [(frame.timestamp, frame.path) for frame in frames])
     return frames
 
 

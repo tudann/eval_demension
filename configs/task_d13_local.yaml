@@ -9,7 +9,7 @@ inputs:
   - {id: r2va, root: ./data/cases/13_style_visual_control/r2va, mode: r2va, allow_missing_root: true, prompt_filename: prompt_final.txt, video_filename: video.mp4, case_ids: [], references: {image_pattern: 'input_{index:02d}', video_pattern: 'ref_video_{index:02d}', audio_pattern: 'ref_audio_{index:02d}'}}
 evaluation:
   subpoints:
-    style_accuracy: {components: {csd_ref_similarity: false}}
-    style_persistence: {components: {csd_temporal_drift: false}}
+    style_accuracy: {components: {csd_ref_similarity: true}}
+    style_persistence: {components: {csd_temporal_drift: true}}
 stages: [check, checklist, evaluate, score]
 output_dir: ./outputs/d13

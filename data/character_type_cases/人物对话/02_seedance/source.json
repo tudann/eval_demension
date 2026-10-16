@@ -1,0 +1,20 @@
+{
+  "case_id": "02_seedance",
+  "character_type": "人物对话",
+  "model": "seedance",
+  "source_filename": "seedance人物对话02.mp4",
+  "media": [
+    {
+      "stem": "video",
+      "kind": "target",
+      "status": "ready",
+      "path": "character_type_cases/人物对话/02_seedance/video.mp4",
+      "bytes": 3557264,
+      "duration": 8.096,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280
+    }
+  ]
+}

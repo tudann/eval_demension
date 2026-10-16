@@ -1,0 +1,17 @@
+{
+  "case_id": "050503",
+  "primary_dimension": "5. 动作质量",
+  "secondary_id": "5.5",
+  "secondary_dimension": "5.5 速度合理性",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/050503.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/050503/01.png"
+    }
+  ],
+  "video": null
+}

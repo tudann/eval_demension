@@ -1,0 +1,38 @@
+{
+  "case_id": "200602",
+  "csv_row": 120,
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "f2va",
+  "source_subdimension": "台词与表演匹配",
+  "ratio": "9:16",
+  "seconds": "5",
+  "size": "720P",
+  "prompt_reference_legend": false,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7695208214641200089",
+      "status": "ready",
+      "path": "20_performance_emotion/f2va/200602/input_01.jpg",
+      "bytes": 714675,
+      "width": 1280,
+      "height": 1947,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "20_performance_emotion/f2va/200602/agnes.mp4",
+      "bytes": 2301420,
+      "duration": 5.175,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 704,
+      "height": 1088,
+      "model": "agnes"
+    }
+  ]
+}

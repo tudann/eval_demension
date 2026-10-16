@@ -1,0 +1,17 @@
+{
+  "case_id": "020102",
+  "primary_dimension": "2. 视觉质量",
+  "secondary_id": "2.1",
+  "secondary_dimension": "2.1 清晰度",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/020102.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/020102/01.png"
+    }
+  ],
+  "video": null
+}

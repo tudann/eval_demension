@@ -1,0 +1,22 @@
+{
+  "case_id": "040402",
+  "primary_dimension": "4. 角色一致性",
+  "secondary_id": "4.4",
+  "secondary_dimension": "4.4 服装一致性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/040402.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/040402/01.png"
+    },
+    {
+      "role": "source_keyframe_2",
+      "file": "input_02.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/040402/02.png"
+    }
+  ],
+  "video": null
+}

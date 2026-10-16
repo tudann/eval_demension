@@ -1,0 +1,22 @@
+{
+  "case_id": "010202",
+  "primary_dimension": "1. 指令理解与遵循",
+  "secondary_id": "1.2",
+  "secondary_dimension": "1.2 主体数量准确性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/010202.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010202/01.png"
+    },
+    {
+      "role": "source_keyframe_2",
+      "file": "input_02.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010202/02.png"
+    }
+  ],
+  "video": null
+}

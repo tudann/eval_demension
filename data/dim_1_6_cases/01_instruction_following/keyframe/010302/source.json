@@ -1,0 +1,17 @@
+{
+  "case_id": "010302",
+  "primary_dimension": "1. 指令理解与遵循",
+  "secondary_id": "1.3",
+  "secondary_dimension": "1.3 属性绑定准确性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/010302.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010302/01.png"
+    }
+  ],
+  "video": null
+}

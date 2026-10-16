@@ -1,0 +1,22 @@
+{
+  "case_id": "030303",
+  "primary_dimension": "3. 时序稳定性",
+  "secondary_id": "3.3",
+  "secondary_dimension": "3.3 几何稳定性",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/030303.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/030303/01.jpeg"
+    },
+    {
+      "role": "reference",
+      "file": "input_02.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/030303/02.jpeg"
+    }
+  ],
+  "video": null
+}

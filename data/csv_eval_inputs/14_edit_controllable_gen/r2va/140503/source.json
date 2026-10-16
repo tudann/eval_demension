@@ -1,0 +1,26 @@
+{
+  "case_id": "140503",
+  "csv_row": 31,
+  "evaluation_dimension": "14_edit_controllable_gen",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "视频延长",
+  "ratio": "9:16",
+  "seconds": "5",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "ref_video_01",
+      "kind": "reference_video",
+      "file_id": null,
+      "status": "ready",
+      "path": "14_edit_controllable_gen/r2va/140503/ref_video_01.webm",
+      "bytes": 8136399,
+      "duration": 30.524,
+      "has_audio": true,
+      "video_codec": "vp8",
+      "width": 1080,
+      "height": 1920
+    }
+  ]
+}

@@ -51,6 +51,6 @@ inputs:
 evaluation:
   subpoints:
     # Disable this switch to skip the external SyncNet v2 adapter entirely.
-    lip_sync: {components: {syncnet_conf: true}}
+    lip_sync: {components: {syncnet_conf: false}}
 stages: [check, checklist, evaluate, score]
 output_dir: ./outputs/d16

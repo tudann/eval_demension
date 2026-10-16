@@ -1,0 +1,36 @@
+{
+  "case_id": "130201",
+  "csv_row": 5,
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "t2va",
+  "source_subdimension": "风格持续性",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_reference_legend": false,
+  "media": [
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "13_style_visual_control/t2va/130201/agnes.mp4",
+      "bytes": 3923234,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "model": "agnes"
+    },
+    {
+      "stem": "seedance",
+      "kind": "target",
+      "model": "seedance",
+      "file_id": null,
+      "status": "ready",
+      "path": "13_style_visual_control/t2va/130201/seedance.mp4",
+      "bytes": 5983813
+    }
+  ]
+}

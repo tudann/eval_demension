@@ -1,0 +1,32 @@
+{
+  "case_id": "010102",
+  "primary_dimension": "1. 指令理解与遵循",
+  "secondary_id": "1.1",
+  "secondary_dimension": "1.1 主体正确性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/010102.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010102/01.png"
+    },
+    {
+      "role": "source_keyframe_2",
+      "file": "input_02.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010102/02.png"
+    },
+    {
+      "role": "source_keyframe_3",
+      "file": "input_03.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010102/03.png"
+    },
+    {
+      "role": "source_keyframe_4",
+      "file": "input_04.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/010102/04.png"
+    }
+  ],
+  "video": null
+}

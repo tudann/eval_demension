@@ -1,0 +1,17 @@
+{
+  "case_id": "060402",
+  "primary_dimension": "6. 人物与物体交互",
+  "secondary_id": "6.4",
+  "secondary_dimension": "6.4 开关操作",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/060402.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.jpeg",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/060402/01.jpeg"
+    }
+  ],
+  "video": null
+}

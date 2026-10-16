@@ -1,0 +1,38 @@
+{
+  "case_id": "150102",
+  "csv_row": 36,
+  "evaluation_dimension": "15_audio_quality_control",
+  "evaluation_mode": "f2va",
+  "source_subdimension": "对白内容正确性",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_reference_legend": false,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7695207955327601616",
+      "status": "ready",
+      "path": "15_audio_quality_control/f2va/150102/input_01.jpg",
+      "bytes": 279327,
+      "width": 1280,
+      "height": 1045,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "15_audio_quality_control/f2va/150102/agnes.mp4",
+      "bytes": 1207945,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 896,
+      "height": 704,
+      "model": "agnes"
+    }
+  ]
+}

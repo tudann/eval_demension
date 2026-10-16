@@ -1,0 +1,71 @@
+{
+  "case_id": "170603",
+  "csv_row": 82,
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "镜头异常率",
+  "ratio": "9:16",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "input_01",
+      "kind": "image",
+      "file_id": "7694972012385553624",
+      "status": "ready",
+      "path": "17_failure_anomaly_control/r2va/170603/input_01.jpg",
+      "bytes": 314228,
+      "width": 1280,
+      "height": 2278,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_02",
+      "kind": "image",
+      "file_id": "7694972013370608838",
+      "status": "ready",
+      "path": "17_failure_anomaly_control/r2va/170603/input_02.jpg",
+      "bytes": 440091,
+      "width": 1600,
+      "height": 2848,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_03",
+      "kind": "image",
+      "file_id": "7694977215745838048",
+      "status": "ready",
+      "path": "17_failure_anomaly_control/r2va/170603/input_03.jpg",
+      "bytes": 486508,
+      "width": 1600,
+      "height": 2656,
+      "format": "JPEG"
+    },
+    {
+      "stem": "input_04",
+      "kind": "image",
+      "file_id": "7694972013903334331",
+      "status": "ready",
+      "path": "17_failure_anomaly_control/r2va/170603/input_04.jpg",
+      "bytes": 241899,
+      "width": 1728,
+      "height": 2304,
+      "format": "JPEG"
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "17_failure_anomaly_control/r2va/170603/agnes.mp4",
+      "bytes": 3241814,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280,
+      "model": "agnes"
+    }
+  ]
+}

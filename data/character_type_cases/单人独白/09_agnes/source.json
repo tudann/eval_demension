@@ -1,0 +1,20 @@
+{
+  "case_id": "09_agnes",
+  "character_type": "单人独白",
+  "model": "agnes",
+  "source_filename": "agnes单人独白09.mp4",
+  "media": [
+    {
+      "stem": "video",
+      "kind": "target",
+      "status": "ready",
+      "path": "character_type_cases/单人独白/09_agnes/video.mp4",
+      "bytes": 2113907,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280
+    }
+  ]
+}

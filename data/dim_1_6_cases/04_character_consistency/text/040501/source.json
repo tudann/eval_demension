@@ -1,0 +1,11 @@
+{
+  "case_id": "040501",
+  "primary_dimension": "4. 角色一致性",
+  "secondary_id": "4.5",
+  "secondary_dimension": "4.5 配饰一致性",
+  "mode": "text",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/040501.txt",
+  "images": [],
+  "video": null
+}

@@ -8,8 +8,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from run import (DEFAULT_DIMS, ROOT, load_yaml, resolve_task_paths, run_checklist,
-                 run_evaluate, run_score, validate_cases_ready, validate_task)
+from run import (DEFAULT_DIMS, ROOT, load_yaml, missing_required_images, partition_ready_cases,
+                 resolve_task_paths, run_checklist, run_evaluate, run_score, validate_cases_ready,
+                 validate_task)
 from v_eval.core import Case, ConfigError, discover_cases
 from v_eval.judge_media import build_judge_content
 
@@ -38,6 +39,26 @@ class LocalWorkflowTests(unittest.TestCase):
             video.write_bytes(b"placeholder")
             case.video_path = video
             validate_cases_ready([case])
+
+    def test_image_modes_without_images_are_skipped(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            prompt = root / "prompt_final.txt"
+            video = root / "video.mp4"
+            prompt.write_text("edit the subject", encoding="utf-8")
+            video.write_bytes(b"placeholder")
+            missing = Case("no_image", root, "f2va", prompt, video)
+            ready_case = Case("with_image", root, "f2va", prompt, video, first_frame=root / "input_01.png")
+            r2va_missing = Case("r2va_no_ref", root, "r2va", prompt, video)
+            r2va_ready = Case("r2va_ok", root, "r2va", prompt, video, reference_images=[root / "input_01.png"])
+            (root / "input_01.png").write_bytes(b"png")
+            self.assertEqual(missing_required_images(missing), ["input_01 image"])
+            self.assertEqual(missing_required_images(ready_case), [])
+            self.assertEqual(missing_required_images(r2va_missing), ["reference image"])
+            self.assertEqual(missing_required_images(r2va_ready), [])
+            ready, skipped = partition_ready_cases([missing, ready_case, r2va_missing, r2va_ready])
+            self.assertEqual([case.case_id for case in ready], ["with_image", "r2va_ok"])
+            self.assertEqual([case.case_id for case in skipped], ["no_image", "r2va_no_ref"])
 
     def test_each_dimension_produces_a_score_with_valid_judge_responses(self) -> None:
         dims = load_yaml(DEFAULT_DIMS)

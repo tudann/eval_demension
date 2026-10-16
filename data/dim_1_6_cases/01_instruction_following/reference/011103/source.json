@@ -1,0 +1,17 @@
+{
+  "case_id": "011103",
+  "primary_dimension": "1. 指令理解与遵循",
+  "secondary_id": "1.11",
+  "secondary_dimension": "1.11 长 Prompt 完整度",
+  "mode": "reference",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/011103.txt",
+  "images": [
+    {
+      "role": "reference",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/011103/01.png"
+    }
+  ],
+  "video": null
+}

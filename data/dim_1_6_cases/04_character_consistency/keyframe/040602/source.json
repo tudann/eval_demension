@@ -1,0 +1,17 @@
+{
+  "case_id": "040602",
+  "primary_dimension": "4. 角色一致性",
+  "secondary_id": "4.6",
+  "secondary_dimension": "4.6 身材一致性",
+  "mode": "keyframe",
+  "prompt_complete": true,
+  "prompt_source": "/keyan/research-eval-group/lyx/6_dimensions/feishu_prompts/040602.txt",
+  "images": [
+    {
+      "role": "source_keyframe_1",
+      "file": "input_01.png",
+      "source": "/keyan/research-eval-group/lyx/6_dimensions/case_assets/040602/01.png"
+    }
+  ],
+  "video": null
+}

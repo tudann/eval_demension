@@ -1,0 +1,40 @@
+{
+  "case_id": "200503",
+  "csv_row": 118,
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "source_subdimension": "反应时机合理性",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_reference_legend": true,
+  "media": [
+    {
+      "stem": "ref_video_01",
+      "kind": "reference_video",
+      "file_id": null,
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200503/ref_video_01.mp4",
+      "bytes": 3423847,
+      "duration": 10.144,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "stem": "agnes",
+      "kind": "target",
+      "file_id": null,
+      "status": "ready",
+      "path": "20_performance_emotion/r2va/200503/agnes.mp4",
+      "bytes": 2257562,
+      "duration": 8.0,
+      "has_audio": true,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "model": "agnes"
+    }
+  ]
+}
