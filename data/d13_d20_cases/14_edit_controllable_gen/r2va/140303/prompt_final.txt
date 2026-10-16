@@ -1,0 +1,2 @@
+<Video 1>的角色替换成<Picture 1>，<Picture 1>模仿<Video 1>的动作，背景保持<Video 1>不变
+画幅比例9:16，生成8秒。

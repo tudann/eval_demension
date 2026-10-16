@@ -1,0 +1,19 @@
+{
+  "case_id": "190101",
+  "csv_row": 101,
+  "source_dimension": "19. 时间成本",
+  "source_subdimension": "视频生成耗时",
+  "source_mode": "text",
+  "evaluation_dimension": null,
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_kWY5QQ1xate7jpaWmCkOFHAiTw3Xu6dN.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

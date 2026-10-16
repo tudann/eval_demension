@@ -1,0 +1,2 @@
+[Narration Mode] No character dialogue, no lip movement, no on-screen text. Keep the coordinated global BGM and environmental ambience; narration TTS will be added later. 参考图1为村口水井的场景环境参考图，提供空间结构、背景陈设、材质和光影氛围。参考图2为旧木桶的道具参考图，提供道具外观、结构、材质和颜色参考。【剧情】场景状态：@图片1(村口水井)，黄昏，温柔金色光线。0-8s 远景固定平视：井边空无一人。夕阳西下，光线温柔，井栏投下长长的影子。旧木桶@图片2(旧木桶)静静放在井栏边。井口水面完全平静，倒映着晚霞的天空和云彩。画面静止。【全局音频】全片统一BGM：深沉弦乐渐起，伴随心跳节奏；孩童遇险时低频嗡鸣加剧，救人高潮达到顶点，随后转为温暖钢琴，结；本镜环境音：极轻微风声，远处隐约犬吠，音乐完全安静下来，余韵空白；全程保持可听BGM与环境音；禁止静音；无字幕无屏显文字。
+画幅比例16:9，生成8秒。

@@ -1,0 +1,24 @@
+{
+  "case_id": "170703",
+  "csv_row": 85,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "崩坏持续时间",
+  "source_mode": "reference",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "r2va",
+  "ratio": "21:9",
+  "seconds": "12",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ZCdSHAP4THzKQHZ4Yq9IR2MHNj9MXcjd.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTU3NGZlNTdiZjYyYTFhNWE0YjNmMGNiNzEyYzM3MTBfYmY2ZmVkZWY2YmI1MDk5NjVlMWE1NzI2OThiNTM3MTBfSUQ6NzY5NDk3NzIzNDIwMzMzMTU1M18xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

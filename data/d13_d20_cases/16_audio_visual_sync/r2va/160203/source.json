@@ -1,0 +1,36 @@
+{
+  "case_id": "160203",
+  "csv_row": 58,
+  "source_dimension": "16. 音视频同步能力",
+  "source_subdimension": "动作音同步",
+  "source_mode": "reference",
+  "evaluation_dimension": "16_audio_visual_sync",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "12",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_SnjWlq2OsalpMx37R5bVBbJvCkD3EhaB.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWYwMjYyYWY0NDQ3YWIzYjIwOWUzZTQ2YTBmZmUzMzlfNDZiMTliODdhYWEwNjQ1ZGI2ZjRjYjVmY2MyN2E5NTBfSUQ6NzY5NDk3MjAxMjUzMTk2MTA1Ml8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjIxOTY3YWVlY2Y1MWU0MzYxODNhNzIyY2FkNzYzODhfNDY1NjYxN2MyZmJhOWQ5ZWRiZTVkMjg0M2UzMTI4M2RfSUQ6NzY5NDk3MjAxNDYwNzczMTkwOF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    },
+    {
+      "filename_stem": "input_03",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjUyNWNlZTc1OWY2ZGI4ZmFhMTc3ODI1ZTI0OTA4MjBfYTBiYTNkYTE2MTkyMTdmZmQ2N2VkMTkxYWVlNDFjNTVfSUQ6NzY5NDk3MjAxMTY4MDkxMDUxN18xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    },
+    {
+      "filename_stem": "input_04",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzUzNzM3ZGM5MjZkN2Y5NGM0YTc5YTE2YjAxZmRjYmNfNWYzNTExZDFmODk5OWZlODg4NTgwYmE1M2RlNmViMDNfSUQ6NzY5NDk3MjAxMzM3MDcwNzE0Ml8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

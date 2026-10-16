@@ -1,0 +1,28 @@
+{
+  "case_id": "150403",
+  "csv_row": 46,
+  "source_dimension": "15. 音频生成能力",
+  "source_subdimension": "情绪匹配",
+  "source_mode": "reference",
+  "evaluation_dimension": "15_audio_quality_control",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Q7ZdkRVtWAhEaKxe0XQvLtfKUTGvAbHn.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTQwOGYyNzVjMjAyNDE3ZmEzNDhlZTc0OThjNzRjNWVfM2NiZDliZTIxODRmOTA2M2U3OGJmOGFjYzk5MmU3MTJfSUQ6NzY5NTIwNzk5MDE2NDQ5MTI0NV8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzBhY2E3NjRiM2JmNzE5ZmU3ODRhZGE0ZTgyNDU1MTVfNWYxODFmOTA2ZGJjYzY0ODEwNmI3OWVjNGIwOGFkNzBfSUQ6NzY5NTIwNzk5NjE5NTk0OTUzN18xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

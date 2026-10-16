@@ -1,0 +1,20 @@
+{
+  "csv": "data/d13_d20_cases.csv",
+  "csv_row": 2,
+  "case_id": "130101",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格准确性",
+  "mode": "text",
+  "ratio": "16:9",
+  "seconds": "15",
+  "size": "720P",
+  "prompt_input": "16:9横屏，15秒电影级古风MV，暗调清冷国风，低饱和度青灰冷色调，柔和薄雾氛围。\n画面：夜色渡口，江面浮着淡淡雾，一轮残月悬远山，青石台上放一支断裂的古竹箫。一身素色古装男子背影，静立江边望向远方，风吹动衣袂。江面一叶孤舟缓缓向远处漂去，慢慢消失在雾里。镜头缓慢运镜，轻微推拉，静谧孤寂，含蓄伤感，无激烈动作。\n画面干净，电影柔光，浅景深，水墨国风写实融合，无多余杂物。\n字幕：不添加任何文字、歌词字幕。",
+  "images": "[]",
+  "audios": "[]",
+  "input_videos": "[]",
+  "output_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_SHLQDZV4ereegdzHwUb3Ao7uvUtvnAjn.mp4",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "t2va",
+  "expected_subpoint": "style_accuracy",
+  "prompt_adaptation": "none"
+}

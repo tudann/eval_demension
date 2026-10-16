@@ -1,0 +1,24 @@
+{
+  "case_id": "200502",
+  "csv_row": 117,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "反应时机合理性",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "7",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_cIsyBh2hpqTYGzQFVkrRsTezffLDjjxL.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjYyZjRiODA2MmYyMDZmZDY3ZDA0MDQ2YzgzYjk4ZTVfZDVmNWQxNjE1OTFhMGY2MDNmMjdkMTYwMzIxZDM3YTFfSUQ6NzY5NTIwNzAyMTMyNjUwMjg4Ml8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

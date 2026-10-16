@@ -55,6 +55,5 @@ evaluation:
     emotion_control: {components: {emotion2vec_match: true}}
     ambient_sound: {components: {clap_ambient: true}}
     action_sfx: {components: {clap_sfx: true}}
-    music_match: {components: {music_presence: true, clap_music: true}}
 stages: [check, checklist, evaluate, score]
 output_dir: ./outputs/d15

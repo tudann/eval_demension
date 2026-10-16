@@ -1,0 +1,24 @@
+{
+  "case_id": "170502",
+  "csv_row": 78,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "穿模问题",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "5",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_7HeJ3NJRrqPz7JT28s5fxNSbpxYSQZuE.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWMxOTIyOWNiZmM4YzczYmQ0ZDM0ZDBjZjZjOTM3ZjNfYWM4NjAxYjIzNTJhMGJlMTk3YzM0Y2E0MTFmOGNjMDZfSUQ6NzY5NTIwNjcyMDk4NDk3NjM1M18xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

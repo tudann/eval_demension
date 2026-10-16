@@ -1,0 +1,24 @@
+{
+  "case_id": "130403",
+  "csv_row": 13,
+  "source_dimension": "13. 风格与视觉控制能力",
+  "source_subdimension": "光照控制",
+  "source_mode": "reference",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_IZPAd9ehCZcepk5aN2rkXeABDTXzrNTG.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": [
+    {
+      "filename_stem": "ref_video_01",
+      "url": "https://cos-platform-outputs.agnes-ai.com/videos/video-queue/input/2026/10/10/task_9fWfflAQqsx35KX7b2tWknfZSEVVgDy9/0.mp4"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "case_id": "200201",
+  "csv_row": 107,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "表情变化自然性",
+  "source_mode": "text",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "7",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_A60iAFCK8ZdX9i6RrwIfPIVha0J3DwjC.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

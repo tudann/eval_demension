@@ -1,0 +1,20 @@
+{
+  "csv": "data/d13_d20_cases.csv",
+  "csv_row": 14,
+  "case_id": "130501",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "色彩控制",
+  "mode": "text",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "prompt_input": "横屏，六秒。房间里的主色是暖的，墙、沙发和台灯都落在琥珀黄和米色上。窗外的海是这一段里唯一的冷色，蓝绿色。人把窗帘拉开一半之后，冷色只能停在窗框外面，不要把沙发和墙染蓝；海也不要被室内的灯染成橙色。拉开窗帘这一个动作就够了。室内有很轻的环境声，海声从窗帘打开之后才明显一点。没有对白，没有字幕。\n台灯一直是暖的，不要跟着海一起变冷。窗帘拉开前后，沙发的米色还在。海的蓝绿色不要漫进房间的地面。人只负责拉窗帘，不要走到窗外来把海挡住。\n画幅比例16:9。",
+  "images": "[]",
+  "audios": "[]",
+  "input_videos": "[]",
+  "output_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_eztIUljOneeYNzYX9K2h4GW4PLe70fr3.mp4",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "t2va",
+  "expected_subpoint": "color_control",
+  "prompt_adaptation": "none"
+}

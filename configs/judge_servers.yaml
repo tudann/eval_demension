@@ -18,7 +18,7 @@ vision:
   used_by:
     - 13_style_visual_control
     - 14_edit_controllable_gen
-    - 17_motion_temporal_consistency
+    - 17_failure_anomaly_control
     - 18_text_visual_consistency
 audio:
   model: Qwen2.5-Omni-7B

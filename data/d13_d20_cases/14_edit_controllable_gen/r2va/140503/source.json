@@ -1,0 +1,24 @@
+{
+  "case_id": "140503",
+  "csv_row": 31,
+  "source_dimension": "14. 编辑与可控生成能力",
+  "source_subdimension": "视频延长",
+  "source_mode": "reference",
+  "evaluation_dimension": "14_edit_controllable_gen",
+  "evaluation_mode": "r2va",
+  "ratio": "9:16",
+  "seconds": "5",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": null
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": [
+    {
+      "filename_stem": "ref_video_01",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Walking_along_a_rural_riverside_path_in_Japan_June2025.webm"
+    }
+  ]
+}

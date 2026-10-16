@@ -1,0 +1,20 @@
+{
+  "csv": "data/d13_d20_cases.csv",
+  "csv_row": 5,
+  "case_id": "130201",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格持续性",
+  "mode": "text",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_input": "做一个剪纸动画。穿深蓝外套的快递员骑车，先从早市的摊子中间过去，再钻过一座水泥天桥，最后在小区门口停下。三处地方可以换，但人和车必须一直是同一套剪纸：色块是平的，边是硬的，脸上不要出照片那种渐变。天桥里不要变成三维，小区门口也不要变成实拍。横屏，八秒左右。只有车轮声和一点风，没有台词，没有字幕。\n外套的深蓝和车的颜色三处都一样。早市可以热闹，但热闹也是剪纸，不要突然切进一条实拍的街。小区门口的人和车还是开头那个快递员。\n画幅比例16:9。",
+  "images": "[]",
+  "audios": "[]",
+  "input_videos": "[]",
+  "output_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_d7skJFfyncX0FKcQdsSbtPeEG4tRqCTx.mp4",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "t2va",
+  "expected_subpoint": "style_persistence",
+  "prompt_adaptation": "none"
+}

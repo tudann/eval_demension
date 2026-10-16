@@ -1,0 +1,17 @@
+task_name: local_d18
+run_name: local_d18
+dimension: 18_text_visual_consistency
+inputs:
+  - {id: t2va, root: ./data/cases/18_text_visual_consistency/t2va, mode: t2va, allow_missing_root: true, prompt_filename: prompt_final.txt, video_filename: video.mp4, case_ids: []}
+  - {id: f2va, root: ./data/cases/18_text_visual_consistency/f2va, mode: f2va, allow_missing_root: true, prompt_filename: prompt_final.txt, video_filename: video.mp4, case_ids: [], references: {first_frame_filename: input_01}}
+  - {id: l2va, root: ./data/cases/18_text_visual_consistency/l2va, mode: l2va, allow_missing_root: true, prompt_filename: prompt_final.txt, video_filename: video.mp4, case_ids: [], references: {last_frame_filename: input_01}}
+  - {id: fl2va, root: ./data/cases/18_text_visual_consistency/fl2va, mode: fl2va, allow_missing_root: true, prompt_filename: prompt_final.txt, video_filename: video.mp4, case_ids: [], references: {first_frame_filename: input_01, last_frame_filename: input_02}}
+  - {id: r2va, root: ./data/cases/18_text_visual_consistency/r2va, mode: r2va, allow_missing_root: true, prompt_filename: prompt_final.txt, video_filename: video.mp4, case_ids: [], references: {image_pattern: 'input_{index:02d}', video_pattern: 'ref_video_{index:02d}', audio_pattern: 'ref_audio_{index:02d}'}}
+evaluation:
+  subpoints:
+    text_accuracy: {components: {ocr_cer: false}}
+    subtitle_alignment: {components: {ocr_subtitle_alignment: false}}
+    text_readability: {components: {ocr_readability: false}}
+    text_stability: {components: {ocr_text_stability: false}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d18

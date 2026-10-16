@@ -1,0 +1,29 @@
+{
+  "case_id": "140303",
+  "csv_row": 25,
+  "source_dimension": "14. 编辑与可控生成能力",
+  "source_subdimension": "主体替换一致性",
+  "source_mode": "reference",
+  "evaluation_dimension": "14_edit_controllable_gen",
+  "evaluation_mode": "r2va",
+  "ratio": "9:16",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_sWmP7XAImYzMzfyYS1pHKU6H20zvtTtJ.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTYyZDc4MjlhNTVkZDFkZGQ4MGMwMTA0YmRhMDgxMzZfMzAxMzNlMDdmODgyNTM1ZmU0ZGQ5OGRhODhkOWYxMzVfSUQ6NzY5NDk3MjAxNDM2MDMwMDc2MF8xNzkxOTQ5MTQ1OjE3OTIwMzU1NDVfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": [
+    {
+      "filename_stem": "ref_video_01",
+      "url": "https://cos-platform-outputs.agnes-ai.com/videos/video-queue/input/2026/09/29/task_P4ugGjwWDCFBNXK4P70kogTbafASj2UY/1.mp4"
+    }
+  ]
+}

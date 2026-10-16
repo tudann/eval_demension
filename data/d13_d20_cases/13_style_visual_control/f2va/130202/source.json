@@ -1,0 +1,24 @@
+{
+  "case_id": "130202",
+  "csv_row": 6,
+  "source_dimension": "13. 风格与视觉控制能力",
+  "source_subdimension": "风格持续性",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ioyNKf1xVkyXN8dR3p06uzWXgkeBpX6Q.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGUwMThhMTMyM2NjM2Y3NDBkY2YzOTIyYTk5MDFjZTJfYmM0ZGEyMDQ0MGI3Y2EyNTg1ZDlkMDg5ZTliY2UyNWZfSUQ6NzY5NTIwNjE3ODcwMTA1Mjg2MF8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

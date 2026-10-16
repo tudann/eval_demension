@@ -1,0 +1,532 @@
+﻿case_id,一级维度,二级维度,mode,ratio,seconds,size,prompt_input,images,audios,input_videos,output_url
+130101,13. 风格与视觉控制能力,风格准确性,text,16:9,15,720P,"16:9横屏，15秒电影级古风MV，暗调清冷国风，低饱和度青灰冷色调，柔和薄雾氛围。
+画面：夜色渡口，江面浮着淡淡雾，一轮残月悬远山，青石台上放一支断裂的古竹箫。一身素色古装男子背影，静立江边望向远方，风吹动衣袂。江面一叶孤舟缓缓向远处漂去，慢慢消失在雾里。镜头缓慢运镜，轻微推拉，静谧孤寂，含蓄伤感，无激烈动作。
+画面干净，电影柔光，浅景深，水墨国风写实融合，无多余杂物。
+字幕：不添加任何文字、歌词字幕。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_SHLQDZV4ereegdzHwUb3Ao7uvUtvnAjn.mp4
+130102,13. 风格与视觉控制能力,风格准确性,first_frame,16:9,8,720P,"用我传的这张石板路老街当第一帧，做成能一眼看出来的水彩动画，不要只在黑白照片上罩一层滤镜。横屏，八秒左右。镜头沿着街道中线慢慢往前，两侧楼的位置、石板路的走向和店面关系都锁住，颜色可以透一点，边缘有水痕，但楼的轮廓和路的透视不要挪。后半段水彩还得停在画面上，不要退回黑白照片，也不要再换成油画或卡通。不要多出电车，也不要突然冒出一群行人把路挡住。一点风声和远处的街道声，没有对白，没有字幕。最后一帧仍沿着这条路向前，楼和街道走向跟开头一致。
+石板的缝和店面的门洞在变水彩之后还要留在原来的位置。不要加歌词，也不要在路尽头凭空升起一座新的楼。前半段还能看出是从这张照片化开的，后半段就稳定在水彩上，笔触不要一会儿有一会儿没。店招如果本来看不清，不要新写出一串字。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzQ1ZTM4ZGE0Y2RiNDY4YmQzYjIwYzZhZmY4YjcyZTlfMWM5MmQ5YTQ1ZjI4YmEwZTEzNmZhMWY0ZjcwMWU1MzBfSUQ6NzY5NTIwNjE0NTU5MzUxMDg3MV8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_SDHYNkBi4q2N5buVaDCmFLm28L2IafpC.mp4
+130103,13. 风格与视觉控制能力,风格准确性,reference,16:9,8,720P,"第一张是夜里的肉摊，第二张是那个戴白帽子、穿白外套切肉的人，脸、帽子和外套都按他的来。整段改成能一眼认出的彩色铅笔画，不要只在照片上罩一层滤镜。摊子、白外套、帽子和前面那口大锅都还得认得出来。铅笔画要停在画面上，不要画到一半变回照片，也不要改成油画。横屏，八秒左右。摊位上有人声和铁板声，没有台词，没有字幕。
+切肉的手还是这个人的手，不要换成摊位外面的路人。大锅留在前景，不要被铅笔画糊没。帽子的形状一直是这顶白帽子。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTI2YzBhMjQ0YTlmMjcyNDA0MzJjOTZlZWIxM2E4ZDhfY2Y5YzUxMmYzMGYxZjg2Mzk5OGE3ZmI3MWQyMzQ0ZTRfSUQ6NzY5NTk2MjMwMTg2NjI2NTU4OF8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjE1NTFjODkxNDA2ZjMzZTUzNDQ4ZDY4ZTAxODNjMzFfNzhiZjE4YzQxYTEyMGJmOGI5MWNjMTM5YjZjNWMwOTJfSUQ6NzY5NTk2MjMxMDcyNTAyODgyOF8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_jzpOnJdsnhPyuDE5H3uiAsVndO1dPrAc.mp4
+130201,13. 风格与视觉控制能力,风格持续性,text,16:9,8,720P,"做一个剪纸动画。穿深蓝外套的快递员骑车，先从早市的摊子中间过去，再钻过一座水泥天桥，最后在小区门口停下。三处地方可以换，但人和车必须一直是同一套剪纸：色块是平的，边是硬的，脸上不要出照片那种渐变。天桥里不要变成三维，小区门口也不要变成实拍。横屏，八秒左右。只有车轮声和一点风，没有台词，没有字幕。
+外套的深蓝和车的颜色三处都一样。早市可以热闹，但热闹也是剪纸，不要突然切进一条实拍的街。小区门口的人和车还是开头那个快递员。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_d7skJFfyncX0FKcQdsSbtPeEG4tRqCTx.mp4
+130202,13. 风格与视觉控制能力,风格持续性,first_frame,16:9,8,720P,"雪地里这栋木屋、白色木篱笆和屋顶上的雪，都按我传的照片留在原地，横屏，机位不要动。木门打开，一个穿深色外套的人从屋里走到台阶上，再走到篱笆边停下，回头看一眼屋子。房子的颜色、篱笆的位置和积雪不要重画，雪也不要化成草地，天空不要换成别的天气。全程保持现在这种冷白的实拍感觉，中途不要变成动画、油画或者夜景。能听到开门、踩雪和远处的风，不要配乐，也不要让他说话。人停在篱笆边的时候，木屋还是原来那栋。
+人回头的时候，篱笆的木条数量和走向不要变，门不要自己再关上。雪地里不要长出绿草或花朵。从开门到回头大约是连贯的几步，不要人一闪就到篱笆边。冷白不要在中段突然偏暖，像换了一张黄昏的图。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGUwMThhMTMyM2NjM2Y3NDBkY2YzOTIyYTk5MDFjZTJfYmM0ZGEyMDQ0MGI3Y2EyNTg1ZDlkMDg5ZTliY2UyNWZfSUQ6NzY5NTIwNjE3ODcwMTA1Mjg2MF8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ioyNKf1xVkyXN8dR3p06uzWXgkeBpX6Q.mp4
+130203,13. 风格与视觉控制能力,风格持续性,reference,16:9,8,720P,"第一张是这家夜市摊，圆铁板、白包子和蒸汽都留着。第二张是穿橙色衣服、戴粉色帽的人，让靠里面、正拿着盆的那位去端一下蒸笼，边上那位留在摊边，衣服不要换。从头到尾都保持第一张这种夜市实拍，灯光不要中途改成插画、动画或者白天。人去端蒸笼的时候摊位也不要换一间。横屏，八秒。蒸汽声和街上的声音，没有对白，没有字幕。
+橙色衣服和粉色帽在走动之后还是这套，不要换成白大褂。圆铁板不要在中段消失。蒸汽可以动，但摊位的灯还是夜里的灯。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWViZDRhZGMyNDlkN2YyNjA4NGEyNGZlNWJiZmJlM2ZfZTY0N2JiMmJkMzczODFjZmE1NGVlMjE0ZGU0MWRhY2FfSUQ6NzY5NTk2MjMyMTQ1MTYzMzYzM18xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NWY2YTQ5ZjQ2ZjY1Mzg3OTg4YTBkMmRhZWQzNTJjMGRfMWQ2YTRjMzZjNGFlNDMwZTRkYzQ5M2U2MzI1M2FiNDFfSUQ6NzY5NTk2MjMzMzQxMjk2OTQzNF8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_IPuz6mdR5bpWGUS2JU2fUs0YGoNdVNMw.mp4
+130301,13. 风格与视觉控制能力,风格与内容兼容,text,16:9,8,720P,"做成黏土定格，但人不能为了风格做坏。雨天门口，穿红背心的快递员抱着纸箱从画面左边跑过来，步子要分开，两条腿别粘在一起，跑到门口再停住。他把纸箱向前递出，递箱子的手是五根手指，手腕连着小臂，箱子不要长在手上。门里再伸出另一只手把箱子接过去。两个人的脸和手脚数量都正常，黏土做到最后，不要切回真人。雨声、脚步和纸箱交接的摩擦声都要有，不要配乐，不要字幕。结尾纸箱已经交到门里那只手上。
+纸箱的棱角在交接时还是一只箱子，不要粘在两只手上。雨一直下到交完，不要中途放晴。跑过来、停住、递出、接住，这四下要分得开。黏土的指纹可以有，但手指还是手指，不要粘成圆团。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_MwKcgMzS9AANjjE4x6779O2rJ0iItRrS.mp4
+130302,13. 风格与视觉控制能力,风格与内容兼容,first_frame,16:9,6,720P,"上传的这张当第一帧。穿红衣、胸前别着号码布的选手正咬着奖牌，另一只手拿着水瓶。改成黏土之后，脸、红衣、号码布、奖牌和水瓶都还要认得出来，不要变成黄短裤的另一个跑步的人。他先保持咬着奖牌的姿势，再把奖牌从嘴边慢慢放下，五指捏着奖牌带，水瓶一直握在另一只手里。手指别多，手腕别断，也不要复制出第二个自己。远处有赛场的环境声和一点衣料声，不要解说，不要字幕。最后奖牌已经离开嘴边，人没有开始跑。
+号码布上的数字区域留在胸口，不要被黏土糊掉。放下奖牌时人仍面对镜头原来的方向，不要转成侧面起跑。水瓶的瓶身和奖牌的金属边在黏土里也要分开。他放下奖牌之后不要举起手做胜利姿势，人还站在原地。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzkwNTE4NjY5MTJjYmZhNWQxOTQxZDFlZTdjYzYxMjZfZTQ0YTY4MTk4YWIzYmU0YWQxM2Y5M2U2MGI4MTc5ODlfSUQ6NzY5NTIwNjIwNzA5OTA3OTYxMF8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_fKnNbkNbD8nOH1YBh9961cTzY5OVz4vW.mp4
+130303,13. 风格与视觉控制能力,风格与内容兼容,reference,9:16,8,720P,"他<Picture 1>從進攻核心，轉為中後場防守工兵，專注攔截、組織、補位，收斂進攻端的鋒芒。 素材：攔截、回追、補防畫面，要求：逐句对应，迪士尼动画大片既视感
+画幅比例9:16，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NWVlMWI0MmY1MzI5M2UzMzg3NDg4ZjQwY2Y2YTM4MmZfZmNjMTA3MWFiYTAxNDBhNTNiNGUxMWQzYzcwZDM4OThfSUQ6NzY5NDk3MjAxMjkxMzY1OTA5M18xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_tPIipD41mmBJEPHzMnBk8tqNPC1ZJTvZ.mp4
+130401,13. 风格与视觉控制能力,光照控制,text,9:16,6,720P,"夜戏，竖屏，六秒。唯一的主光是巷子左侧那盏暖黄路灯，深处保持冷蓝，不要拍成白天，也不要好几盏灯一起打。穿黑外套的人从暗处走进来，脸先在阴影里；走到灯下之后，暖光打在脸上和外套肩上，背后的墙还是冷的，地上的影子要和灯的方向一致。他停住之后亮度不要闪，不要突然切成日光，也不要把脸照得过曝。远处城市的底噪和脚步声，没有对白，没有配乐，没有字幕。人停在灯下时，暖光和冷蓝要同时留在同一帧里。
+他走进灯下之前，巷子深处不要先被照亮。影子只跟这一盏灯，不要在地上再投出第二个方向的影。走进来用两三步，不要滑进画面。灯的暖黄只照到人的前侧，巷子尽头的冷蓝一直留到他停住。
+画幅比例9:16。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_qPALujoHew6wIR1J0oT2M0aBkdcyGpSp.mp4
+130402,13. 风格与视觉控制能力,光照控制,first_frame,9:16,6,720P,"我传的这张本来就是晚上的卧室，双扇窗外已经是粉紫色的楼体灯光，不要再从白天演到黑夜。竖屏，机位固定。床、米色椅子、两侧窗帘和窗框都留在原地，不要换一间房，也不要推镜头。先保持现在的夜景，再让窗外那层粉紫光更明显地打在窗框和窗帘上，室内其他东西别跟着移动，家具不要消失。窗外进来一点很轻的城市夜声，没有人说话。手机水印不要留。最后仍是这一间卧室，粉紫光比开头更清楚地落在窗框上。
+粉紫光只加强在窗这一侧，床头和椅子不要另外被打成白色。房间里不要忽然出现人。窗外楼体的粉紫先在，再略加强，不要从黑窗变成白天。床和椅子的相对位置跟照片一致，不要重新摆家具。
+画幅比例9:16，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NGFhMWYwN2ZkOTQzZmEyZGYxMzA4MjIxMDM0MWFiNzdfZWFkNTAxNjEyNmZkNDhlMTViNGFlOTE5MDExNjg5N2FfSUQ6NzY5NTIwNzg4Njc0OTgzMDA5NV8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ITJYsw6KaEa3Ocr2Bw9ya3EpxzDdKYvR.mp4
+130403,13. 风格与视觉控制能力,光照控制,reference,16:9,8,720P,"背景改成夜晚下旧教室的水泥墙和窗户，灯光变为从上方打下来的暗弱的暖黄光，食指和拇指之间沾上了蓝色粉笔灰，搓动的时候少量蓝色粉笔落下。人物衣着和动作不变。
+画幅比例16:9，生成8秒。",[],[],"[""https://cos-platform-outputs.agnes-ai.com/videos/video-queue/input/2026/10/10/task_9fWfflAQqsx35KX7b2tWknfZSEVVgDy9/0.mp4""]",https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_IZPAd9ehCZcepk5aN2rkXeABDTXzrNTG.mp4
+130501,13. 风格与视觉控制能力,色彩控制,text,16:9,6,720P,"横屏，六秒。房间里的主色是暖的，墙、沙发和台灯都落在琥珀黄和米色上。窗外的海是这一段里唯一的冷色，蓝绿色。人把窗帘拉开一半之后，冷色只能停在窗框外面，不要把沙发和墙染蓝；海也不要被室内的灯染成橙色。拉开窗帘这一个动作就够了。室内有很轻的环境声，海声从窗帘打开之后才明显一点。没有对白，没有字幕。
+台灯一直是暖的，不要跟着海一起变冷。窗帘拉开前后，沙发的米色还在。海的蓝绿色不要漫进房间的地面。人只负责拉窗帘，不要走到窗外来把海挡住。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_eztIUljOneeYNzYX9K2h4GW4PLe70fr3.mp4
+130502,13. 风格与视觉控制能力,色彩控制,first_frame,16:9,6,720P,"图里这位穿红底碎花头巾的人背对镜头，坐在透光的乡村灶台前。锅具、竹棚和她的位置保持，横屏六秒。镜头从现在的位置微微推向灶台，整段落到低饱和的青绿色，但不要做成来回跳的高饱和滤镜。光还是从棚缝进来，不要变成黑夜，也不要换成现代厨房。红头巾可以压暗，色相不要漂成别的颜色，锅和篮子还要认得出来。很轻的环境声，可以有锅具轻碰一下，不要配乐，不要字幕。最后她仍背对着坐在灶台前。
+竹棚的缝还在，不要封成实墙。她的背影不要转成正面，灶台上的锅不要换成现代电器。青绿是整间屋子一起沉下去，不是只给她的衣服换色。头巾的碎花还认得出来，灶台的烟或热气可以很淡。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWEzMWVmMDc3YWJmZTY0MjBmNjVkNjEwN2RhMjA2ZGJfYWY2NTA5NWY4YjVjNTdjNGM2ZThiOGQ2YTliM2ZiY2VfSUQ6NzY5NTIwNjIzNjE2NTI5NTA3MF8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_FquaWEoRJLDgQItM64D1w9xqmg2SsYwu.mp4
+130503,13. 风格与视觉控制能力,色彩控制,reference,16:9,8,720P,"第一张是白天的商业街，行人、遮阳棚和路边的车都留着，楼和路面不要重画。第二张只借那只碗的蓝青色，碗本身和黑色背景不要出现，也不要把黑底铺进街道。横屏，八秒左右。前两秒先是原来的白天街景，之后整条街的颜色往这个蓝青色走，店面和路的结构锁定，不要中途换一条街。不要把碗当成街上的物体放进来。街上原有的环境声可以留着，不要配乐，不要字幕。颜色转完之后，街还是这一条。
+变色从街面和墙面一起发生，不要只给天空换色。行人可以保持原来的走动，但不要新增摊位。蓝青色先从地面和墙根起来，再铺到整条街，不要突然全屏闪一下。遮阳棚的形状还在，只是颜色跟着走。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2YyOTg3Y2I5OTNiYmQ1ODUzNmIzZmRhNjRiNmExYTBfMDdjMmE0MGQ2OTc1OGIwMjMxMzIyNmVhMTVlMTdjNjJfSUQ6NzY5NTU5NDM1ODA1NzY1MTE4M18xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZmUwZTI3MDNiMjJlNTU4OTFlMGM5Mzc5ZDJkODIyOThfNmFmZDY3ZDkwNDc4OTRiZWIxM2U0M2IzZTFlZmFmNWJfSUQ6NzY5NTU5NDM2OTE5NzU0MjMzMF8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_jxU1us228pO27jhOgeLucUd3JN4Nr567.mp4
+140101,14. 编辑与可控生成能力,局部修改准确性,text,16:9,5,720P,"横屏，五秒，机位别动。一个女人坐在咖啡馆靠窗的位子上，手里是白瓷咖啡杯，液面能看见。其他都不要动，只把这只杯子在原来握着的高度换成透明玻璃杯，水还在，手还握着杯壁。她的脸、衣服、坐姿、桌上其他东西和窗外的街都保持，不要顺便换桌布，不要换人，也不要让窗外的行人变成主体。咖啡馆里很轻的环境声，她不说话。停在杯子已经换成玻璃杯的这个中景。
+玻璃杯的杯口仍在她原来握杯的高度，不要飞到桌面上。窗外的街保持模糊的背景，不要重新对焦成另一条街。换杯子的过程手不要松开又重新握一次。透明杯里的液面高度和原来接近，不要变成空杯。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_NAdlZ7ZfCEGGXR7bRCmHoQAQQnmqI6V4.mp4
+140102,14. 编辑与可控生成能力,局部修改准确性,first_frame,16:9,5,720P,"从我传的这张黑白户外肖像动起来，划痕和远处的山都留着，不要变成彩色。只把戴礼帽老人的圆框眼镜换成黑色墨镜，帽子、脸、外套和领带锁定。先看清他还是圆框眼镜，再让镜片在鼻梁原来的位置换成墨镜，尺寸不要乱跳。换好之后他对着镜头说：“今天就到这里。”口型只对这一句，像普通人说话，不要第二个人的声音，也不要配乐。不要字幕。说完他还是这张脸，礼帽和远山都在。
+墨镜的宽度不要超过他原来的脸宽太多。说完那句他就闭嘴，远山的轮廓和照片一致。圆框先在，墨镜后在，中间不要两副眼镜叠在脸上。他说那句时帽子不要被摘掉。
+画幅比例16:9，生成5秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjhjMWVhYjE4NzhjMjYxMTA3OGJmYmI4MzMzM2Y0NGFfNjAzYjhlZWY3YWE5ZTVjMzZmMzIwZjMyZjcyNWZkY2VfSUQ6NzY5NTIwNjI2MDU4NDc2MjMyNV8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_gpzs3kUtpWuFL0TswCNEW1BR1DKMIP8g.mp4
+140103,14. 编辑与可控生成能力,局部修改准确性,reference,16:9,5,720P,"第一张是一位穿白西装的女人，坐在桌前用一台银色笔记本电脑，笔记本左边有一只白咖啡杯，桌上其他东西都留着，人不要换。第二张只用来替换那只杯子，换成这只深红色的苹果，不要把第二张的背景带进来。横屏，五秒，机位固定。先看清白杯子还在笔记本左边，再让杯子在原位变成这只苹果，手可以离开。笔记本还开着，女人的脸和衣服不变，桌上其余物品不要跟着消失或变形。不要把整张桌子换掉。
+苹果放稳之后不要再滚走，笔记本屏幕还亮着原来的角度。女人不要站起来，桌沿的位置也不要抬高。杯子消失和苹果出现是同一处桌面，不要苹果从画面外飞进来。白西装和银色笔记本保持到结束。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTI5MjhjNTM1MmVkOWNmNGQwOGJhYWMyZjUwOTVmYzBfYThkNDM0OTkzMDk5NDkwMDgxY2JmNjA2ZWI0YzlmOTJfSUQ6NzY5NTU5NDM3OTU5OTU2Mzc1Ml8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWU3Yzc0MmI1Mjc5ZWVkMmVhM2RhNWQ0N2EwZDhmMzlfM2Y4MzU5MWFmMGQ1YmE4NGJhZmJjN2E4NjIxYTNjODhfSUQ6NzY5NTU5NDM4NTA2MTA4ODIyNV8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_XDf2WLu5VxPXuf2pUYYzoPOeabEjZ4HP.mp4
+140201,14. 编辑与可控生成能力,非目标区域保持,text,16:9,5,720P,"俯拍一张书桌，横屏，镜头别动。从左到右先同时看清笔记本电脑、一只白杯子和一盆绿植，三样都在。然后只把白杯子拿走，原来的位置露出桌面，补出来的那一块要和周围是同一种桌面，不能留下一个白洞，也不能把绿植的叶子擦掉一块。笔记本还开着，键盘和屏幕不要变形。能听到杯子离开桌面的轻响，不要配乐，不要字幕。最后俯拍里已经没有白杯子，笔记本和绿植仍在原位。
+拿走杯子之后，笔记本的转轴和绿植的花盆都还完整。不要把俯拍改成平视。杯子拿走是手或直接消失都可以，但只能少这一件。绿植的叶子数量看起来还是一盆，不要只剩花盆。
+画幅比例16:9，生成5秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_x3wXzJ2V71ezwXexlAkY6UvM5iDuMsdk.mp4
+140202,14. 编辑与可控生成能力,非目标区域保持,first_frame,16:9,6,720P,"按这张巷子的照片来，横屏，机位固定，不要往前推。靠红砖墙停着两辆自行车，一辆偏浅蓝，巷子深处还有白车和深色车。只把远处那些车去掉，露出来的路面补成和周围一样的巷道路面。两辆自行车的车轮和车架都要留下，砖墙、窗和人行道不要移动，也不要把巷子重画成另一条街。不要字幕。最后自行车仍靠着墙，远处路面上的车已经不在。
+两辆自行车仍互相靠着，不要并成一辆。删掉远处的车之后，砖墙的窗洞数量不变。远处车辆消失后，路面的砖或沥青要接上，不要留一个灰块。自行车的车把还靠着墙。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDY5MDcyNjYyMTlhNmNiNjgwMDlkZDNlNWMwZDgwMTFfMWY5NDNlZDRkYzYzMDgzYmY2MjgyMzkzNjhkZjZkY2ZfSUQ6NzY5NTIwNjI5MjU0OTMyMzc0OF8xNzkxOTQ5MTQ1OjE3OTIwMzU1NDVfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Lzv2shbod9oVfAHi3AznU3gu1FgcTvx4.mp4
+140203,14. 编辑与可控生成能力,非目标区域保持,reference,16:9,8,720P,"将参考视频[Reference Video 1]中做轮椅上的女人头上的帽子去掉，画风、画质、亮度、色彩均保持不变
+画幅比例16:9，生成8秒。",[],[],"[""https://cos-platform-outputs.agnes-ai.com/videos/video-queue/input/2026/10/10/task_FH9LEPAcRCyRevIWjE5Fqm0uuNfKnIqh/0.mp4""]",https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_E7olJAbz4uYOikuzulblxrCPmLjUAuLO.mp4
+140301,14. 编辑与可控生成能力,主体替换一致性,text,16:9,6,720P,"公园长椅，下午的阳光从侧面来。白发老人先坐在椅子上看报纸。同一个人的位置换成穿校服的女孩，她还坐着看同一份报纸，腿的位置要合理，校服从出现起就穿在身上。不要用切镜头蒙混，不要两个人同时出现，椅子不要换成另一张。椅背、背后的树和光的方向保持。公园里的环境声和纸页轻响，没有对白，没有字幕。最后椅子上只剩这个女孩，老人不再出现。
+报纸还打开在女孩手里，不要换成手机。长椅的木条和背后的树干留在同一侧。老人的白发不要留在女孩头上。阳光仍从原来的侧面来，树影不要换到另一边。
+画幅比例16:9，生成6秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_kvTUCfUaM4JVyarjz3jqi3xDhHFXmzpR.mp4
+140302,14. 编辑与可控生成能力,主体替换一致性,first_frame,16:9,6,720P,"这张全家合影当第一帧，先把每个人的站位锁定。只替换前排坐着、戴眼镜、留胡子、穿浅色西装的那位成年男人，换成一个穿黑西装的男人，坐的高度和椅子不变。其余的人、草地上的小狗、背后的房子都保持，脸不要互串。老照片的场景关系还在，不要变成彩色的现代街拍。没有对白，极轻的环境声就行。不要字幕。最后只有这一位成年男人换成了黑西装，小狗和其他人仍在原来的位置。
+替换只发生在椅子上的那一位，站着的大人和孩子不要挨个被换掉。小狗仍在前排孩子旁边的草地上。黑西装男人的坐姿跟原来那位一样高，不要站起来。合影的边框和房子的窗留着。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWU4NTNhZDY3Y2EzNGRiOWYwYmM4NWVlM2JhZmQ2ZDZfNzcwNGI0NzY4NGU2M2ExNjkwMzZjYTUzOTI5MWY5OTNfSUQ6NzY5NTIwNjMxNTU1NTE2MzEyNF8xNzkxOTQ5MTQ1OjE3OTIwMzU1NDVfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_xkPrFdlmDhdSJiOftK5f1t1o6avEbMHX.mp4
+140303,14. 编辑与可控生成能力,主体替换一致性,reference,9:16,8,720P,"<Video 1>的角色替换成<Picture 1>，<Picture 1>模仿<Video 1>的动作，背景保持<Video 1>不变
+画幅比例9:16，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTYyZDc4MjlhNTVkZDFkZGQ4MGMwMTA0YmRhMDgxMzZfMzAxMzNlMDdmODgyNTM1ZmU0ZGQ5OGRhODhkOWYxMzVfSUQ6NzY5NDk3MjAxNDM2MDMwMDc2MF8xNzkxOTQ5MTQ1OjE3OTIwMzU1NDVfVjM""]",[],"[""https://cos-platform-outputs.agnes-ai.com/videos/video-queue/input/2026/09/29/task_P4ugGjwWDCFBNXK4P70kogTbafASj2UY/1.mp4""]",https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_sWmP7XAImYzMzfyYS1pHKU6H20zvtTtJ.mp4
+140401,14. 编辑与可控生成能力,增删物体,text,16:9,6,720P,"厨房台面，中景，机位固定。菜刀先放在菜板上，后面能看到水槽和窗户。先把刀拿走，菜板留在原位，空一拍，这段菜板上不要同时有刀和番茄，水槽和窗框也不要跟着消失。然后再有一只手把番茄放到菜板中央，手是五根手指，番茄不要穿进菜板，手离开后画面停住。金属离开台面和番茄放下是两下分开的轻响，不要配乐，不要字幕。最后菜板上只有这一只番茄。
+刀离开之后先看到空的菜板，再看到番茄，不要两样叠在一起。窗户的分格留着。空拍那一下要看得到菜板的木头。番茄是红的、完整的一颗，不要切好再放下。
+画幅比例16:9，生成6秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_c1183KqTHMjrFWZj5EMAuBL5AMNTIOQh.mp4
+140402,14. 编辑与可控生成能力,增删物体,first_frame,9:16,6,720P,"就用这张当开头。金发女人穿蓝条纹衬衫，一手端着浅色盘子，一手拿着杯子，站在厨房用品店里，货架和木台面按照片来。先让盘子和杯子都在她手里。然后这两样离开画面，双手自然放下，脸、金发和衬衫不要换，人不要被一起删掉。接着她侧过身，向一侧走开一步，货架不要跟着她移动，也不要突然切镜头。器皿放下和脚步的声音，她不说话，不要字幕。最后她手里已经没有杯子和盘子。
+她走开这一步不要走出店门。蓝条纹还是横着的，金发不要变成黑发，货架上的罐子不要跟着倒。盘子和杯子离开可以是放到台面上或拿出画面，但不要凭空碎掉。她转身时货架的透视不要跟着歪。
+画幅比例9:16，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDM4ZDg0ZDJkNDE3MWExODVhOGY4NDZhODU5MDg1ZjVfZTdhYmMxZTIyYWFkY2RmMDNkMWE0YTNjNjE0ODkzMTFfSUQ6NzY5NTIwNjM0OTcxMzQ3NjU2MF8xNzkxOTQ5MTQ1OjE3OTIwMzU1NDVfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ukIlZGyK4Fl9QhNWyYhcxmmOxpMMxPqt.mp4
+140403,14. 编辑与可控生成能力,增删物体,reference,16:9,6,720P,"第一张是木桌上的笔记本电脑、灰色杯子、白色键盘，还有右边那块银色的板。先把灰色杯子彻底拿走，原来的位置不要留一个黑圈，杯把也不要留半个。电脑、键盘和银色的板都留在原地。然后把第二张那个带果柄的红苹果放进杯子原来的位置，形状按第二张，不要再变出第二个杯子。固定机位，横屏，六秒。只有杯子离开和苹果放下的声音，没有台词。
+苹果放下之后，键盘还在画面下方，不要跟着杯子一起消失。银色的板留在右边。红苹果不要变成灰色的杯子。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzQ5NjFkYjQ0N2Q1YjZmZWUzMjQ4Njc2NDhiY2JkODNfZjVjNjM2Y2NhOTk3ZjQwMTJlZWU2MTIwZjExODQ0MDdfSUQ6NzY5NTk2MjM0MzA3MTI3MTkwOF8xNzkxOTQ5MTQ1OjE3OTIwMzU1NDVfVjM"", ""https://api3-eeft-drive.feishu.cn/space/api/box/stream/download/authcode/?code=ZTEwNDc4NzBlMjM3MDNhOTE3NTkzNmY5NmZmNjkzZTNfM2NmZWFiOTU0NTA1NGUwOWU1YWRlMWVhOWYyNDdjY2VfSUQ6NzY5NTk2MjM1MzE3OTM0Nzg5OV8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_s5QRF2Em4rPA0tmReHwhwi6gN7WI03Uy.mp4
+140501,14. 编辑与可控生成能力,视频延长,text,16:9,8,720P,"从他拿卡去拍地铁闸机开始往后续，不要另起一条。穿灰卫衣的人走向闸机，抬手拍卡，闸机打开，他走过去。步子要和上一段连着，不要用黑场或切镜，也不要一下子出现在闸机另一侧。然后他走进站台方向，脚步停下，衣服和脸还是同一个人。拍卡声、闸机提示音和脚步都要有，不要配乐，不要旁白，不要字幕。最后他站在闸机内侧，动作没有跳开。
+拍卡、闸机打开、人走过去是一个连续镜头。闸机的挡板要真的打开，不要人穿过去。卡靠近闸机、挡板打开、人跨过去，中间不要黑屏。灰卫衣的帽子或衣领保持同一个人。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_RhEofg6zhBqItKkkkuBItm3xg5xj7myE.mp4
+140502,14. 编辑与可控生成能力,视频延长,first_frame,16:9,8,720P,"用这段林间陡的水泥石阶当第一帧，台阶上本来没有人，也不要换成一条平路。一个穿蓝上衣的人从石阶下方顺着台阶往上走，镜头跟在他背后，不要切到正面特写。他走到转角，停一下，回头看一眼再转回去，脚下仍是这段陡台阶，不要瞬移到坡顶。脚步、林间的风和鸟鸣，他不说话，不要配乐，不要字幕。路程是连着的，中间不要黑场。
+石阶的转角按照片里的方向，不要走成下坡。回头只是一看，人不要走回起点。台阶的陡度一直在，镜头跟着背影，能看见他的脚落在下一级石阶上。回头之后仍面朝上坡的方向。
+画幅比例16:9，生成8秒。","[""https://api3-eeft-drive.feishu.cn/space/api/box/stream/download/authcode/?code=ZWRlZGM5YmU5N2YyZjg3YjU5ZDVjMjVlYThmM2NkMzdfMDdiNGIzZThiM2EyM2FmNmFhOWNiODY3ZDYyZDg1ZDlfSUQ6NzY5NTIwNzkxNTY5ODg4MzU2NV8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_VgcLrkWay5v18UmzjRupqWF3iDUTD9cN.mp4
+140503,14. 编辑与可控生成能力,视频延长,reference,9:16,5,720P,"这条参考视频是沿着乡间小路往前走，右边是木头栏杆，左边是带草的路沿，头顶有树。请从视频最后一帧接着往前走，不要回头，也不要跳到另一条路上。栏杆还在右侧，路沿还在左侧，树荫接上，脚步不要突然变快一截。竖屏，在原视频后面再走四五秒。只有脚步和树叶声，没有人说话，没有字幕。
+接上去的路还是这条，不要切到城市或海边。栏杆的木头样式不要换成铁栅栏。脚步和画面里的前进要对上，不要人已经走远、脚步还停着。路中间的水渍如果有，接上去还在。不要在延长的几秒里突然抬头变成一片天空。
+画幅比例9:16。",[],[],"[""https://upload.wikimedia.org/wikipedia/commons/e/e2/Walking_along_a_rural_riverside_path_in_Japan_June2025.webm""]",
+140601,14. 编辑与可控生成能力,首尾帧控制,text,9:16,5,720P,"竖屏，镜头别动，大约五秒。开头这一帧门是关严的：米白色木门，方格门板，正中间一个黑色圆环门环。结尾这一帧还是这扇门，只拉开一条缝，门环仍在门上，缝里透出暖黄的室内光，门外的墙不要换。中间先敲两下门环，再从里面把门拉开到那条缝。不要换成别的门，也不要一下拉开到全开。敲门声落在敲到门上的那一下。没有台词，没有字幕。
+门板的方格不要在拉开时变掉。暖光只从门缝里出来，不要整面门先变成透明。敲的是这个圆环门环，不要另画一个门铃。
+画幅比例9:16。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_od25iYNgvqn67ppbZl3ZbVGQoGc0OVwQ.mp4
+140602,14. 编辑与可控生成能力,首尾帧控制,first_and_last_frame,16:9,8,720P,"上传的图片1作为严格首帧关键帧，上传的图片2作为严格尾帧关键帧。图片1的空白旧纸背景必须从第一帧到最后一帧像素级固定：位置、尺寸、裁切、纸纹、纤维、折痕、污渍、色温、亮度、曝光和光影完全不变。禁止重绘背景、补画背景、移动背景、缩放背景、旋转背景、改变背景颜色或制造背景视差。镜头完全固定、16:9、一镜到底。
+
+本段只展示图片5中现有完整卡片逐格出现并落到尾帧位置。财经探长、账页、放大镜、猪、数字、猪场、销量组、拍卖槌、小猪剪影和每段红色箭头均作为完成状态的独立卡片。每张卡片从首次出现起，内部图形、人物姿态、表情、嘴形、文字、颜色、纹理、纸边、阴影和比例完全锁定；只允许整张卡片平移，不允许内部动画、变形、重绘、翻面、拆解或重新生成。
+
+财经探长人物卡片从左边缘逐格进入，在图片5左侧落位；人物内部完全静止，不得张嘴、说话、做口型、眨眼、点头、挥手或改变表情。账页卡片从下边缘进入并按图片5层级遮住人物下部；账页中的笔迹和问号保持完整原样，不重新书写。放大镜卡片从下方沿短直线路径进入，在账页上方落位。
+
+左侧调查组完全停格后，右侧证据卡片按照环形顺序逐一出现：中央猪与“27.7万”组合卡片先从上方进入；上方猪场与“7年”组合卡片随后落位；右侧“＜100份”卡片和电商商品组合卡片从右边缘进入；下方拍卖槌卡片与小猪剪影卡片从下边缘进入。图片5中的每一段红色箭头都作为独立、已经完成的箭头卡片，在相邻证据卡片落位后整体出现；箭头不绘制、不延伸、不生长、不改变曲线。
+
+所有卡片只做清楚可见的逐格平移，每次移动一小段并短暂停格；证据卡片与箭头卡片交替出现，形成环形顺序，但卡片内部图形始终静止。全部元素最终准确对齐图片5的位置、尺寸、角度、箭头方向、层级、遮挡和阴影后完全停止。
+
+全过程只能出现图片5已有卡片。禁止新增铅笔、真人手、姓名、文件、线索照片、文字、粒子或临时转场物；禁止卡片内部图形变化、人物面部变化、文字重写、箭头生长、镜头运动、运动模糊、丝滑插值、字幕、旁白、对白、人物发声、配乐和背景音乐。只保留少量人物卡片、账页、证据卡片和箭头卡片的滑动与落位声。
+生成8秒。","[""https://api3-eeft-drive.feishu.cn/space/api/box/stream/download/authcode/?code=ZDY5M2ViNWZlZWM1ZDRiYjQ1NWY1MjMyMjNjNzE4YTlfMGJiMGJiZmExOTk5ZDgzM2NkYmQwZWRiMTFiYzFkMTNfSUQ6NzY5NDk3MjAxMTA4MTE3NDI0OV8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM"", ""https://api3-eeft-drive.feishu.cn/space/api/box/stream/download/authcode/?code=ZjcxOTEyNjUzMDRkNzM3M2RhNTkyMGNkNTdiMzYzOWNfZTYzNTI3NTliMDY5NGJmMTVkNjg0ZmU4ZDZmNmI1MWFfSUQ6NzY5NDk3MjAxMjQ4NTcyNTM4NV8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_dp7lvCxl1F1ER49hlOyJPOdliqaD35of.mp4
+140603,14. 编辑与可控生成能力,首尾帧控制,reference,16:9,6,720P,"第一张：提着行李箱、穿黑衣站着的女人，脸、衣服、箱子和一开始的站姿都以她为准。第二张只借挥手告别时手臂举起的姿势，不要把第二张里的人换上来，也不要换脸。她先按第一张站好，双手在身侧，行李箱在手里。然后同一张脸抬起一只手，逐渐挥到第二张那种高度，另一只手始终提着箱子。最后手停在挥手的位置，黑衣和箱子都还在。不要跳切，不要字幕。衣料声就行，她不说话。
+挥手的是同一只手，不要两只手同时举起来。行李箱的拉杆和箱体还在身侧，不要放到地上消失。挥到手的高度和参考里那种告别接近，不要挥过头顶再放下。脸始终是提箱子的那位。
+画幅比例16:9，生成6秒。","[""https://api3-eeft-drive.feishu.cn/space/api/box/stream/download/authcode/?code=NjVhNTIxYjM5Y2JiNTY4ODk3Y2EyZDcxZGE2ZGRmYTFfMjNiMzBiODZhN2ZkMjc4NTgyOTEzM2Q5NTA3N2I5ZjVfSUQ6NzY5NTIwODQ1MjkxNzg4OTk4NF8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWU5N2RkYjNkNjA4ZDYxZmMzYmJjZDMzZWE3MzA3M2VfNDZmN2U0ZjM4NGI1ZDM4NDM4MDU2N2E4ZTJkNjAyNTdfSUQ6NzY5NTIwODQ1OTYwMzY3NjExMV8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_FtKkbfNN3DbKn0E31t4NznZnbqqKBsUp.mp4
+150101,15. 音频生成能力,对白内容正确性,text,16:9,8,720P,"办公室，两个人一直同框，横屏八秒左右。老板看着员工说：“报表怎么还没交。”只有老板的嘴在动。说完老板先闭嘴，员工再回答：“我今晚十二点前给你。”这时换成员工张嘴。就这两句，不要加“好的”之类的第三句，不要两个人重叠说话，声音也不要对错人。脸和站位不要互换，最后不要切成单人特写。办公室里很轻的环境声，没有配乐，没有旁白，不要字幕。
+两句之间留一个气口，老板的嘴先合上。不要在句尾加解释，也不要打出他们的职位字幕。老板的句子先结束，员工再开口，中间不要叠成吵起来。办公室的桌子或隔断留在两人之间。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Q5pz8ggtThYsWY2m5VD4w0tPVyBidAmn.mp4
+150102,15. 音频生成能力,对白内容正确性,first_frame,16:9,8,720P,"画面里始终是我传的这位：戴眼镜，披着花纹头巾，坐在话筒前，桌上有文件夹。不要把她画成两个人对坐，也不要换一张脸。她对着话筒说：“这份合同今天必须签。”只有她的嘴在动，头巾、眼镜和身后的木墙保持。然后她闭嘴，画外右侧有人回答：“我再看一眼第三页。”第二句不要配到她的口型上，也不要突然切进另一个人的特写。没有第三个人插话，不要配乐，不要字幕。她说完已经闭嘴，话筒还在。
+第二句的声源在画外，她的头可以微微侧一下，但不要把另一个人的肩或脸带进画面。文件夹还在桌上。她的花纹头巾在说话时不要滑落。画外那句男声或女声都可以，但嘴不要安在她脸上。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTEyM2FmYzIyYjFiNmJiYjY0NDY5MWNkNDZjYmM4ZmZfYmUxY2Q2NjIzNjc1ZmZkMGI3NjE1ZDA5ZmM0NDVhY2ZfSUQ6NzY5NTIwNzk1NTMyNzYwMTYxNl8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ULQY2prhBsSeSIzo0TrvtHaF8rZW7seD.mp4
+150103,15. 音频生成能力,对白内容正确性,reference,16:9,8,720P,"分镜一：老板生气的对员工说：为什么组装的这么慢。
+分镜二：员工说：我组装的慢但是品质好，客户用着不烧心。
+分镜三：老板生气的说：你就不能快点吗。
+分镜四：员工说：不能，要稳。
+分镜五：老板说：那人家怎么能干这么快？
+分镜六：员工说：一分价钱一分货，人家挣的钱可以大鱼大肉，我挣的只够馒头咸菜，干活肯定没他们快。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTNhMjY0ODc5ZDllN2MxNGRjMWJjN2MzZmZmZWQ1MDFfZGM4MzU0ZDA5ZWFkMWY2NGJlYWUzN2RjZDVkMTgyOTFfSUQ6NzY5NDk3MjAxMjc3MTA4NTQ5OF8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_tvEV2wGnqvluKwmKPJJBV6yjjV3aEkdF.mp4
+150201,15. 音频生成能力,声音自然度,text,16:9,6,720P,"厨房中景，六秒。四十来岁的女人站在砧板前，一边切菜一边说：“火开小一点，汤要溢了。”嘴和这句话对齐。声音要像在家里随口提醒，气口自然，不要播音腔，不要电流声，不要做成广播或广告配音。刀落在砧板上的声音在人声后面，不要盖过她，锅里可以有一点热气。她不要离开灶台。不要配乐，不要字幕。这句话说完，刀和锅都还在。
+这句话像提醒家里人，尾音不要拖成演唱。刀工是剁或切的短声，不要盖成连续的噪音。切菜的手还在砧板上，人声在前，刀声在后。汤如果冒热气，不要喷到把她的脸挡住。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_tMZUmCG2JmhFQPnJv3TISuRMpbt6C3bG.mp4
+150202,15. 音频生成能力,声音自然度,first_frame,9:16,5,720P,"用这张看着镜头的年轻人当第一帧，竖屏，构图锁定，不要给他加一件照片里没有的外套，也不要推镜头。他说：“我到了，你们先坐。”口型跟着这句话。音色是普通青年男声，像打电话留下一句，语速自然，不要字正腔圆的广告配音，说完就停，不要再补半句。脸、头发和背景不要换。可以有很轻的房间底噪，不要女声，不要配乐，不要电流声，不要字幕。
+电话那头不要有人答话。他说完嘴闭上，背景仍是照片里的那一面，不要拉成全身。这句像刚进门打给同伴，尾音收住。不要给他加耳机特写，构图仍是看着镜头的近景。
+画幅比例9:16，生成5秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjhiYmVlZTI4ZjFiMTAzNTY4OGZhNjJmMWMzYTRkNmVfNGRiYTQyNTZjODVjMjc1YmNmOWE0ZDljMTg0YTI3OWVfSUQ6NzY5NTIwNjM5MTM3MTUwMDQ4Ml8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_nBjptbyXzbJPF9DwfLrEswOWCivXqZae.mp4
+150203,15. 音频生成能力,声音自然度,reference,16:9,10,720P,"基于首帧，10秒内画面只有一层运动：老人吐出一口烟，烟雾缓慢上升并向右侧飘散。飞鸟停在石阶上静止，河水静止。摄影机从固定中景缓慢推进至老人面部近景。3D武侠写实风格，电影级浅景深，青灰色调，晨光柔和。环境声：老人吸烟吐气声，流水声，远处鸡鸣，孩童跑动声。
+老者沧桑声音，史诗开场旁白（20-30秒） ：“这镇上的人……早就忘了……禹王是谁了。”
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmRlNzVjYWRkYWY1YzdhNGIxMDAzMDNhZDY2ZjU0MTZfODhiZDlhMTRiYjc4MzgyOTgyNWJlN2RmYzhmNzY3Y2JfSUQ6NzY5NTU5MDk2MzgzNDE5NDkzMl8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_V75zGl6Oz9Y0uwp49d6CGQFdc3PnRSYA.mp4
+150301,15. 音频生成能力,音色一致性,text,16:9,7,720P,"同一个低沉男声说两句，横屏。他站在门口，先说：“门我锁了。”停大约半秒，嘴闭上，再把音量放小，仍用这个音色说：“钥匙在鞋柜上。”第二句更轻，但年龄感和音高还是这个人，不能换成女声，也不能换成另一个男人。衣服和门口不要换。两句之间不要插入旁白或第二个人出声。不要配乐，不要字幕。第二句轻声说完时，他还站在门口。
+第二句音量小，但吐字还清楚，不是含混成另一条声线。门口的门框留着，不要切到室内。“门我锁了”清楚，“钥匙在鞋柜上”更轻，但都是低沉男声。停的那半秒嘴里没有别的词。
+画幅比例16:9，生成7秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_VQeU4PnUzuhS5WVH126YVhnvDB5KCBvX.mp4
+150302,15. 音频生成能力,音色一致性,first_frame,9:16,7,720P,"第一帧就是这张年轻女人的近景，竖屏，不要给她加眼镜或另一套衣服，也不要切到另一个人。她先说：“海风有点大。”短暂停一下，嘴闭上，再用同一张嘴、更轻地说：“我们再等五分钟。”两句都是她自己的女声，只是后一句轻一点，声线不能跳成别人，也不要插进男声。脸、头发和背景保持。不要配乐，不要字幕。第二句说完，她仍是开头这张脸。
+两句之间她的头发不要被风重画成长短不一。后一句更近耳语，但音色的年龄感不变。海风这句正常音量，等五分钟这句收小。她的嘴唇两句都在动，中间闭上，不要第三人出声。
+画幅比例9:16，生成7秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjFlMGQ3OTc0NGM5NDA4NDJkMTM3ODRkOTA0ZjU1MDVfMTEyMDEwNzMxMDdiZjBmZjY2MDU0NDA5N2E1ZjM1YjZfSUQ6NzY5NTIwNjQyMjYxOTAzMjU0NV8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Hsdvm361386lPsLrtdiJ7gwMi8zwprLR.mp4
+150303,15. 音频生成能力,音色一致性,reference,9:16,7,720P,"景别 / 机位中景侧面・固定机位・与前段同机位（人物保持垮掉静止态，全程不动）AI 画面提示词同场景同角色。人物保持片段 05 终点的 ""垮掉"" 姿态完全静止：驼背 5°、双手垂身体两侧、头低 30°、墨发遮脸、三根呆毛彻底塌下。画面无任何角色运动（除光束尘埃自然浮动）。可选特效：系统音说到 ""0%"" 时，人物身体极轻微一颤（幅度 < 0.5cm，几乎不可察）—— 建议添加，作为 ""被暴击"" 的物理反应。二次元厚涂半写实风格。无 UI 弹窗、无全息投影、无文字浮现—— 系统音是纯声音，没有视觉对应镜头运动完全固定角色动作全程静止。可选：第 6.2 秒处（系统音说 ""0%"" 时）身体微颤 < 0.5cm表情头低着，面部被头发遮挡，不可见。观众从垮掉身体姿态感受情绪台词****0–3s 萧无忧 OS（女声崩溃，内心独白质感，轻微混响 0.3s）：""我都坐了半个时辰了！怎么一点反应都没有？！"" 节奏：""我都坐了半个时辰了！""（1.2s，快、高，""半个时辰"" 加重）→ 停 0.2s → ""怎么一点反应都没有？！""（1.6s，更快更高，""一点"" 咬重，句尾 ""没有"" 带哭腔颤音）3–3.5s：完全静默（系统音插入前喜剧停顿，OS 回声 0.1s 消散 + 0.4s 绝对静默）3.5–7s 系统音（机械平淡无感情，电子合成音质感，中性音色，音调平直，带极轻电流底噪，混响 0.1s 更干更冷）：""宿主悟性为 F 级，基础吐纳法第一层预计需要一个月。当前进度：0%。"" 节奏：""宿主悟性为 F 级，""（1.0s 匀速，""F 级"" 咬清，F 与 ""级"" 间停 0.1s）→ ""基础吐纳法第一层预计需要一个月。""（1.8s 匀速，""一个月"" 加重）→ 停 0.2s → ""当前进度：""（0.5s，""进度"" 后停 0.1s 制造悬念）→ ""0%。""（0.5s，""0"" 咬极清晰，""%"" 几乎气声，句尾干脆）→ 余韵 0.5s（电子质感渐弱）音效0–7s：环境声完全消失（无鸟鸣、无风声、无环境底噪），让观众 100% 聚焦对话。仅有人声 OS 和系统音。系统音带极轻电流底噪（模拟电子设备质感）BGM无转场硬切接片段 07AI 生成备注此片段是 ""纯对话戏""，画面全程静止，AI 生成时运动幅度设为 0（纯静态图 + 后期配音）。系统音是全镜最大喜剧落点，三个打击点层层递进：F 级（最低等级）→ 一个月（漫长时间）→ 0%（完全没进展）。系统音绝对不能有感情起伏 —— 不能遗憾、不能安慰、不能嘲讽，就是纯粹播报数据，""非人感"" 是喜剧来源。""0%"" 必须咬极清晰。3–3.5s 的 0.5 秒静默是全镜最重要的喜剧停顿—— 让观众第一波笑声起来，然后系统音补刀。OS 崩溃要 ""炸"" 出来 —— 前 25 秒全是动作静默，观众憋了很久，OS 是情绪释放阀
+
+Visual style: 采用高精度3D古风国漫风格，主体形象精致灵动，材质细腻真实，画面具有柔和通透的影视光影与高级CG渲染质感。用户明确指定的资产外观优先；仅对原文未说明的视觉细节进行风格化补充。以下规则只作用于当前生成目标，不得主动添加其他类型的资产。
+【如果需要人物】
+妆造采用高规格古风国漫主角设计。根据人物身份、年龄与性格，细致设计眉形、眼妆晕染、睫毛、肤质、腮红、唇妆和花钿等面部细节。发型应具有清晰完整的古典结构，通过高盘发、层叠发髻、束发或披发形成丰富轮廓，并搭配成套发冠、发簪、步摇、珠玉、流苏、耳饰和颈饰，准确表现材质、造型与垂坠层次。
+服装应具有华丽精细的多层古风结构，通过交叠衣襟、内外襦衣、对襟长衫、广袖、披帛、腰封、多层裙装和完整裙摆建立丰富轮廓。综合使用丝绸、锦缎、薄纱、织金与绣面材质，在衣领、前襟、肩部、袖缘、腰部和裙摆设计连续且细密的刺绣、织锦纹样、滚边、珠线、玉饰与垂坠配件。明确描述内外层关系、面料质感、纹样分布、刺绣工艺和装饰结构，呈现精致、华贵且具有主角辨识度的完整造型。
+【如果需要道具】
+道具采用精致古风设计，结构和用途清晰，细致表现木材、漆器、金属、陶瓷、玉石、织物等材质，以及雕刻、镶嵌、刺绣、錾花和做旧工艺。不得添加人物。
+【如果需要场景】
+场景
+采用完整可信的古风空间设计，通过建筑结构、门窗、屏风、帷幔、灯具、家具和陈设建立丰富层次，突出木材、石材、织物与金属的真实质感，并使用柔和通透、具有叙事性的光影。空镜场景不得添加人物。
+【整体画面风格】
+高精度3D国漫CG渲染，画面清透干净，光影柔和自然，色彩协调克制，明暗层次细腻，质感高级，细节清晰但不过度锐化；避免低模感、塑料感、油腻高光、过度磨皮、廉价影楼感、过饱和与粗糙渲染。
+画幅比例9:16。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmM1OTU0Njk5M2Q0YzRjNDBkMzVlZDU2OWE0OTBmNmRfMWU1ZDU5NDZhZDY4OGM1NjA2Mzg1MTI2YjIyZDIyOTdfSUQ6NzY5NDk3MjAxNTA3MzEzNTgxNl8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTBkNTlhOTBiNjIyNjNmMjNmMmYxNWQ0MjgyOWI1ODVfMjM2NzMwMWNlMGQxNTUyMzU0NGJkZDZkMjIyZDg5NzBfSUQ6NzY5NDk3MjAxMTM2NjMyMTM3MF8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_hSapG3QknulKGsB7SF8TiCnscVd52Tl4.mp4
+150401,15. 音频生成能力,情绪匹配,text,16:9,10,720P,"时长：10 秒｜画幅：16:9｜调性：纪实电影感、温柔收束
+画面：
+居民在新整理的照片墙前继续交流、合影，动作自然松弛。镜头从照片墙近景持续缓慢拉远，沿楼梯向上看，每层转角都有暖光；随后继续拉远到居民楼夜景，多个窗户透出温暖灯光，最终稳定停留在无人解说的楼体夜景长镜头中，淡淡淡出。
+
+旁白（后半）：
+“当你每天经过的楼梯被共同照顾，普通的日子，也会慢慢变成光。”
+
+声音：
+钢琴温柔收束，尾音延长；加入轻微楼道回响、远处城市环境声，结尾保留安静余韵。
+结尾帧：停在居民楼夜景稳定长镜头。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_tbGGig3uoScXsQ3iViWGlsCT7bY9JQU8.mp4
+150402,15. 音频生成能力,情绪匹配,first_frame,16:9,6,720P,"从这张开始，横屏。孩子坐在草地上，怀里抱着浅色的狗，脸上还是笑的，狗留在她身边，草地不要变。然后她低下眼睛，眉眼逐渐难过，不要从笑脸直接切到哭，用发紧、委屈的声音说：“我不是故意的。”不要一直笑着把这句说完，也不要让狗跑走。没有配乐，不要欢快的音效，不要字幕。说完她的眼睛是低下的，浅色狗还在旁边。
+委屈是从笑慢慢收下来的，眼眶可以红，但不要瞬间大哭。狗的浅色毛留在她臂弯里。狗不要在她难过时扭头看镜头抢戏。草地的绿保持，不要下起雨把情绪做成另一场戏。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZGE5NmUyYzQ4NWY1NGZkMzZkMDBiNGYwZWQ1ODM5NzBfNTYwYmMyNzBmN2VjMWYwMTJmZTNjMTM4YjU1NjIxNDJfSUQ6NzY5NTIwNjQ1MTg5NTE3NjEzOV8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_1oGWNiNpw4K7nMh5fGkJJkCK3A7twfew.mp4
+150403,15. 音频生成能力,情绪匹配,reference,16:9,6,720P,"第一张锁定这个人的脸和衣服，不要换脸。第二张那些舞台灯只放在他身后当环境和光，不要把灯画成一张脸，也不要把设备换成别的东西。他先站在灯前，表情是放松的。然后用轻快的语气说：“欢迎大家，今天天气真好。”语气和表情一致，不要说到一半变成哭腔，灯光的位置保持稳定。可以有很轻的现场底噪，不要让配乐盖过人声，不要字幕。这句话说完，他仍在这些灯前面。
+轻快只在语气里，不要给他加掌声和观众欢呼盖过人声。灯的支架不要长出五官。欢迎这句话带一点笑意，但不要鼓掌。舞台灯的光束可以在他肩后，不要扫到把脸照花。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTQwOGYyNzVjMjAyNDE3ZmEzNDhlZTc0OThjNzRjNWVfM2NiZDliZTIxODRmOTA2M2U3OGJmOGFjYzk5MmU3MTJfSUQ6NzY5NTIwNzk5MDE2NDQ5MTI0NV8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzBhY2E3NjRiM2JmNzE5ZmU3ODRhZGE0ZTgyNDU1MTVfNWYxODFmOTA2ZGJjYzY0ODEwNmI3OWVjNGIwOGFkNzBfSUQ6NzY5NTIwNzk5NjE5NTk0OTUzN18xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Q7ZdkRVtWAhEaKxe0XQvLtfKUTGvAbHn.mp4
+150501,15. 音频生成能力,环境音,text,16:9,12,720P,"镜头1｜0-4秒
+景别：超广角远景→缓慢推近
+机位：低角度平拍
+拍摄方式：稳定电影机位，缓慢前推
+画面：暴雨从黑沉沉的天空倾泻而下，狭窄老巷被雨幕切成纵深层次，昏黄路灯映在积水中，碎金般摇晃。巷子尽头，一座青灰破旧老宅隐在雨雾里，屋檐滴水形成连续水帘。
+光影：冷蓝环境光包裹雨幕，路灯形成暖黄逆光与湿地反光，体积雾增强空间纵深。
+特效：雨滴高速下落，积水被雨点击出密集涟漪，远处闪电短暂照亮屋顶轮廓。
+音效：
+环境音：暴雨声、远处闷雷、风吹电线嗡鸣。
+动作音：积水被脚步踩开的哗啦声逐渐靠近。
+镜头2｜4-8秒
+景别：中远景
+机位：背后跟拍
+拍摄方式：跟拍+轻微手持
+画面：林默拖着旧行李箱从巷口走来，肩膀微缩，夹克被雨水打湿，另一只手护着破帆布包。他拖着行李箱一步步靠近铁门。
+表情动作：先低头躲雨，走到铁门前才缓慢抬脸，眼神明显犹豫。
+音效：
+环境音：暴雨、风声。
+动作音：行李箱轮子碾过积水，“咕噜噜”的拖行声。
+镜头3｜8-12秒
+景别：近景→特写
+机位：仰拍门牌
+运镜：从林默肩后向上缓慢推近
+画面：镜头越过林默肩头，锈迹斑斑铁门上方的门牌逐渐清晰——“青璃巷17号”。雨珠顺着门牌边缘滑落。林默的脸位于前景虚焦。
+尾帧：门牌占画面中心，林默抬头动作停住。
+转场：利用林默抬头动作匹配下一段起手。
+音效：
+环境音：雨声持续。
+动作音：铁门被风吹得“咯吱”轻响。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_jTY4IvmIEFeGjrtaoVuCFVCQvOay5jRe.mp4
+150502,15. 音频生成能力,环境音,first_frame,16:9,8,720P,"就拍我传的这个雨天站台，横屏，机位固定，不要移动镜头。左右是两列带粉色条纹的列车，不要改成别的颜色，地面是湿的，有人打着伞按原来的方向慢慢往前走。雨一直打在站台和车顶上，雨丝和积水持续，列车不要突然开走。谁都不要开口，不要有广播。听得见的只有雨打车顶、雨打地面和远处的水声，不要音乐，不要字幕。整段结束时还是这条湿站台，雨没有停。
+伞和湿地面一直在，雨丝不要在中途停。两列车的粉色条纹保持左右各一列，不要合成一列。雨声铺满八秒，不要插入火车汽笛或广播报站。打伞的人如果往前走，不要开口交谈。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWE5M2Y5ZTczZTE3MGFjNjFiYmY5Zjc2NDk0N2U5YzRfYWY0YWFjYjVjZDNjMmEwNmY0OTE1YzMwYmU2MzBmMTlfSUQ6NzY5NTIwNjQ5MjIyNzc2NzIyNF8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_MX0QRKcU3DVSw27nYRoZKxHyhRb2sBTC.mp4
+150503,15. 音频生成能力,环境音,reference,16:9,8,720P,"第一张是礁石岸边和拍上来的海浪，岸和海的关系留着，不要换成别的海滩。第二张只取那只海鸥的外形，红色电话亭不要出现，也不要把亭子的红色铺到海面或天空上。海鸥可以从一侧飞过，或者落在礁石附近，但第二张的背景不要整张贴进来。声音从头到尾是浪、风和鸟叫，鸟叫要像这只海鸥，不要加人声。不要音乐，不要字幕。最后仍能听见浪。
+海鸥的叫声和它出现的时间靠近，不要全程只有风没有鸟。礁石的形状不要被抹成沙滩。浪打在礁石上的声音是持续的，鸟叫是间断的一两声。不要配上海边歌曲，电话亭的红不要出现。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTFjMmE1ZDg0ZGQ1OTU0YTAxZDJiZWMyMWVhYjNmZGVfOTYzZmQwY2EzOTM5YWMzOWVmMTVkNTBjM2JhMTU5YjlfSUQ6NzY5NTU5NDM5NzQ0NjY4NzczMl8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDExMDZlYTNkMzc2ZGFkOGNhOWQ1N2RkNzMzZGViYTZfMTc4YjYyNTA2NmI1OTEwMDIwYzQzMDlhNTg5NmJiZDVfSUQ6NzY5NTU5NDQwODQ0Nzg4ODM1M18xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_P64ocdp5J5X6ZHqpY9Ie73oiem7ASccs.mp4
+150601,15. 音频生成能力,动作音效,text,16:9,4,720P,"近景四秒。一只手拿着陶瓷杯，从木桌上方慢慢放下。杯子还没碰到桌子的这一段，只能有很轻的衣料声，磕响不要提前响出来。杯底接触木桌的那一帧，才有一声清脆的磕响，声音和接触在一起。然后杯子停稳，不再响，也不要陷进桌面。不要配乐，不要人说话，不要字幕。
+放下的速度是慢的，所以空中那一段要够长，让人听得出响声是后到的。杯壁不要穿进手指。杯底碰到木桌才响，响完杯子不动。手可以松开，但不要再敲第二下。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ut0aq5wDz1QPGLboT9ZneOCeA3muQt04.mp4
+150602,15. 音频生成能力,动作音效,first_frame,16:9,5,720P,"第一帧按这张来，绿色木门是关着的，不要一开始就是开着的。一只手从画面右侧伸过来，还没碰到门的时候不要先有开门声。手把门推开，门轴声随着门缝变大，门还是这扇绿门，不要换成别的门。门板靠到门挡的时候再有一下碰撞，然后停住。开门和碰撞是先后两下，不要和动作错开。不要配乐，不要人说话，不要字幕。
+门轴声是连续变响，碰撞是单独一下，不要两下叠成一声。门缝从无到有，不要闪开。推门的手从右侧进来，门轴声跟着角度变大。靠住门挡的那一下之后，门不要弹回来。
+画幅比例16:9，生成5秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjFjNDMxZmE2NDliOWVlZDNmNWMxNzQzMTRmOGZlOTlfOTUwZjAxYTYwMGEzMjdhMThlNjM2MTQ4Yzg5NzM3OTZfSUQ6NzY5NTIwNjUyMDM5MjMyMjAwNV8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_kscR8okNqjDbNht1JWuz4VxpqlxcaZKG.mp4
+150603,15. 音频生成能力,动作音效,reference,16:9,6,720P,"镜头6秒，固定近景，柔和浴室光照
+画面：挤护发素涂抹，轻柔揉搓、梳理打结发丝，拍摄手部按摩发丝，绵密泡沫与顺滑质感
+旁白：一瓶，抚平所有毛躁干枯
+音效：轻柔揉搓音效
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTNjNWNmODc3NTE5YWQ2MDY2NjA1ZjQ3OTU1YzhiMTZfY2RmNWE4ZTk3MjhkZmM2OTQzOTYxMTc0ZTVlZDBiNThfSUQ6NzY5NTU5MDk3OTMzNjQyNDQxMl8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_aKRehXICrlpCuWlKZ13GTUYkIHVQ2AjW.mp4
+160101,16. 音视频同步能力,口型同步,text,16:9,5,720P,"近景，女人面对镜头，背景简单，不要出现第二个人。她说：“明天早上八点，老地方见。”每个字都要有对应的嘴部开合，语速和口型一致，不能只有声音、嘴不动。句尾她闭嘴，无声的时候不要继续动嘴，也不要加字。只有这句女声，不要男声，不要配乐，不要字幕。头可以有很小的动，但不要转开。说完最后一个字，口型停住。
+“八点”和“老地方”这几个字嘴要张开，不要整句用一个口型糊过去。说完背景里不要弹出时间字幕。整句大约五秒说完，不要快放到嘴对不上。最后一个“见”字说完，嘴合上，画面里没有时钟。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_gmnpi5d00X2ppFBbk9JWw3kaRj3C1djS.mp4
+160102,16. 音视频同步能力,口型同步,first_frame,16:9,5,720P,"用这张孩子看镜头的照片当开头，构图锁定，不要切到妈妈，脸也不要换成大人。他说：“妈妈，我写完了。”嘴跟着这几个字动，口型和字对齐，说完闭嘴，仍看着镜头。不要用成人的声音盖住他，画面里不要出现第二个人，也不要再加半句台词。只有孩子这一句，不要配乐，不要字幕。
+孩子的音色偏小，不要突然变成成年男声把后半句接完。眼睛还看着镜头，不要低头离开。“妈妈，我写完了”六个字左右都能看到嘴在动。不要切到作业本特写把脸剪掉。
+画幅比例16:9，生成5秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Zjc0YjU0ZTgyNTJkYmEwODBjN2MwODYwNjZlNjU0ODRfNDFlMzVkM2M1ODhkMzM1MjQwMDM3YTNmZjZhOTg4NzRfSUQ6NzY5NTIwNjU0NTU1ODE5NTE4MF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_dC6czWoQStjLeQC4h76Tq3ffp46lNLWv.mp4
+160103,16. 音视频同步能力,口型同步,reference,16:9,5,720P,"第一张是这个扎马尾、脸上有雀斑的女人，嘴要对上这句：“今天下午三点，在铁丝网这边等我。”每个字的口型跟上，不要只有声音嘴不动，也不要多出一句。第二张是她右侧的铁丝网，网格留着，耳环还是这只，不要换成室内。脸、马尾不要换人。横屏，五秒，近景。只有她这一句，没有旁白，没有字幕。
+说到“铁丝网”的时候嘴还在动，不要这半句改成旁白。耳环留在看得见的那只耳朵上。铁丝网的网格不要在她张嘴时消失。彩色上衣的下摆如果入画，颜色留着，不要换成白衬衫。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDNhMDg4Yjk3MGUzMDQwZjhiZDI0ZGZiNDg0YWZiMzJfOWEyYzgzZmM3MTQ1YzA1NTkwYzVlZDUwMmJkYzNkNDBfSUQ6NzY5NTk2MjM2MjA0MjUwMjA5M18xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OTQ5NTFmZjdkNmFjODA3YzNkYWE5MjZiYmNlYTgxNGJfYjM0NzI4MGZkMmZkYTg5NjFmYzJhZWJhZmFhNGI5MDZfSUQ6NzY5NTk2MjM3MTU0NjQ2NzMwNl8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_FgyZjxjGxeM2VVT6l10JNAn2ZWZDa5Nd.mp4
+160201,16. 音视频同步能力,动作音同步,text,16:9,8,720P,"上几版真人画风继续生成，人物面容继续使用道具衣服形象都不要更换，画面：李喜忐忑垂着头。夏辰开口，说完便迈步向着羽林卫军帐走去。
+蓝色羽林卫军装的夏辰：包子不错，以后每天给我带一份来。
+旁白：李喜一听，立刻大喜，长松一口气，以为上司不再追究旧事。
+羽林卫军装的李喜：（高声应答）好嘞，头儿！我以后每天都给您带早餐！
+画面：夏辰往前走的脚步猛地一顿，身子僵住，脸上露出一丝怪异哭笑不得的神情。【真人写实风，不要漫画风】
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_bnrmZDUSrjp4krJfOizhLlVnezjMNohA.mp4
+160202,16. 音视频同步能力,动作音同步,first_frame,16:9,6,720P,"照片里这个人已经在往下走：黑帽子，棕色外套，背对镜头。接着按这个方向下台阶，不要改成往上走，也不要一下子出现在楼梯底部。脚还没踩到下一级的时候不要先响；脚接触台阶的那一帧才有一声脚步，至少两步，一步一声。帽子、外套和楼梯不要换。楼梯空间里有一点轻混响，他不说话，不要配乐，不要字幕。最后一声脚步落在脚踩上台阶的同一帧。
+台阶的边缘要能看见脚落下，声音不要在脚还悬空时先响。外套的棕色和帽子的黑色保持到最后一步。向下的台阶至少清晰地踩两级。脚步的混响像在楼梯间，不要配上音乐鼓点。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjFkZTg2YjE4ZGI5ZTBjMGZmMWZmMWYyNWFhNWFhMGVfMGY3YjU3MzAyMDZjMjUzN2JmOTQwNWI3MzgzNmRkMTBfSUQ6NzY5NTIwNjU3MjA3ODczMDIwOV8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_1W2XkazaQCbn2Y42fVwwiSUI1d1M1QIA.mp4
+160203,16. 音视频同步能力,动作音同步,reference,16:9,12,720P,"视频生成参数确认
+
+时长： 12 秒
+比例： 16:9 横屏
+主体： 原图中的橘猫、白猫、黑猫、花猫群像，保留服装、花色与拟人动作
+风格： 写实音乐录影带，强节拍卡点舞蹈，镜头有推进、环绕和切换
+声音： 无台词，电子舞曲 BGM，脚步、拍手、转场拟音同步
+画面文字： 不添加字幕、贴纸或额外文字；画面不继承原图界面按钮和提示框
+分镜表
+表格
+时间 画面动作 台词 / 声音 重点
+0–3s 室内橘猫向前踏一步，双臂快速挥爪起舞；后方黑猫举相机记录，随后镜头贴近橘猫 节拍起拍、挥衣声 单猫领舞开场
+3–6s 天台猫群从整齐行进转为同步舞步，白猫与花斑猫左右摆肩、踏步，队形轻微交错 鼓点增强、脚步落地声 天台群舞展开
+6–8.5s 橘猫举摄像机低机位录制，黑猫在后方摆身起舞；镜头随摄像机轻微晃动后快速推近 节奏 break、电子音效 双人互动与镜头感
+8.5–12s 街巷猫群同步做交叉步、挥爪和上半身律动，前排花猫与白猫领舞，最后全员定点 pose 音乐高潮、重拍收束 群舞高潮，定格收尾","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWYwMjYyYWY0NDQ3YWIzYjIwOWUzZTQ2YTBmZmUzMzlfNDZiMTliODdhYWEwNjQ1ZGI2ZjRjYjVmY2MyN2E5NTBfSUQ6NzY5NDk3MjAxMjUzMTk2MTA1Ml8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjIxOTY3YWVlY2Y1MWU0MzYxODNhNzIyY2FkNzYzODhfNDY1NjYxN2MyZmJhOWQ5ZWRiZTVkMjg0M2UzMTI4M2RfSUQ6NzY5NDk3MjAxNDYwNzczMTkwOF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjUyNWNlZTc1OWY2ZGI4ZmFhMTc3ODI1ZTI0OTA4MjBfYTBiYTNkYTE2MTkyMTdmZmQ2N2VkMTkxYWVlNDFjNTVfSUQ6NzY5NDk3MjAxMTY4MDkxMDUxN18xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzUzNzM3ZGM5MjZkN2Y5NGM0YTc5YTE2YjAxZmRjYmNfNWYzNTExZDFmODk5OWZlODg4NTgwYmE1M2RlNmViMDNfSUQ6NzY5NDk3MjAxMzM3MDcwNzE0Ml8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_SnjWlq2OsalpMx37R5bVBbJvCkD3EhaB.mp4
+160301,16. 音视频同步能力,环境音同步,text,16:9,8,720P,"小区路口，开头三秒左右是晴天，地面是干的，声音只有远处车流和风，这段不要先有雨声。然后雨点同时出现在地面和伞上，地面变湿，雨声也从这一刻开始，由小到清楚。不要在晴的段落里预告雨，也不要雨已经下了却没有声音。不要配乐，不要解说，不要字幕。结束时地面已经湿了，雨声还在，和开头的干路口分得开。
+伞是在雨开始的同时被打湿，不要晴天就已经滴水。车流声可以留在雨声下面，但雨声要盖过它。干地面和湿地面要能看出来先后。雨声起来的同一秒，伞面或地面积水开始有雨点。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_skSxwpo57XzeGJUuIN7xvjFJP9PKjNqV.mp4
+160302,16. 音视频同步能力,环境音同步,first_frame,16:9,8,720P,"用这张下雨的夜路当第一帧。地面已经是湿的，有人打着伞往前走，右边是一堵墙。雨声从第一帧就在，因为路是湿的，不要先放一段干的环境再下雨。谁迈一步，脚步就在落脚的时候响一下，不要提前。雨如果变大，雨声跟着变大，不要画面还在下雨、声音却停了。横屏，八秒。没有对白，没有音乐，没有字幕。
+湿地面的反光一直在，不要中途变成干路还继续下雨声。伞还在走路的人手里。墙留在右侧，不要切到另一条没有雨的街。灯箱可以亮着，但不要变成字幕。伞下的人继续往前，不要停下来对镜头说话。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWVjNGQyYzAwODljNWJkMjlhOTM0ZGJmZDBjODA0OTZfN2QxMTY3OGQ0N2Y3ZGFmNWFlNzMwMzkyNzJiOWMyNjBfSUQ6NzY5NTk2MjM4MTg2MDY4Njc5OF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_w63DhHOrPN2mOpAPkSsy8gDF5Y0kiIYn.mp4
+160303,16. 音视频同步能力,环境音同步,reference,16:9,8,720P,"[Narration Mode] No character dialogue, no lip movement, no on-screen text. Keep the coordinated global BGM and environmental ambience; narration TTS will be added later. 参考图1为村口水井的场景环境参考图，提供空间结构、背景陈设、材质和光影氛围。参考图2为旧木桶的道具参考图，提供道具外观、结构、材质和颜色参考。【剧情】场景状态：@图片1(村口水井)，黄昏，温柔金色光线。0-8s 远景固定平视：井边空无一人。夕阳西下，光线温柔，井栏投下长长的影子。旧木桶@图片2(旧木桶)静静放在井栏边。井口水面完全平静，倒映着晚霞的天空和云彩。画面静止。【全局音频】全片统一BGM：深沉弦乐渐起，伴随心跳节奏；孩童遇险时低频嗡鸣加剧，救人高潮达到顶点，随后转为温暖钢琴，结；本镜环境音：极轻微风声，远处隐约犬吠，音乐完全安静下来，余韵空白；全程保持可听BGM与环境音；禁止静音；无字幕无屏显文字。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzdmZWIxMTZlMzVkYmMwMjRjZjhjZGM1NjYyOTE3ZTZfOWI4MWY5ZGQzYTM5NDVjNDMyOTZhOGViYjUyNThiZGFfSUQ6NzY5NDk3MjAxMjY5NTQ3MzM0Nl8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Nzk3ODQ5Y2ZlNGVmOWEzNzNhYjU2NzhhOTRjYmRhZDhfOTg2YjlhMTk5Mzc4ZjliMTk4ZTY1OTQwNTc0M2EyM2NfSUQ6NzY5NDk3MjAxMTc0MzkzOTg4MF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Ms3BVFVBsWOyAxUR6doaBI9c55OzwXSc.mp4
+160401,16. 音视频同步能力,多人对白匹配,text,16:9,7,720P,"两个人同框，不要把脸融在一起。左边的妈妈说：“作业写完了吗。”只有妈妈的嘴在动，声音也是她的。右边的孩子接着说：“还剩一道。”妈妈闭嘴，孩子张嘴，不要把妈妈的声音从孩子嘴里放出来。不要两个人一起开口，也不要有第三个人插话。没有配乐，不要字幕。停在孩子说完、妈妈不再张嘴的这一帧。
+孩子回答时妈妈的嘴是闭的，不要两人嘴一起动。左右位置不要在句子中间对调。妈妈问完再让孩子答，不要抢话。两人的身高差留着，不要合成一张脸。
+画幅比例16:9，生成7秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_sVyQRsytZECk4bp8yPbCgce5aHEDlVLw.mp4
+160402,16. 音视频同步能力,多人对白匹配,first_frame,16:9,8,720P,"座位按这张旧照片，一男一女坐在小桌边，不要换成现代咖啡馆，两人的位置也不要调换。
+左边的女人先说：“灯快没油了。”只有她的嘴在动。
+右边的男人再说：“我去拿一盏。”女人这时闭嘴。
+两句话不要串到同一个人嘴里，女人的音色不要从男人口中出来。桌子留着。不要配乐，不要字幕。
+“灯”和“一盏”要对上各自的嘴。小桌和两人的坐姿保持旧照片的距离，不要站起来。女人说灯，男人说去拿，顺序不要反。旧照片的衣服颜色保持，桌面上的小东西不要重画。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmJiMmI4OTRiY2U4NDNhODM4ZjQwMTE3NjRlMzQxMDFfZjlkZTg1NmEwY2ZjZDNkMWVjMDg5ZWIyZDgyMTQzYmVfSUQ6NzY5NTIwNjYxODIzNzA0NTY5N18xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_dWiihJ15d71B6eKc2m7rSWqvrTc7W2CU.mp4
+160403,16. 音视频同步能力,多人对白匹配,reference,16:9,8,720P,"背景参考上传图片，比例16:9
+分镜1 (00:00 - 00:10)特写仰视视角（Close-up low angle shot），(画面内只有灯和天花板，不应该有其他物品，镜头仰视角度要大)镜头从下往上固定对焦于上方一盏医院走廊泛出刺眼光晕的矩形荧光灯，画面整体呈现出极浓厚且带有孤寂感的新浪潮电影质感。背景音为电话对话：“喂？是肾内科吗，你们那的26床报危急值了。”男性人声回答“好，我去处理。”
+生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmE3ZDhhMTM3Zjc0ZDllYWQ2YzBiYjUyY2U1MTJiNzhfNGU1N2U4MjEyOTg3MjM1ZWRlMDYzOTZlNjYwMGY5MzFfSUQ6NzY5NDk3MjAxMTM2NjQzNjA1OF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_BCuqTQ2z77QeWxzgsYn9jdHPuAC9lt7e.mp4
+170101,17. 失败与异常控制,人体畸变率,text,16:9,8,720P,"最高级提示词：全程一镜到底，无切镜、无转场、无机位跳眺转、全程为同一人物、同一场景人物五官、妆容、发型、背景环境、侧窗光线效果全程稳定不变，全程无背景音乐，苹果前置原相机拍摄，面部表情不生硬，纯素颜，皮肤状态真实自然，所有拉近效果均为物理机位移动实现，禁止数码变焦、画面裁切放大，高清写实风格，无AI生成感，全程保持真实自然的高清肌肤质感：肌理清晰、毛孔纹理丰富，脸颊汗毛绒毛根根分明；皮肤局部可见自然真实的卡粉痕迹、痘痘、痘坑等瑕疵，瑕疵呈现自然不刻意堆砌，皮肤无磨皮、无假滑感、无塑料感、无美颜，光线在皮肤上形成真实高光与阴影层次，立体感强，画面无水印、文字，无第三方人物入镜。全程禁止慢动作，禁止机械/机器人式运动，禁止面部肌肉僵硬，禁止不自然的节奏与时间轴，禁止典型Al優硬感，禁止视线锁定不动，禁止嘴唇运动不自然，禁止微表情冻结，禁止表情过波生硬或跳跃，禁止过多次数眨眼。
+0.0s-1.0s：起手式与眼神接触
+动作细节：视频开始时，人物的右手（涂着蓝绿色指甲油）抬起在额头附近
+•动作看起来像是在整理刘海，或者是一个类似“敬礼/遮挡光线”的起手动作，随后手迅速向下滑动，变为食指指向自己的左肩（画面右侧）的辫子
+表情细节：眼神直视镜头，眼神清澈且专注。嘴唇微张，似乎正准备说话或跟着背景音乐节炎轻哼。
+运镜：镜头保持相对稳定，但有轻微的手持呼吸感（Handheld shake）。焦距锁定在面部，背景灯光呈现漂亮的散景（Bokeh）。
+1.0s-2.0s：展示细节与互动
+动作细节：右手顺看刚才指向的辫子向下滑动，手指轻轻捏住或拉扯了一下辫子的末端，展示发型的质感。同时，身体微微向左侧倾斜，露出锁骨和那个蓝色的蝴蝶项链。
+表情细节：嘴角微微上扬，露出一个非常浅的、带有自信感的微笑（Smirk）。眼神依然锁定镜头，带有一种”你看我好看吗”的互动感。
+运镜：镜头可能随着人物手指下滑的动作，极其轻微地向下平移（Tilt down）一点点，然后再回到面部中心。
+2.0s-3.0s：
+动作细节：手从辫子上松开，自然垂下或移动到身体右侧下方（画面右下角），似乎在整理衣服下摆或只是自然摆放。人物身体有一个轻微的左右晃动（Sway），这是配合背景音乐节奏的常见动作。
+表情细节：笑容收敛，表情变得稍微酷一点（Cool/Chic），嘴唇闭合或微微嘟起，展现出一种“甜酷”的反差感。
+00:03-00:04 缓慢推进
+人物保持坐姿不变，伴随极其轻微的眨眼，物理机位向前移动拉近，采用真人手持手机自拍视角，运镜带有真实手持呼吸感，存在轻微低频的自然手部晃动、微小的机身倾斜与角度偏移，无机械滑轨式的完美直线运动，运镜速度平缓均匀，符合普通人自拍缓慢凑近镜头的真实动作节奏。画面景别从*头部特写”逐渐过渡为面部特写。
+00:03-00:04 缓慢推进
+人物保持坐姿不变，伴随极其轻微的眨眼，物理机位向前移动拉近，采用真人手持手机自拍视角，运镜带有真实手持呼吸感，存在轻微低频的自然手部晃动、微小的机身倾斜与角度偏移，无机械滑轨式的完美直线运动，运镜速度平缓均匀，符合普通人自拍缓慢凑近镜头的真实动作节奏。画面景别从”头部特写”逐渐过渡为”面部特写”。
+00:05-00:08 极致特写与微移
+机位继续向前推进，同时轻微向右平移（对应人物左侧脸颊方向），保持真人手持自拍的呼吸感与自然晃动。人物可微微调整头部角度，或随镜头移动形成相对位移。镜头推进至近景，画面主体为左眼（观众视角右侧）、鼻子与嘴唇。呈现真实原生皮肤质感：自然大小密度的毛孔、细微皮肤起伏、汗毛与绒毛、自然唇纹；鼻翼、眼下和嘴角附近有克制且真实的轻微卡粉。保留少量自然小痘痘、淡痘印和浅痘坑，不形成明显皮肤问题，不破坏原有妆容的颜色与精致感。皮肤细节由侧窗自然光自然塑造，无噪点、异常颗粒、过度锐化或油亮反光，皮肤纹理稳定不闪烁、不爬动。眼神始终锁定镜头，极近距离下可见瞳孔反光与睫毛细节。
+00:09-00:10 正脸极致特写
+物理机位向脸部正中间（正脸位置）移动拉近，保持真人手持手机自拍视角，带真实手持呼吸感，有轻微低频自然手部晃动、微小机身倾斜与角度偏移，无机械滑轨式完美直线运动。运镜速度平缓均匀，符合普通人自拍缓慢凑近的真实节奏。画面定格在鼻子前方的正脸视角，可完整呈现整张面部。延续真实皮肤肌理标准：保留自然毛孔、皮肤起伏、
+汗毛绒毛、自然唇纹，以及克制的轻微卡粉、少量自然痘印痘坑，无严重皮肤瑕疵。眼神始终锁定镜头，极近距离下可见瞳孔反光与睫毛细节。
+00:11-00:12镜头拉回与结束
+随后镜头连续快速平稳的速度拉远回到正常自拍距离，镜头拉回正常距离后人物做出低头耸肩带着自然微笑的反应，神态轻盈仿佛在躲避风又像是在和风嬉戏玩耍，动作幅度轻微克制不夸张不狼狈。
+运镜与光影设定（Camera & Lighting）
+运镜 （Camera Movement）：
+视角：第一人称自拍视角（Selfie PoV / Front-facing camera）。
+动态：镜头不是完全静止的三脚架，而是带有手持的轻微晃动感，模拟真实手机拍摄的感觉。在人物做手势（指辮子）时，镜头有微小的跟随聚焦。
+光影 （Lighting）：
+主光：面部光线均匀柔和（可能是使用了补光灯或商场橱窗的反射光），皮肤呈现白皙通透的质感（磨皮感）。
+环境光：背景是夜晚的城市街道，有模糊的暖黄色路灯和远处建筑物的蓝色/白色霓虹灯条，营造出都市夜晚的氛围。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_oPiLWqG5RZZF4HuD4YPzUIVF3Q4ghxm9.mp4
+170102,17. 失败与异常控制,人体畸变率,first_frame,16:9,6,720P,"浅色木桌上只有这一只盛着黑咖啡的白瓷杯，杯把在右侧，按照片来，不要再长出第二只。杯子先静止。一只手从画面上方下来握住杯壁，指节清楚，是五根手指，手腕连着小臂，不要并成一片，也不要断腕。然后杯子离开桌面少许，手和杯壁的接触要合理，杯子不要穿进手心。碰桌再离开有轻响。不要配乐，不要字幕，斜向的水印不要留。
+拿起之后桌面上不再有杯子的残影。手指关节能分开数，不要糊成一只爪子。白瓷杯离开桌面之后，桌上空出的圆印可以有，但不要残留第二只杯子的轮廓。咖啡还在杯里。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDA4ODAwMzQyYzNhOWRkZjU2YWFkMGY4ZTkwMzAzZGZfYWM4MDU2OGY5NGFlZjZiMDVhN2U0NGJjMGVjNDg2NzhfSUQ6NzY5NTIwODAxNjQxNjg2OTMzOF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_KxaINEZKGp8ejHE3XTi9WgHNX1I051yr.mp4
+170103,17. 失败与异常控制,人体畸变率,reference,9:16,6,720P,"第一张是这个女人的脸和头发，身份锁定。第二张只提供眼镜的形状，戴到她脸上，不要把眼镜画成另一个人，也不要换成另一张脸。近景里眼镜已经按第二张的样式戴好，她抬手，用手指把镜腿往上推一下，再把手放下。手是五指，手腕不断，推的时候脸不变形，不融化。眼镜留在脸上，款式仍是第二张。手指碰镜腿有很轻的声音，她不说话，不要配乐，不要字幕。
+推镜腿只是一下，不要把眼镜摘下来又戴上。第二张如果是画里的眼镜，只取形状，不要把画框带进画面。镜腿被推上去之后眼镜还端正，不要滑到鼻尖以下。她的头发不要被手抓乱到换发型。
+画幅比例9:16，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OTg2YWM2YmQxMTRjYmFkZjAxNTBkMGIxY2I2YjNiY2NfMGQ5Yjc5NWQ3ZjM1NmMyNWMxOTQ2Njg3ODk3YjgwMTFfSUQ6NzY5NTIwODA0Mjg0NjYzNjk5Nl8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2VjZmFjZjRjNDA0NmU1YTI3MzgwODcyNjA5NjM3NmJfNjdjNDU4OWUwMmUxNjFmNWZmMjBlZjJiOTI5MjI5MzZfSUQ6NzY5NTIwODA0NzQ1MDY3MjExNV8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_c858ZH9zOg5ykxB9c7kh7mPb9EUMyQyC.mp4
+170201,17. 失败与异常控制,主体消失率,text,16:9,8,720P,"俯拍桌面，横屏，八秒，机位固定，不要裁切。左边一只红杯子，中间一支蓝笔，右边一本黄本子，三样从头到尾都在画面里，从左到右的顺序也不要变。可以有极轻微的光变化，但不要闪没，不要融进桌面，不要在某一帧被切出画面，数量也不能从三变成两或四。房间里的底噪就行，不要配乐，不要字幕。结束时这三件还都在。
+红杯、蓝笔、黄本子的颜色不要互换。光可以轻轻变，但不要用一道影子把其中一件完全遮没。八秒里可以几乎不动，这是故意的。三件东西的左右顺序红、蓝、黄保持，不要旋转桌面。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_9Td4FKdEhuACCfA4pcvm2orJaZam0Syz.mp4
+170202,17. 失败与异常控制,主体消失率,first_frame,16:9,8,720P,"深色木桌上，白盘子中央只有这一只带水珠的青苹果，就用我传的这张当第一帧，构图锁定，不要把桌子换成别的桌。八秒里苹果和盘子都要一直在，各只有一个，位置可以有极小的晃动，盘子边缘和苹果轮廓每一帧都还认得出来。不要切走，不要让苹果消失，也不要再长出第二只水果，盘子不要融化。没有对白，不要配乐，不要字幕。
+水珠还在苹果表面，不要抹成光滑的塑料。白盘子的边一圈都在，不要被苹果吃进画面外。苹果上的水珠不要滑完消失。盘子和桌面的深浅对比留着，不要曝光到只剩一个白圆。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjYyMmZmODY4ZDQyYThlMTNjYzk2ZWRjMWM0NTI0NGFfOGJlYjkwZTJmYWM2N2JhNjVmNTIwMjUwMDY0NzA1ZTRfSUQ6NzY5NTIwNjY1NDg5MTA1MTk3N18xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_hswNqCJu8BWtkdtpaTo6sN4n7EPebGL0.mp4
+170203,17. 失败与异常控制,主体消失率,reference,16:9,8,720P,"第一张是沙滩边这张木桌，后面是海和沙。第二张把桌上的东西再确认一遍：白杯子、小白壶、玻璃杯，右边还有一只金属壶。这几样、桌子和海都要一直在画面里，谁也不许忽然没了，也不许合成一个。固定机位，横屏，八秒。只有树影在桌上轻轻动一下。海浪声一直有。没有人走进来，没有字幕。
+白杯子还在碟子上，小白壶留在杯子左边。金属壶不要缩成杯子。沙滩和海留在桌子后面，不要把桌子搬进室内。杯子下面的纸可以留着，但不要把杯子盖住。树影只是影子在动，木纹不要换。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTAzNzI3ZWFhZmU1MzZmMWIwZjk1M2ViODg2MGYzMTlfN2U0NzIyN2Y0NjQwYzBlNGIyNWJjZGI4ZjkwYjkyZGZfSUQ6NzY5NTk2MjM5NTYwODg2MTY0OF8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NGVjNjFkYzY1YTYyMDA5ZTQzOThmYTJhYzE4MDFhMWRfY2ZiYzM1OTQ1MDExZTM2NzRjMmUwOGIxNGM0YzM1ZmJfSUQ6NzY5NTk2MjQwNTM2NjM4NTYzMF8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_UazUegoO8mJsM0Itbv2UUgvFtHwqSTZ4.mp4
+170301,17. 失败与异常控制,主体复制率,text,16:9,8,720P,"空地上停着一辆黄色皮卡，周围没有第二辆车，也不要加人走过来挡住它。横屏。镜头可以慢慢绕到侧面再绕回来，但车的颜色、车型和数量锁定，始终只有这一辆。不要在转到一半的时候复制出另一辆停在旁边，也不要让原车忽然消失或闪一下。环境声很轻，不要配乐，不要字幕。绕完仍是这一辆黄皮卡停在空地上。
+绕镜头时车头、车侧、车尾是同一辆的连续角度，不要每一面都多停一辆。地面不要突然变成车流。黄色皮卡的车厢和车头是一辆车的前后，绕拍时不要断开成两截。空地的地面材质保持。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_vnUdpuKe4VobYcDD656gVhSIzmHTdsW7.mp4
+170302,17. 失败与异常控制,主体复制率,first_frame,16:9,6,720P,"石台上这只橘猫，头朝左趴着，用这张当第一帧，不要改成灰猫。它低头闻一下自己的前爪，再抬头。低头的时候身体仍是一只，不要分裂出第二只，爪子、耳朵和尾巴的数量保持正常。树上、石台和右侧路上的人保持原来的数量，人不要被复制。猫有很轻的鼻息，远处是环境声，不要配乐，不要字幕。抬头之后还是这一只橘猫。
+闻爪子时前爪还连在这只猫身上，不要在石台另一头再长出一只头。右侧的人保持原来的远近。橘猫的花纹在低头和抬头时还是同一块。石台的边缘托着它，不要在台下再出现一只。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmY3YjA4YTlhNzViOWQ0MmE3NDNiYTAyODYzOGFkZDlfODRhYjEwOGI0ZjI1ZjY3MGRhYzYyYTAxNWQyYjA3ZThfSUQ6NzY5NTIwNjY3NDM1NjgwMDQ5NV8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_JuGDQDgBD5UUby5vhLmfgNfRytZbHJiU.mp4
+170303,17. 失败与异常控制,主体复制率,reference,9:16,8,720P,"这是普洱茶。写实商品展示视频，白天真实实景环境，背景与商品品类严格匹配。画面中不出现任何人物、人体、肢体、手部、背影、剪影和人脸。商品是唯一视觉主体，保持稳定静止，不自行运动，不改变款式、颜色、材质、形状和大小，不原地放大，不局部特写，始终完整展示商品整体外观。镜头以缓慢弧形环绕为主，从正面过渡到侧面，再展示背面和整体轮廓，镜头运动平稳克制。画面无黑边，无字幕，无水印，无多余杂物。
+画幅比例9:16，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmU5MTQwYmI0NTk1NDgxNTRjMDAyMzlhM2RiODllY2RfNTlmMmU0MDg0YmFhMmY2NzBiMmQ0ZTliYTFmN2U5YTNfSUQ6NzY5NDk3MjAxNTExOTMzODcyNV8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_w14i73wicUGRDy83Ljf2RXHK1d1UCxO9.mp4
+170401,17. 失败与异常控制,属性漂移率,text,16:9,6,720P,"女人穿着一件亮红色大衣在街上走，中景跟着她，大约六秒。走到树荫或楼影里，大衣可以暗一点，但色相不要从亮红变成黑、粉或者别的颜色，头发的长度和发型也跟开头一样，不要换脸，不要切到另一套衣服。脚步和街道的环境声，她不说话，不要配乐，不要字幕。走完她还是这件红大衣。
+阳光和阴影交替时，只允许明暗变化，红大衣的红不要偏成橙色广告色。步子是在走，不要滑步漂移。走路时大衣下摆可以动，红色不要在摆动里变成条纹。背景的街不要突然切到室内。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_orBdbCcOP9DL3RKobMInn10OrsC3UIlE.mp4
+170402,17. 失败与异常控制,属性漂移率,first_frame,16:9,6,720P,"画里只有这一位女士，半身构图按这张锁定，油画的质感留着。她穿着橙褐色缎面裙子、蓝灰色披肩，里面有一层白的。她只是把脸微微侧过去，不要出现第二个女人。裙子仍是橙褐，披肩仍是蓝灰，两种颜色不要对调，也不要褪成同一种颜色，白色内层还在，衣服款式不要重画。不要整个人变成灰度。衣料有很轻的声音，她不说话，不要字幕。
+侧脸之后披肩的蓝灰还披在肩上，不要滑成裙子的橙褐。画布的笔触可以留着，不要突然变成照片。脸侧过去的角度很小，肩膀还在画里。橙褐裙子的高光可以在，但不要把披肩染成同色。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGU0ZTI0OTdmMGU2YjlmNTRkZDBlM2RjZGU1OWU1YmNfZGJmZGUxMTEyMDg3ZmI1YjgxZTNiMzU0NTVkMjM0YmZfSUQ6NzY5NTIwNjY5OTQzMDQxNTMyMl8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_o5TxFHfSfQddiMOW9M2YmnrizNnmDIH6.mp4
+170403,17. 失败与异常控制,属性漂移率,reference,16:9,8,720P,"参考图片复刻一模一样同款女包，包型、颜色、材质、纹路、五金、装饰、缝线全部细节质感保持一致，镜头全程聚焦女包，不展示全身，不拍脚部，不拍完整人物穿搭，只保留从肩部到腰部、手臂与包包的局部画面，人物上半身局部入镜，包包始终位于画面视觉中心，突出包型轮廓、五金光泽、面料纹理与做工细节，不展示包包内部。将场景更换为城市文艺街角、高端购物街区、韩系简约步行街、咖啡店门口街拍，明媚秋日氛围感，暖调阳光洒下形成柔和光晕，人物自然走向镜头后保持中近景展示，镜头稳定聚焦包包，不频繁推拉，不切远景，不切全身。包包始终自然挂在手臂上或单肩背好，肩带贴合肩部，手部可轻扶包带或包身，动作稳定自然，包包不要突然脱落，不要滑臂，不要甩飞，不要被衣物遮挡，不要被手部遮挡主体细节。人物为 18 岁亚洲漂亮模特，五官有特点很有辨识度，长发自然垂落肩膀，头发柔顺有亮泽感，人物脸部不变形，画面清新自然、高清，氛围开心松弛，细节极致。
+音效：添加亚洲流行BGM，除了BGM不能出现别的声音
+商品标题：【JANE DANCE】日系二次元透明扎谷痛包百搭可爱学生斜挎包轻便手机包_722927
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTMxZjE5ZTY3OTJhZDM3NGNlM2ExMDhmZTRiM2RhODJfOTVlM2E1Y2U5ZDE4NzM2NjU1Mjc3Yjg0MWI2NGZlMzhfSUQ6NzY5NDk3MjAxMzkyMDc2NzE1OV8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Osnl3IAWhig4jaBC5ddOx5T4PeNnKaok.mp4
+170501,17. 失败与异常控制,穿模问题,text,16:9,8,720P,"俯拍视角，冒烟火山口上方悬停一架红色直升机，旋翼卷起灰白烟尘。机舱门口的人抱着铁皮桶，将金黄玉米粒倾倒入坑。镜头跟随玉米粒坠入暗红坑底，接触岩浆瞬间噼啪炸开——爆出的全是正宗中华狸花猫：棕黑相间虎斑纹清晰锋利，额头带M形斑纹，眼神野性警惕，肌肉线条紧实。狸花猫被热浪托着向上飞涌，在空中伸爪翻滚，毛发逆光发亮，斑纹在火光下层次分明。慢动作，粒子飞溅，暖橙光影打在虎斑上，最后拉远，火山口上方漫天都是向上飘散的狸花猫。超写实8K，电影级质感。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_XZUlZ8di9JpwxO4UphD6ENedtXHjI3l1.mp4
+170502,17. 失败与异常控制,穿模问题,first_frame,16:9,5,720P,"男人还坐在照片里那个靠窗的位子上看书，桌子、书和窗户都保持，机位不要推近。他抬起右手，食指指向画面前方。前臂要在桌面上方过去，不要插进桌板；后背可以贴着椅背，但不要融进椅子里，椅子也不要消失。指过去的时候人还坐在原来的位置。衣料声，不要配乐，不要字幕。
+食指指向前方时，手肘在身体侧面，不要从桌面底下穿出来。书还摊在他面前。指的方向在画面前方，手不要穿过书本。窗光还从原来的一侧来，椅背的轮廓完整。
+画幅比例16:9，生成5秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWMxOTIyOWNiZmM4YzczYmQ0ZDM0ZDBjZjZjOTM3ZjNfYWM4NjAxYjIzNTJhMGJlMTk3YzM0Y2E0MTFmOGNjMDZfSUQ6NzY5NTIwNjcyMDk4NDk3NjM1M18xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_7HeJ3NJRrqPz7JT28s5fxNSbpxYSQZuE.mp4
+170503,17. 失败与异常控制,穿模问题,reference,9:16,7,720P,"【画面】蒙城老街口，一个 sa 汤早点摊。一口大锅腾起冲天白色蒸汽，白汽几乎充满整个画面。72 岁老太太张奶奶的剪影在蒸汽中搅动汤锅，藏青蓝围裙隐约可见。
+【运镜】固定镜头，蒸汽缓慢流动。
+【时长】7 秒
+【氛围】人间烟火的温暖感，晨光穿透蒸汽形成丁达尔光束。
+【注意】蒸汽要浓、要慢、要有体积感。
+画幅比例9:16。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTZmNTJmNGVhNWU1ZmQzOWRjZGFkNGE2MzA5MzRkYjZfY2NjNmZjMzFhNjNjYjM1NDAyYzVkOWZmYmY3OGNjOTdfSUQ6NzY5NDk3MjAxMzA2ODg0ODMwOV8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_zuwYibTG4FwewKvuuLkL2hCkuuRE2RTO.mp4
+170601,17. 失败与异常控制,镜头异常率,text,16:9,6,720P,"空会议室，桌上有一台打开的笔记本电脑，墙和桌子的位置先锁定。镜头像架在三脚架上，六秒里不要手持晃动，不要突然拉近或拉远，也不要瞬移到另一个角度。只有窗帘被风吹动一小段，除此之外不要有人走进来，画面不要跳，笔记本不要消失。很轻的室内空调声，不要配乐，不要字幕。结束时机位还应和第一帧重合。
+窗帘的摆动幅度小，不要把整面墙带得一起抖。笔记本的位置相对桌沿不变，像机器锁在三脚架上。如果要有运动，只给窗帘。桌沿、笔记本和墙的交界线不要上下跳，像镜头被撞了一下。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_OBqUNU6wnVUVdxYsTCOZl5qnOLvBiN7K.mp4
+170602,17. 失败与异常控制,镜头异常率,first_frame,16:9,6,720P,"用这张高角度俯拍的石砌庭院当第一帧。中央水池、右侧那排铜狗雕塑、门口站着的人，都留在原来的位置，不要再加人。建筑边缘、窗框和水池外轮廓不要挪。六秒里不要抖动，不要缩放，不要平移，也不能突然切成近景。只允许水面有很轻的波动，门口的人不要走动，铜狗不要位移。院子里的风声，没有人说话，不要字幕。最后建筑边缘仍和开头重合。
+水面的波纹不要带动水池的石沿一起变形。铜狗的数量和门口那一个人保持到结束，不要有人走进院子。高角度一直能看见水池、铜狗和门口的人三者的相对位置。不要降到人的眼平高度。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGM2ZWE5YzE5MjhjOTdjYjBjNDEwOGNhZDdmYmZlNGVfNjQ4OTYwZmJjY2IxYWM0NGZhNDU5ZWRiYzMwMjhkMGRfSUQ6NzY5NTIwODA2OTYzNDExNjU3N18xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_E8VGetT7243Nf4D1oidICYQnstnylX2a.mp4
+170603,17. 失败与异常控制,镜头异常率,reference,9:16,8,720P,"北方农家老院子，午后阳光，土墙和砖地面，树叶投下斑驳光斑。母牛站在画面右侧，。蓝猫站在母牛身侧，双手挤奶，正在认真滑稽地挤奶。黑白奶牛猫站在一旁围观，嘴馋盯着母牛，突然向前伸头，一口咬住奶。母牛受到惊吓，突然向前走动，拖着咬住杯套的奶牛猫向画面右侧跑出去。奶牛猫四只脚在地上挣扎蹬地，身体被拉得有点夸张但保持真实猫咪形态。蓝猫被留在原地，惊讶地看着它们跑出去。镜头为乡土写实手机实拍，轻微手持抖动，低饱和度自然色彩，动作连续，角色身份稳定。音频：仅保留院子鸟叫、母牛脚步声、奶牛猫短促叫声、蓝猫惊讶叫声，无旁白无台词，不要抒情音乐。两只猫后爪子都穿着黄色小雨靴
+画幅比例9:16，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWEyOTMzN2QxMjFlOTFiNDRlOGU0OWY5NzFmNTRjNDVfODhhZGY3NTQ0NDY1NjIwZTJhMDdlYmE5NzI2MGIwMmJfSUQ6NzY5NDk3MjAxMjM4NTU1MzYyNF8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWFlYTEzMzI0MjEzYzUxYzE3YWY4ZDQzZTY4MmJmYTRfMWQzNmQzNzBhMDdiNTk1NjliOTZkNDU4MzUyMmIzMTVfSUQ6NzY5NDk3MjAxMzM3MDYwODgzOF8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGU0ZDMyZjM4MjdjYTE0NThhYzQ2NGNkMTE5YmFmY2FfNTdhYzJlOWQ5NDkwYjliNTBmNDJjNjc0NDNlZjQwY2RfSUQ6NzY5NDk3NzIxNTc0NTgzODA0OF8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjJjM2NhMjkzNDBkMzdiMTA2Y2I5MjVkZjY4NDA3M2NfMDQyZmQwYjAwYjM2NDZiZjBkZDdjMzlmNjA3NDJiZTJfSUQ6NzY5NDk3MjAxMzkwMzMzNDMzMV8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_NFxWfUdmT9dWL7cghcU2J9OTgwCWU8Zp.mp4
+170701,17. 失败与异常控制,崩坏持续时间,text,16:9,6,720P,"一只橘猫坐在窗台上，机位固定，窗台留着。先看清它的耳朵、脸和身体轮廓，再让它缓慢转头看向窗外。转的过程中还是同一只猫，不要融化，不要闪成别的动物，不要换一只猫，也不要复制出第二只。不要中途把脸或身子化开再长回来。室内的底噪，不要配乐，不要字幕。六秒结束时它已经看向窗外，轮廓仍是完整的。
+转头是连续的，耳朵不要在侧面帧里消失再长出来。窗台的边一直托着它，不要飘起来。转头看窗外用后半段完成，前半段先坐稳。耳朵的尖还在，不要转成侧面时融化。
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_GEyy5jRXDfRufShN27SWDxHIVbKE9uJh.mp4
+170702,17. 失败与异常控制,崩坏持续时间,first_frame,16:9,6,720P,"水果摊就用这张当第一帧，机位别动，不要把镜头推上去。切开的西瓜、黄芒果、香蕉以及其他水果都在原来的位置，可以有很小的晃动。轮廓和颜色要一直分得开，不要化成一团色块，不要在中途换成另一批水果，芒果不要画成苹果，水果也不要忽然消失。市场远处的环境声，不要配乐，不要字幕。结束时西瓜、芒果和香蕉都还认得出来。
+西瓜的红瓤、芒果的黄和香蕉的弯还要分开看见。晃动只是摊位上的轻微动，不要水果飞出画面。水果之间的空隙还在，不要糊成一幅静物油画。西瓜的切口朝向跟照片接近。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDhjYzBlZDE2YmIxZGI2OTcxNDc0ZDNmODA3MjAwYTlfMzA5ZjdiYjQ0NjA5Zjg1Mzc0NmZjN2UyMDM5MTFiZjlfSUQ6NzY5NTIwNjc1NjYxNTU1NjAyNF8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_7fwLxshpairZIp8Ni92GWZiXOp3EfnxO.mp4
+170703,17. 失败与异常控制,崩坏持续时间,reference,21:9,12,720P,"<Picture 1>12秒，21:9超宽画幅，元素柔和匀速缓慢动起来，镜头全程固定不动，无任何推拉摇移变焦，一镜到底，
+循环要求：第12秒所有元素位置、大小、形态、相位、灯光亮度，完全回到第0秒初始画面，实现首尾帧无缝循环衔接。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTU3NGZlNTdiZjYyYTFhNWE0YjNmMGNiNzEyYzM3MTBfYmY2ZmVkZWY2YmI1MDk5NjVlMWE1NzI2OThiNTM3MTBfSUQ6NzY5NDk3NzIzNDIwMzMzMTU1M18xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_ZCdSHAP4THzKQHZ4Yq9IR2MHNj9MXcjd.mp4
+180101,18. 文字与字幕能力,文字内容准确性,text,16:9,8,720P,"一、作品主题
+围绕校园贷、刷单兼职、虚假网恋、虚假网游、虚拟币洗钱、充当车手/马仔等校园高发诈骗开展AI短视频创作。
+二、作品要求
+1.导向正确，传递反诈正能量。为AI创作短视频，时长1‑3分钟，MP4格式，分辨率≥1080P，声画同步，配全程中文字幕。
+2.不得加无关水印、商业logo，AI生成内容需规范标注。禁止出现身份证、手机号、二维码等敏感信息，不得虚构机构政策。
+3.必须原创，杜绝抄袭侵权，AI素材确保版权合规，违规取消参赛资格。将2分钟左右的视频分成10份，现在生成前12分钟
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_WE68moXwJ0OAEI0jBvQqVMUm01hVCZYB.mp4
+180102,18. 文字与字幕能力,文字内容准确性,first_frame,16:9,6,720P,"红房子上方的大字按这张来，必须是 MALIBU FEED BIN。大小写、空格和每一个字母都不要改，不要翻译，不要缺字，也不要换成别的店名。店面先让这块招牌能看清，然后右侧那扇灰门慢慢打开一条缝。门开的过程中字不要抖成乱码，不要被擦掉，红墙留着。门轴有声音，不要旁白，不要水印。门打开时，招牌仍停在原来的位置，拼写和开头一样。
+MALIBU、FEED、BIN 三个词都在，中间的空格不要挤掉。灰门打开时不要挡掉整块招牌。门轴响的时候眼睛还要能读出 FEED BIN。不要在门上再贴一张新的店名盖住原字。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzA3NDg0MTc5OWU3MGQ4NjY3NGRjNzg5MTVmMDFmMmFfM2M4Y2VmYzU5ZTI3ODM2ZTQ4MzBkODE2ZmViMzVhY2NfSUQ6NzY5NTIwODA5MDg1MjkzNjY4Ml8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_B9o2BIW06XjcNGmE9K7Xfbq8YPCDxOhI.mp4
+180103,18. 文字与字幕能力,文字内容准确性,reference,16:9,8,720P,"两块字都按图上的拼写，不要翻译，也不要缺笔画。前半段先给第二张路牌，字是 GLADSTONE STREET，字母和空格清楚，停住让人能读。后半段再给第一张红色霓虹，字是 Moura's，撇号要在，不要写成 Mouras，也不要改成别的店名。不要把两块牌子叠成一块，霓虹的红色和路牌的底板各自留着。没有旁白。两处字从出现到离开画面之前都不要改写。
+路牌是街道名，霓虹是店名，不要把两串英文对调。切或摇的时候不要闪过第三个错字招牌。GLADSTONE STREET 先完整出现一次，Moura's 再完整出现一次。不要两块英文同时糊在画面中央。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTI1ZTUyYjFmYjQ0NThiMWE3NGRkMWU5MzRkNjdiNjBfYTQ0MzM3M2IyZWNlZmJjZDdmOGNiMTZiYTUyM2U3ZWNfSUQ6NzY5NTU5NDQxNzQ0NjIyNjkwMF8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjhhOTBlZmVlYTlhOTYwODA4MjBjZDdjNzU3MThhODJfMDI4Y2ZjMDQ2ZDc5N2Y5NGJhMzFkNTVhY2JiNzE3YzNfSUQ6NzY5NTU5NDQyNzY4NzI1OTA3M18xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_TiFkKTpbE9mHezHbz5h3xswpoFBaaLdH.mp4
+180201,18. 文字与字幕能力,字幕内容完整性,text,16:9,8,720P,"画面不变】蓝色MG动画、反诈图标、科普画面
+
+新增配音对话（室友耐心讲解，贴合法治作业）
+
+阿泽：“很多骗子专门瞄准大学生网购人群，利用全额退款、订单异常当幌子。”
+阿泽：“一旦点击陌生链接，就会诱导你填写银行卡、验证码，盗取个人财产和信息。”
+小宇（恍然大悟、后怕）：“原来这么危险！我差点就被骗了！”
+
+旁白普法（适配法治作业，官方规范）
+
+网络电信诈骗手段层出不穷，凡是陌生弹窗、陌生退款链接，均不可轻信。保护个人信息，严守财产安全，是每位大学生的法治必修课。
+
+对应屏幕字幕
+
+不轻信、不点击、不透露、不转账
+
+AI提示词（原样保留）
+
+16:9横屏，1080P，25帧，国产扁平治愈卡通动漫，大学校园写实宿舍，人物五官精致统一，双人大学生人设全程不换脸，光影细腻柔和，电影级慢运镜，动作自然流畅，肢体完全正常，画面干净高级，无任何字幕文字，无logo水印，无国旗国徽地图，无恐怖怪异画面，法治科普干净氛围，人物比例标准，校园真实生活质感
+极简高级法治MG科普动画，干净淡蓝渐变背景，纯白色极简UI风格，无人物。画面依次流畅动态切换：灰色风险手机图标抖动警示、金色安全盾牌缓缓浮现、银行卡简约图标、反诈保护动态光效、安全锁闭合动画。画面节奏舒缓庄重，线条干净高级，镜头缓慢平移+轻微缩放，专业普法宣传质感，适配大学生法治教育主题，画面极简治愈、严肃正向
+生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_l8kCLGpnjzNp1BFrOenhLfHoZdmBsORd.mp4
+180202,18. 文字与字幕能力,字幕内容完整性,first_frame,16:9,8,720P,"这个人对着麦克风，手指向前方，位置和手势按我传的这张，人不要走开。台词只有一句：“请大家把票根收好，散场从左边走。”嘴和这句对齐，不要换一句。画面底部从第一个字开始出一行简体字幕，一直到句号，整句都留在画面安全区里，不要只显示半句，不要漏字，不要错字，也不要截断。麦克风近讲，不要让配乐盖住字。字幕和他说的是同一句。
+字幕的句号也要在，不要停在“左边”。他的手指还指着前方，麦克风不要离开嘴边太远。字幕用一行，不要拆成两行把后半句放到下一镜。他指向的方向和说“左边”是一致的，人不要背过身。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzQ4NjdmZTEzOTU1MzI2YTQxNDA5ZDgwNDVkOWM4NDlfMmYyNmM4ZDUzZjdhYTQ0OTE1NTAxM2M1ZjAwMDAxMmJfSUQ6NzY5NTIwNjc4NTU0MzczNjI4OV8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_6AOzlBRcSR372SYVNcqaGdH5gcd7Hj7b.mp4
+180203,18. 文字与字幕能力,字幕内容完整性,reference,16:9,8,720P,"第一张这位戴碎花头巾的老太太对着话筒说话，脸、头巾和姿态用她的。第二张空教室当背景，黑椅子、桌子和窗户留着，不要换成别的房间，旁边的人也不要冒出来抢她的位置。她说：“今天下午三点，在这间教室集合。”口型对上这一句，不要再加第二句。底部字幕把这句话从头到尾打全，不要漏字，不要截断，不要改词。教室和人都保持到字幕结束。
+字幕和她说的是同一句，不要再打出教室名称以外的标题。黑椅子可以叠在桌上，但不要变成课桌被搬走。老太太的嘴在说这句话时张合，教室的窗户还在她身后。字幕不要提前把整句打出来又在她开口前消失。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzM1MzgwNTAxMmJlOWExM2MzOWU2OWEzMzFmMGRmYzJfNzhmZTc1MmM2OTZmNTllOGE4ZjIzZGUwZTc2NWFiZDdfSUQ6NzY5NTU5NDQzODE4MTU3MTUxNF8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmVjYmI4MDA4ODg4ZjEyYjhjY2YwMDhhNGY1ZGYwYjJfMzYxNWEzYjQ3N2I2MTk5NThjYmE5MGEwZjNlNWRjOTlfSUQ6NzY5NTU5NDQ0NjkxMDA2NTYzM18xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_1tJpR9AQMSsyamsAw0FH5QzC4dibHUCT.mp4
+180301,18. 文字与字幕能力,字体与文字可读性,text,16:9,8,720P,"教室黑板当主体，上面写着“下午三点集合”，开头这几个字就要能读，不要先糊着。镜头平稳往黑板推近，字变大，但笔画还在，不要因为推进缺字、粘连或者改成别的句子。不要在画面上再叠一条新字幕把黑板盖住。没有旁白，不要配乐压过环境。推到最近的时候，字仍然写在黑板上，看得清，不是飘出画面。
+推近是物理靠近黑板，不要只把字放大贴在镜头上。字的颜色仍是粉笔色，不要变成发光字幕。推近结束时“集合”两个字仍完整，不要只剩“下午”。黑板的边可以出画一点，字不要出画。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_7tTyWnR04bHCtPsmRuD40B4S36mZoniD.mp4
+180302,18. 文字与字幕能力,字体与文字可读性,first_frame,16:9,6,720P,"这张黑白照片当第一帧，不要改成彩色广告牌。前景是一块白底告示，上面是英文；左边有士兵，后面有坦克和教堂，这些都留着。先让告示上的英文能辨认，再把镜头平稳推近。字变大，笔画还要分开，不要过曝，也不要因为晃动糊成一条，内容不要被改写，不要换成花体。不要再叠一条新字幕。没有对白，不要配乐。推近之后英文仍能逐行看清。
+告示是白底，不是黑底。推近后士兵和教堂可以更靠画边，但不要被裁没，英文不要被涂改。黑白的对比留着，告示的白不要曝成一片空。英文变大之后仍是印刷体，不是手写花体。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTVhMDhlYmNjZDQyNmY0OTA1MmExZGVmYTZjZWIwYjJfZTBmZWJmZWM5YTU1ZGNmNTVlMmIyODE2ZjUzY2FkYTlfSUQ6NzY5NTIwNjgwNTgyNzQ1NTkzMV8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_RyGFsDiViLiN5rAyPPPcmctYvb99hbuh.mp4
+180303,18. 文字与字幕能力,字体与文字可读性,reference,16:9,8,720P,"第一张是车站大厅。紫色屏幕上的 ZERO TO CHOCOLATEY IN MILLI-SECONDS 要能读出来，不要改写，也不要翻译。发车信息屏上的小字不用逐行都保证，但这行大字和旁边主要的站名关系留着。第二张是咖啡店黑板，HOT、COLD，还有 ALL ESPRESSO SHOTS DOUBLE，这几行保持能读，不要擦成别的菜单。可以先看车站再看黑板。不要用一条新字幕把原有的字盖住。两处文字都要维持到各自离开画面之前。
+车站屏幕和咖啡黑板不要合成一块牌子。英文按原图的大小写，不要全部改成小写或中文翻译。可以先车站后黑板，各停够让人读完那几行关键字。不要把巧克力那句和咖啡那句写成同一块屏幕。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDc0ZWZkOTM0ZWYzMmQyNGU2YjNkZWM5MjQ3MzhmMzNfNDZjNDc3ODY3ZjIxYWM2M2Y5ZGVlMGEyZjY5Mzk5MzJfSUQ6NzY5NTU5NDQ1OTQ1ODg2NjEyMV8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjYzNzAxMTc1OWY3YWFlZGNkYmQwOThkNjE3YmM2YThfMTk2MDE0YzhmNGYxZGNhMjA1MzQwYjhjNmQyZWVjNTdfSUQ6NzY5NTU5NDQ2NTQzNjUxOTM5MF8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_hYyk56leGeKiqMpWFUMjeemSWzyDlC61.mp4
+180401,18. 文字与字幕能力,文字时序稳定性,text,16:9,12,1080P,"一、作品主题
+围绕校园贷、刷单兼职、虚假网恋、虚假网游、虚拟币洗钱、充当车手/马仔等校园高发诈骗开展AI短视频创作。
+二、作品要求
+1.导向正确，传递反诈正能量。为AI创作短视频，时长1‑3分钟，MP4格式，分辨率≥1080P，声画同步，配全程中文字幕。
+2.不得加无关水印、商业logo，AI生成内容需规范标注。禁止出现身份证、手机号、二维码等敏感信息，不得虚构机构政策。
+3.必须原创，杜绝抄袭侵权，AI素材确保版权合规，违规取消参赛资格。将2分钟左右的视频分成10份，现在生成前12秒
+画幅比例16:9。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Y9v9tBWt87tHVXm60qQKLpsFbv70fO7I.mp4
+180402,18. 文字与字幕能力,文字时序稳定性,first_frame,16:9,6,720P,"夜色里的圣诞树、彩灯和树下的围栏按这张留着，不要换一棵树。画面正中四个字“平安夜快乐”，白字黑边，从第一帧就在，字号和位置锁到最后一帧，不要闪，不要漂，不要缺字，也不要再多一行别的字幕。树灯可以轻闪，远处的人可以有一点移动，但字本身不要跟着灯闪，也不要换成别的祝福。围栏上原来的广告字不要改写。远处有街道环境声，不要旁白。
+四个字始终在树的前面，不要穿进灯里。围栏上的原有字如果很小，不要被祝福语替换掉。平安夜快乐四个字的黑边一直在，方便从彩灯里分出来。树顶如果有星星，不要挡住这行字。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzQxNWE3MzRmZDYxNWE1NmZmMGIxNmY1NWQxZmU1MDVfMzA4ZmRiY2YxZTRlYzYxNGFiMDIyNjU3NmZiNzhiY2NfSUQ6NzY5NTIwNjgzMDI2NzUzNDI2Nl8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_MZqb3ZnGX5JqRLFkUQWByPtFaDTq1WAT.mp4
+180403,18. 文字与字幕能力,文字时序稳定性,reference,16:9,6,720P,"第一张黄底施工告示固定在画面左侧或中部，上面的英文从第一帧到最后一帧内容和位置都不变，不要闪，不要漂，不要改句子。第二张只取右侧穿黑衣、站在滑板车上的那个人，让他从画面右边向左经过，不要把他画成停在画面中央的骑行者，街景也不要整张替换掉告示。人经过时不要把字全部挡住，过去之后字还在原地，不要跟着人走。滑行的轻响和街道底噪，不要配乐。
+人从右往左是在动，告示是不动的参照。滑板车的轮子可以转，但不要撞掉告示或把英文带走。告示的黄底面积不要被人完全挡住。人过去之后，英文还在他进来之前的那个位置。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjI2OWQ4NjI3NDEzZmFkMjEyYTgwMWM1NjY0ZjI3NWZfMDM5MjIyMGM5OGI2NGQyOTU5YjQwYjc5ODQ1ZjJjOTdfSUQ6NzY5NTIwNjg2NTg5MjMxNDA3NF8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGJjMzQ0ODZhYWU4NTM4YjM1OTJlNTg5YTE1M2YzOTZfNWMwMWU4YmFiMTAwOWY3OTA2ODlmMDZkNWQ1OGM0YThfSUQ6NzY5NTIwNzcwMTk0MDMyNTM1Ml8xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_FnkTm9LhU3cWsDrM0beKuKSTIkzttcHZ.mp4
+180501,18. 文字与字幕能力,无要求字幕控制,text,16:9,8,720P,"【剧情】
+【0 s - 8 s】中景，侧后方低位跟拍机位。画面采用清晨漫射雾面柔光，呈现低饱和土色调与静谧怀旧氛围，具有轻微胶片颗粒与旧胶片褪色感，使用50mm焦段。承接上一镜雾锁茶田的空境，镜头顺着长满青苔的石阶小路，跟随背着补丁书包的小满拾级而下，小满赤脚踩过青石板路上的水洼，溅起细碎水花。镜头缓慢推近至小腿位置，小满被高高挽起且沾满黄泥的裤脚清晰可见。随着步伐继续前行，镜头轻微上摇切至肩部，从小满肩后越过，展现书包侧兜中露出的半截磨圆铅笔，小满嘴角轻抿，赤足在水洼中轻点，镜头落定在小满坚定且安静前行的姿态上。
+
+视频全程不要字幕、不要屏幕文字；必须保留协调统一的全局BGM和必要环境音，禁止静音段。
+
+Visual style: 采用20世纪80年代中国乡土现实主义电影风格，纪实写实类型，低饱和土色调，自然光、克制构图、轻微胶片颗粒与褪色感，呈现真实朴素的乡村生活和时代温度。用户明确指定的外观优先；以下规则仅作用于当前生成目标，未涉及的资产类型不得主动添加。
+【整体画面风格】
+统一采用低饱和土色、自然曝光、柔和反差、真实阴影、轻微胶片颗粒与旧胶片褪色感。构图平实克制，以平视中景、全景和环境叙事为主，保留适度空气感与生活质感。避免商业影楼感、现代网红滤镜、强HDR、过度锐化、艳丽色彩、刻意煽情和虚假做旧。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_IXikvsoVk6T6eOqvskmYdnFV5Z8wym7w.mp4
+180502,18. 文字与字幕能力,无要求字幕控制,first_and_last_frame,16:9,12,720P,"场景：大姐、二哥、三哥从洞口探头，看见绵绵后一起凑过来。
+中景到中近景；平稳缓慢推近，情绪停顿时保持稳定构图
+平稳缓慢推近，情绪停顿时保持稳定构图。
+需要中文对话，不要字幕，对话清晰。其中绵绵是小孩子的声音。不需要旁白和音效。
+请严格按照对话内容来，不要胡编乱造内容！！
+他们的对话内容为：
+大姐（首帧图的最左边那只）：她好小。
+二哥（中间那只）：她比我的爪子还小。
+三哥（右边那只）：她刚才说自己是毛毛虫。
+绵绵（毛毛虫）：对！我就是毛毛虫！
+二哥：毛毛虫妹妹。
+绵绵：不是妹妹的名字，是我的种族！
+大姐：先别急，她可能只是害怕。
+绵绵：我没有害怕，我是在解释！
+16:9横屏，东方奇幻亲情向三维动画电影质感，柔和体积光，细腻鳞片与蝶翼材质，真实空间透视，电影级景深，统一角色比例和色彩，画面干净，龙窝入口，绵绵保持小巧圆润的青绿色毛毛虫形态，浅黄色斑点，清澈大眼睛，短小触角，表情灵动可爱；中景到中近景；平稳缓慢推近，情绪停顿时保持稳定构图；大姐、二哥、三哥从洞口探头，看见绵绵后一起凑过来。；本段单次生成时长不超过12秒；从首帧自然连续过渡到尾帧，动作有起因和结果，保持角色脸型、体型、服饰、翅膀与鳞片连续；禁止竖屏构图，禁止旁白画面文字，禁止字幕，禁止水印，禁止Logo，禁止现代物件，禁止真人写实，禁止PPT轮播感，禁止角色变形，禁止多余肢体，禁止翅膀畸形，禁止穿帮，禁止镜头跳切。一定要注意，一个一个说话，不要同时开口！！场景变换不要太奇怪！！","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTY5Yjk0ZjJhNmNjNDkyZmE0YzYwMjM4YzI3ODMyMzlfN2VmZWUzZGEzZTgxYTEwYzMzNGFmYzYyZTRlNzc3NmFfSUQ6NzY5NDk3NzMyMjk5MDc5OTgyMF8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODgwYmJiM2M2NDA0NGM5ZGQ5YmRmNmEyOTc0NmQ1NDNfNzY0ZTZmNDViOWMyOTJmNmMwY2RjN2ZkMGU2NjZlN2ZfSUQ6NzY5NDk3NzMzMzc2MTY1Nzc5Nl8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_eKYUMpqgMwwutGtBoTzdFN20kPVwyjGc.mp4
+180503,18. 文字与字幕能力,无要求字幕控制,reference,16:9,8,720P,"第一张是白天的林间土路，路的样子留着，不要换一条路。第二张这两个人背对镜头，沿着这条土路往前走，步子连续，人数保持两个，不要合成一个人，也不要中途消失一个。整段不要出现底部字幕、标题条、屏幕文字、路牌文字和水印。脚步、林间风声和鸟鸣可以有，不要人声对白，不要配乐。走到最后，画面里仍然没有字。
+土路上不要长出路牌或里程字幕。两个人的衣服颜色保持第二张，不要走着走着合成一个背影。林间的光是白天，两个人的背影逐渐走远一点也可以，但不要走出画面后留下字幕。鸟鸣不要变成人声唱歌。
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWM5OGQzN2ZhYmIxNTgzZGFlNWIyOWU3MDJiNTg1ZjJfNDViNDJjODA1NjUzNWU4ZjhiOWNiZDg4ZjI5YTAzNThfSUQ6NzY5NTIwODExMTg3OTE5NTU5Nl8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NGM1NDNkZTQ1OWNmZmRhMDRkMTM3NDhhZWQ3ZmQ0NDVfMjJmY2JjZGRjMjIwZTA1MmZjNzMxZjEyYWY5ODJkOGZfSUQ6NzY5NTIwODExOTU1ODk2NjI0MV8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Mg44tuFfzEVl6sSD98QUKzVgFmyPFRJj.mp4
+190101,19. 时间成本,视频生成耗时,text,16:9,8,720P,"生成一个告示板，并逐字打出以下文字。
+“不要跟任何人提前说你的计划，包括你的下一步计划，投资计划，赚钱计划，人生规划。哪怕是父母，老婆，也尽量别说。真正重要的事，先悄悄做，做成了，结果自然会替你说话。一个人最好的状态，就是少解释，少预告，少暴露自己的底牌。”
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_kWY5QQ1xate7jpaWmCkOFHAiTw3Xu6dN.mp4
+190102,19. 时间成本,视频生成耗时,first_frame,16:9,5,720P,"桌上这只银茶壶，用我传的这张当第一帧，机位固定，不要大幅运镜，也不要中途切镜头。动作只要一下：壶盖掀开一条缝，再盖回去，五秒左右就结束，用来看一条短镜头能不能顺利生成完。壶身不要换造型，不要飞走，桌面也不要换。盖上之后画面停住。金属盖有一下轻响，不要配乐，不要旁白，画面里不要出现任何文字。
+壶盖掀开的缝要看得见，再合上，不要盖子飞出画面。五秒内不要加倒计时数字或品牌字。掀盖和合盖都看得到金属边缘。结束时壶还在桌面中央附近，不要镜头拉远去拍别的器物。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTdiODkyOGJjMzE2ZjM0MTkyOWZlOGJlOTFiZTlkNWFfZWUwYmMzYWE2YjJhMzY1ODRjMjBkMGYyYTViMWZhZGRfSUQ6NzY5NTIwODE0NzA1MjQ2NTE0MF8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_97zyWHxYKzdJJsIktYa98yN08RVNWDNw.mp4
+190103,19. 时间成本,视频生成耗时,reference,16:9,8,720P,"近景｜小夏
+小夏低声开口：
+“之前这俩月咱们仨天天凑在一起，我以为这种日子能过好久，结果一个星期前阿雯突然说要回河南，你也马上要去邻市上班，说散就散了，我这一个星期在家闷得都快发霉了。”
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_vj1Ct3LN0JFJRpcTCZ3ghyLVjMnt1hjc.mp4
+200101,20. 人物表演与情绪表达,情绪表达准确性,text,16:9,6,720P,"医院走廊，灯是冷白的。男人站着，手里捏着一张检查单，眉头紧着，脸上没有笑。他对着电话小声说：“你先别过来。”声音发紧，像压着的担心，不要用轻松或者开心的口气，眼睛也不要看着镜头卖萌。检查单一直在他手里，走廊不要换成别的地方。有一点很轻的走廊回声，不要配乐，不要字幕。说完他仍皱着眉，没有笑出来。
+检查单的纸还在手指间，不要换成手机自拍。走廊的冷白光不要变成暖色的喜庆光。小声是压着说，不是耳语到听不清。检查单不要被折成看不出是纸。他的眉心在说完后仍是紧的。
+画幅比例16:9，生成6秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_orf2b4X9GTIaDDbloswsrKQ1kEgeQDGR.mp4
+200102,20. 人物表演与情绪表达,情绪表达准确性,first_frame,16:9,6,720P,"用这张当第一帧。穿蓝绿色高领、红头发的人坐在长椅上，脚下有水洼和落叶，靴子是棕色的。雨刚停，她先保持现在这种平静，再慢慢松下来，嘴角只抬一点，是松了口气，不是大笑，也不是要哭。她轻声说：“总算停了。”语气要和这个表情一致。裙子、头发、靴子和长椅都留着。横屏，六秒。没有旁白，没有字幕。
+松气只停在嘴角，不要咧到大笑。水洼和落叶还在脚边。棕色靴子不要换成别的鞋。这句话的声音是轻的，不要突然变成欢呼。长椅的铁扶手留在她身侧，落叶不要在她松气的时候全部消失。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGJlNjBmYTVhZjBlMWQ5ZmYxMTljYWM3ZTQyZTQyZjBfYzMwMmU5ZjlmNGMxMmQ4YTkwYjczM2MzZjVhNDU2ZTlfSUQ6NzY5NTk2MjQxNDUxNzMyNDc2NF8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_HqHtMvCalcrRicWmqNCINyQIM2cqFHn0.mp4
+200103,20. 人物表演与情绪表达,情绪表达准确性,reference,16:9,8,720P,"<Picture 1>匹配动作，表情，生成视频。主持人说：
+“后来你真的去了尼尼微，对吗？”
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTIzMWE5OTAwNjNhMTViNTAxZTZiNDFlMjc2NjBhZTBfNWYwNzlkYWVmYTFjNzA1Y2MxYzM4OWMxOWViYmE4ZmNfSUQ6NzY5NDk3NzM2OTAzNTExNTQ1MV8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_VYs0lWN84sWb1cMHkiPd1xdA0PQVjyKh.mp4
+200201,20. 人物表演与情绪表达,表情变化自然性,text,16:9,7,720P,"女孩先平静地看着窗外，嘴是放松的，还没有惊喜，窗留在画面里。门外响起钥匙声，她先眨眼，嘴角慢慢动，这个过程要连得上，不要从一张冷脸直接切成大笑。惊喜是逐渐出来的，眼睛和嘴一起变，人不要消失。她可以很轻地吸一口气，不要对白，不要配乐，不要字幕。最后能看出笑意是从刚才的平静过渡来的。
+钥匙声先于笑。嘴角抬起要经过中间的帧，不要用两张脸硬切。窗的位置留在她视线的方向。钥匙声、眨眼、嘴角、惊喜，按这个先后，不要惊喜先出现。窗外的光保持，人不要转成背面。
+画幅比例16:9，生成7秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_A60iAFCK8ZdX9i6RrwIfPIVha0J3DwjC.mp4
+200202,20. 人物表演与情绪表达,表情变化自然性,first_frame,16:9,6,720P,"三个穿西装的男人，站位按照片，不要重排，也不要三个人一起变脸。开头中间这位嘴是平的，左右两位保持照片里原来的表情。然后只有中间的人，嘴角一点点抬起来，中间要有过渡，不要一帧跳成大笑。左右两位的脸停在开头那样，不要跟着笑。没有对白，不要配乐，不要字幕。最后仍是只有中间这位在微笑。
+左右两位可以眨眼，但嘴角不要跟着抬。中间这位的笑停在微笑，不要张嘴大笑出声。中间这位的笑从平嘴到嘴角上扬，至少能看出中间状态。左右两位的眼睛可以不动。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmJhMmU3ZjE3NThlMDM3NDgzZDc3ZmI0MzE4YzllNDdfYzViOGM2YWY2YjZkYmJjMTViOWJmNWM5MmY1YzE3MGNfSUQ6NzY5NTIwNjk0MTYzMDUzMjU0MF8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_YiSP15YJiPpIHp9B82Z1ycDeXURf2ikf.mp4
+200203,20. 人物表演与情绪表达,表情变化自然性,reference,9:16,8,720P,"1. 主歌部分（口袋里钱不多，快乐却有很多）：以这张图片为底图，女孩微笑着看向远方，海风自然吹动，画面色彩明亮。
+2. 过渡部分（在人海漂泊，快乐却变少了）：镜头缓慢拉近，画面色调稍微变暗，增加一丝忧郁（可以给女孩眨眼或微微叹气的微表情）。
+3. 副歌部分（如果累了就回故乡，红彤彤的夕阳）：画面光影变为温暖的橘红色（夕阳），背景音乐渐渐加入蝉鸣和海浪声。
+4. 重复段（望着那月光一点点变亮）：画面逐渐转为夜晚的冷蓝色调，但女孩的笑容依然温暖，眼神中充满希望。
+画幅比例9:16，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjdmMzIyNWNhMTJjNTg1OGE0NTI4MjgzMGYwNjlmNmRfYTEwMDVhZTk3YzljOGM2OGUyOTY3NzcyZDM5NDk0OGNfSUQ6NzY5NDk3NzM4MjU0MTIxNjcyMF8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_RrjFJkQlGcfdLBgFS5ZZhyfxRSf9xO4W.mp4
+200301,20. 人物表演与情绪表达,视线与注意力,text,16:9,8,720P,"【剧情】
+【0 s - 3 s】全景，平视机位。画面采用冷白硬光，呈现克制悬疑的冷色调，具有写实电影质感，使用35mm焦段。省考古研究所青铜器修复区外走廊尽头，百叶窗半掩，午后阳光被切成惨白光柱，斜插深灰水磨石地面；镜头从走廊侧面缓慢推近，沈砚脚步刚停在设备间门前半步，手腕微转，摘下最后一只半指皮手套，顺势扔进脚边黑色帆布工具包，包身轻晃，他低头看腕表，手指停在包拉链上，镜头落在他迟疑的侧脸。
+【3 s - 10 s】特写，平视机位。承接沈砚手指停在拉链上的迟疑，画面闪回至夜里的地下库房，库房顶灯投下窄而硬的光区；防潮木箱中央放着秦代青铜灯，编号标签Q-2023-114清晰可见，镜头从标签缓缓推近到入馆台账，沈砚的指尖划过一行入馆记录，停在江老爷子批注“动手前必须做无损探伤”处，随后切到沈砚站在木箱旁的低角度近景，他盯着标签与批注，低声自语：“无损探伤……江老师昨晚明明知道底座有异常，为什么还要让我接手？”镜头停在他微微眯起的眼角与喉结轻动。
+【10 s - 12 s】近景，平视机位。承接闪回中沈砚微微眯起的眼角，画面猛地切回走廊近景，沈砚猛然睁开眼，胸口起伏着长长呼出一口气，眼神从涣散迅速收紧；他站在设备间门前，手指从帆布包拉链上松开，没有再看腕表，视线转向尽头虚掩的设备间门，脚步向前半步，手掌探向门把手，镜头落在他悬停在门把上方的一瞬。
+
+视频全程不要字幕、不要屏幕文字；必须保留协调统一的全局BGM和必要环境音，禁止静音段。
+
+Visual style: 采用90年代香港抒情电影的35毫米胶片摄影质感。影像呈现低照度曝光、柔化高光、浓郁颗粒、轻微偏色、有限动态范围与自然暗部层次；结合手持摄影、轻微失焦、抽帧和慢门形成朦胧流动的时间感。色彩以钨丝暖黄、暗红、墨绿和青灰综合色为主，整体怀旧、暧昧、慵懒、克制，具有旧电影拷贝般的柔软质地。以下规则仅作用于当前生成目标，不主动添加未要求的内容。
+【如果需要人物】
+保持用户指定的人物外貌、年龄、体型、身份、服装、动作和神态。人物状态自然松弛，表情含蓄，避免正面证件照式站姿、商业模特摆拍和夸张戏剧表演。
+服装采用80至90年代香港日常时装质感，在保留原始服装类型的基础上，表现略宽松的肩线、自然高腰比例、垂坠衬衫、柔软针织、简洁裙装、直筒或微喇裤型、旧皮革与克制复古图案。面料具有自然褶皱、轻微磨损和柔和反光，不堆砌年代单品。
+妆发自然成熟，肤色保留真实纹理与胶片综合色；眉眼柔和，唇色偏雾面，头发带自然蓬松、毛躁和零散碎发。不强制红唇、卷发、冷白皮或港星仿妆。
+人物单独生成时使用纯色无环境背景，只对人物本身施加胶片颗粒、低照度综合色、柔化高光、轻微失焦和旧电影质感，不添加具体场所、环境元素、道具、文字或额外人物。
+【如果需要道具】
+保持用户指定的道具类型和用途，呈现80至90年代产品造型与真实使用痕迹。塑料略微泛黄，金属边缘轻度磨损，玻璃具有柔和反光，纸张、布料和皮革保留自然旧化纹理。
+采用低照度胶片受光、柔和高光、轻微偏色与细密颗粒表现，不使用现代产品广告式锐利高光。单独生成道具时使用纯色无环境背景，不添加人物和其他物件。
+【如果需要场景】
+场景采用80至90年代香港生活空间，可表现老街、骑楼、茶餐厅、旧公寓、旅馆房间、狭窄走廊、巴士、电车、报刊亭、天桥、便利店或临街小店。保留斑驳墙面、旧瓷砖、百叶窗、玻璃门、日光灯、风扇和年代陈设形成的真实生活痕迹，但不同时堆叠全部元素。
+构图可使用贴近主体的广角视角、偏心取景、门框套景、玻璃反射、前景遮挡或狭长透视。镜头结合手持轻晃、抽帧残影或慢门拖影表现流动时间，静止区域仍保留清晰胶片细节。
+光线可采用钨丝灯、日光灯、自然天光或招牌综合色，白天、黄昏、室内和夜晚均可成立。场景氛围来自真实环境状态与胶片摄影，不固定添加雨水、烟雾和强烈彩色灯光。空镜场景不添加人物。
+【整体画面风格】
+画面统一呈现90年代香港35毫米电影胶片质感，强调低照度曝光、有限动态范围、柔化高光、细密颗粒、暗部综合色、轻微褪色与旧拷贝质地。
+色彩采用暖黄、暗红、墨绿与青灰之间的含蓄综合色关系，饱和度适中，肤色和材质自然融入胶片色偏。镜头质感可带少量手持晃动、抽帧残影、慢门拖影、轻微虚焦与焦点呼吸，但保持主体可读。
+避免高清数码锐化、现代HDR、高饱和撞色、商业棚拍光、影楼写真、网红美颜、
+塑料皮肤、过度磨皮、干净无颗粒画面、现代短视频滤镜和三维渲染质感。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_f9yucpDY6k1qxW5nvisPX930W1VH4KmU.mp4
+200302,20. 人物表演与情绪表达,视线与注意力,first_frame,9:16,6,720P,"店面就是这张，竖屏：门口有花，一扇红门，右侧是绿色的 Cafe Racer 招牌，这些都不要消失。店前这个人先把眼睛对准右侧招牌，头可以几乎不动。然后视线转到红门上，头跟着转一点。最后视线停在店门，不要转回来看镜头，也不要从车窗里探出另一个人，不要凭空加一辆车。街道的环境声，他不说话，不要配乐，不要字幕。
+视线离开招牌之后不要在半空停住看镜头。红门和绿色招牌同时留在画面里，花不要被删掉。先招牌后红门，视线不要在两个目标之间来回扫。Cafe Racer 的绿不要被涂掉。
+画幅比例9:16，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDA3YmIyZjRmZmQyZTYxMDIzNDliOGJkMWQ0YTM2OTNfZDc1MTQzYmVhMjdmYmZmMjI1MjM2MDE0MjAzYjZiOTJfSUQ6NzY5NTIwNjk2NTA5NzYzMDY3Nl8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_zNXOZ2gjliZCsq82xeFhowY8QqvLvHCk.mp4
+200303,20. 人物表演与情绪表达,视线与注意力,reference,16:9,6,720P,"第一张是这个在厨房做饭的人，脸和衣服用她的，不要换脸。第二张是那口锅，锅的样子保持，不要换成别的锅。她站在灶边，头是低的，用勺子在锅里搅两下。眼睛跟着勺子和锅里，全程不要抬起来找镜头。搅的时候手不要穿进锅壁。勺子碰锅有轻响，她不说话，不要配乐，不要字幕。搅完眼睛还看着锅。
+勺子在锅里有两下，眼睛跟着这两下走。她的头发不要挡住到完全看不见眼睛朝向。搅动时锅沿还在第二张那个形状里。她的目光在锅内，不要看向画面外的说话对象。
+画幅比例16:9，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDFlZTk5N2RjNWRiOWUyMDk4NjYxNzNjNTUxMWUxZTZfOTVjYjhlOWJkZjJlOTkwZjQxMmNlMGM4ZDk1MjY3MDNfSUQ6NzY5NTIwODE3ODUyNDE2MzAxN18xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDhhNTRhOTQwNjhmZjU4YjMyZmE1NTEwMTk0OTUzYWZfYmJhYThlODVmMGZhYjVmYTdjMDA3YTdjMjYyMjRjYTZfSUQ6NzY5NTIwODE4NjYzMDAxNTk2OF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_giiE0GqBhEoXl1kD9I3U9GT1YmC7Y6IT.mp4
+200401,20. 人物表演与情绪表达,微动作自然性,text,16:9,8,720P,"短发男人坐在窗边看书，近景，书还在他手里，机位不要大幅移动。他不规则地眨两次眼，两次之间隔开，不要像节拍器，肩膀随着呼吸轻轻起伏一次以上。嘴不动，也不说话，头不要机械地点，不要突然转头或挥手。可以有极轻的呼吸和室内底噪，不要配乐，不要人声，不要字幕。眨眼和呼吸看起来是随便发生的，不是卡着拍子。
+两次眨眼不要等距，呼吸的起伏比眨眼更慢。他不要把书合上，也不要抬头发表情。眨眼是眼皮合上再打开，不要整张脸闪一下。呼吸只让肩线轻微上下，不要耸肩。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_6IE1imlW5h8mEvkbJmIEPpPCFRUKGWXm.mp4
+200402,20. 人物表演与情绪表达,微动作自然性,first_frame,9:16,6,720P,"这位戴传统头巾、穿着背心坐着的年轻女人，用我传的这张当第一帧，竖屏，机位固定。不要改成旗袍，头巾和坐姿留着，双手还放在身前。她自然地眨两次眼，间隔不要太匀，肩膀有一点呼吸起伏。嘴不要动，不要说话，头也不要机械地点，不要突然挥手。极轻的呼吸和室内环境声，不要配乐，不要字幕。第二次眨眼之后，她还是开头这个坐姿。
+头巾的花纹和背心留着，不要在眨眼时换成别的民族服装。嘴保持闭合，不要配上环境里的人声。两次眨眼之间她可以看向前方，不要转头找镜头外的人。传统头巾的结还在原来的位置。
+画幅比例9:16，生成6秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjkxZTA0NTMxN2UxNDhjYjc1NDYxNzI4MGY4YzIxMTZfOWRkYjNmOGY2MTc1M2NjYjQwZjk1ZDI0YzkwZGE0OTZfSUQ6NzY5NTIwNzAwMDA1NzEwNTM4OF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_nedHwrcuBHeXmhdr8DCEO6ZWuZEZ7o0I.mp4
+200403,20. 人物表演与情绪表达,微动作自然性,reference,16:9,6,720P,"第一张是这个托着下巴的人，眉头本来就皱着，穿黑衣服。第二张把他的嘴和下巴再锁一下，手指还在下巴下面，不要把这只手拿掉。他不要说话。自然地眨两次眼，两次隔开，不要一样长，肩膀跟着呼吸轻轻起伏一下，头可以极慢地偏一点。不要机械地点头，也不要突然笑出来。固定近景，横屏，六秒。只有很轻的呼吸和环境声，没有台词，没有字幕。
+眨眼是眼皮合上再打开，不要整张脸闪一下。托下巴的手指一直在，不要眨眼的时候手消失。黑衣服的领口留着。两次眨眼之间他可以看着前方，不要开始讲话。
+画幅比例16:9。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2YxYTQ5YTE0YzNmMmM1OGRhOWJlMTU0ZWE1MTIxNjVfZmVmZWI0MjNlMWQ5YWU0MGQzY2M3MmUzZjA3Y2NkNjRfSUQ6NzY5NTk2MjQyNzg5NjU2NDY4N18xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"", ""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2Q4Y2EwMmIwOGNmNjRmMjdlNzdhZTdiNWVhNWJlZThfZTI5ZTRhZDc4NWM5NzI0MzI5N2FlZDQxMTUwNWFhMjFfSUQ6NzY5NTk2MjQzNTA4MjAxMzY1OF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM""]",[],[],
+200501,20. 人物表演与情绪表达,反应时机合理性,text,16:9,8,720P,"一个人在书房里低头写东西，桌上有纸和笔，房间不要切到门外。先听到一声敲门，这一下他不要马上动，笔还可以停在纸上。停大约一拍，房间先安静一下，然后他才抬头看向门口。不要门声和抬头发生在同一帧，也不要还没敲他就已经看着门。敲门声要清楚，他不说话，不要配乐，不要字幕。抬头比敲门晚一拍。
+敲门是一下或两下短声，不是持续砸门。抬头时笔还在手里，人不要先站起来再回头。敲门声落在安静的书房里，随后才是抬头。纸上的笔尖在抬头前还挨着纸，不要先把笔扔掉。
+画幅比例16:9，生成8秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_rcmzQDXvzNLGJCmQFczMpvFch9VcoovR.mp4
+200502,20. 人物表演与情绪表达,反应时机合理性,first_frame,16:9,7,720P,"餐厅前台按这张来：木柜台、后面的石雕墙，柜台后已经有人，这些都留着，不要跳切。一个客人从右侧走进来，脚步声跟着他，在柜台前站住。这时柜台后的人还低着头或看着台面，不要马上抬头。停一拍，两个人都先不动。然后柜台后的那个人才抬头看他，客人已经站定。不要两个人同时动。抬头时只有很轻的衣料声，没有对白，不要字幕。
+客人站住和店员抬头之间，能感觉到空了一拍，不要用切镜把这段剪掉。石雕墙的纹样不要变。客人的脚步停住之后，柜台后的人才有抬头的动作。木柜台的边不要在这一拍里移动。
+画幅比例16:9，生成7秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjYyZjRiODA2MmYyMDZmZDY3ZDA0MDQ2YzgzYjk4ZTVfZDVmNWQxNjE1OTFhMGY2MDNmMjdkMTYwMzIxZDM3YTFfSUQ6NzY5NTIwNzAyMTMyNjUwMjg4Ml8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_cIsyBh2hpqTYGzQFVkrRsTezffLDjjxL.mp4
+200503,20. 人物表演与情绪表达,反应时机合理性,reference,16:9,8,720P,"穷人等富人舔了一口酸奶盖纸之后再开始问，富人听到问题后要有一个停顿（表示尴尬），然后尴尬的呵呵笑了一声，再继续说台词
+画幅比例16:9，生成8秒。",[],[],"[""https://cos-platform-outputs.agnes-ai.com/videos/video-queue/input/2026/10/09/task_gOCy0S4ziwDvlHLUGSctSIpwME1TVvwW/0.mp4""]",https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_z4F67TuhLEr3S7UsdKyfJMQF8Fq4fA2s.mp4
+200601,20. 人物表演与情绪表达,台词与表演匹配,text,16:9,5,720P,"中景。男人眉头皱着，双手摊开，说：“我真的没有骗你。”语气着急，音量偏高，但不是吼，气息是急的。说到“没有”的时候手还是张开的，不要中途插进兜里，表情也不要在句子中间变成笑。皱眉、摊开的手和这句着急的话要同时在。不要换成轻松的语调，不要配乐，不要换台词，不要字幕。说完他的眉头仍是皱着的。
+摊开的是两只手，手心方向大致朝前或朝上，不要握拳。着急停在这句话里，不要配上笑的气声。“真的没有”几个字说的时候手还张着。不要配上摇头晃脑的轻松动作，眉头不要松开。
+画幅比例16:9，生成5秒。",[],[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_G0gYvQAmySzXzzz56r31gov8avpQnPab.mp4
+200602,20. 人物表演与情绪表达,台词与表演匹配,first_frame,9:16,5,720P,"两个人都已经在笑，背景是花园和铁门，竖屏构图按这张锁定，不要换背景。右边这个男人保持笑容说：“总算见到你了。”嘴在笑的状态下动，语气是高兴的，说完笑不要突然掉下去，也不要变成冷脸。左边穿白上衣的女人保持她现在的表情，不要开口，不要转过来抢这句台词。只有这一句男声，不要第二个人出声，不要配乐，不要字幕。
+左边的女人可以保持微笑，但不要张嘴把台词接过去。铁门和花园还在他们身后，不要虚化成纯色背景。右边男人的笑在嘴动的时候还在，不要说到一半收成严肃。左边女人的白上衣留在画面里。
+画幅比例9:16，生成5秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWQyMjQ4NGRjNzVmMjg2OWFhYmM4ZTg5OTE1ZDU4ZTlfMjJiZjI1NjUwYTJlNTNiODcwZWM3MTY2YzNmNzc3MmRfSUQ6NzY5NTIwODIxNDY0MTIwMDA4OV8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_aDGZ55BILOiVYQ0IVPB3rSWslFuKb7hO.mp4
+200603,20. 人物表演与情绪表达,台词与表演匹配,reference,16:9,8,720P,"<Picture 1>图片是LOL选手宙斯，视频用第一采访视角，录制视频效果，最好加点vlog相关UI，让他说出“BIN大小姐，不听话要打你屁屁咯”，最后再坏笑一下
+画幅比例16:9，生成8秒。","[""https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OTg4NjU0YmJhNjVjMjUwNmFmYTU0YTM4MDBlZDVhMTlfYjgwMTRkZDQ3YzI4MTdkNDQ1OThhZjkzMWNmOTZhMmJfSUQ6NzY5NDk3NzQxNzY5NzM4MTMwNF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM""]",[],[],https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Yk6TMPiw3Py9ivyVekHABz4I4MsIWgjk.mp4

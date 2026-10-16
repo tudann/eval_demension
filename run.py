@@ -9,7 +9,8 @@ from typing import Any
 
 import yaml
 
-from v_eval.core import ConfigError, discover_cases, evaluate_case, prepare_case
+from v_eval.cases import ConfigError, discover_cases
+from v_eval.workflow import evaluate_case, prepare_case
 
 
 ROOT = Path(__file__).resolve().parent
@@ -99,7 +100,7 @@ def run_check(task: dict[str, Any]) -> list[Any]:
     judge_status = {
         "vision": bool(os.getenv("V_EVAL_VISION_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
         "audio": bool(os.getenv("V_EVAL_AUDIO_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
-        "checklist": bool(os.getenv("V_EVAL_CHECKLIST_URL") or os.getenv("V_EVAL_VISION_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
+        "checklist": bool(os.getenv("V_EVAL_CHECKLIST_URL") or os.getenv("V_EVAL_VISION_JUDGE_URL") or os.getenv("V_EVAL_AUDIO_JUDGE_URL") or os.getenv("V_EVAL_JUDGE_URL")),
     }
     modes = sorted({case.mode for case in cases})
     mode_counts = {mode: sum(case.mode == mode for case in cases) for mode in modes}
@@ -108,7 +109,32 @@ def run_check(task: dict[str, Any]) -> list[Any]:
           f"checklist_judge={'online' if judge_status['checklist'] else 'offline'} "
           f"vision_judge={'online' if judge_status['vision'] else 'offline'} "
           f"audio_judge={'online' if judge_status['audio'] else 'offline'}")
+    if cases:
+        validate_cases_ready(cases)
     return cases
+
+
+def validate_cases_ready(cases: list[Any]) -> None:
+    incomplete = []
+    for case in cases:
+        missing = []
+        if not case.prompt_path or not read_prompt_text(case):
+            missing.append("prompt_final.txt (nonempty)")
+        if not case.video_path:
+            missing.append("video.mp4")
+        if case.mode in {"f2va", "fl2va"} and not case.first_frame:
+            missing.append("input_01 image")
+        if case.mode in {"l2va", "fl2va"} and not case.last_frame:
+            missing.append("last-frame image")
+        if missing:
+            incomplete.append(f"{case.output_id}: {', '.join(missing)}")
+    if incomplete:
+        preview = "; ".join(incomplete[:8])
+        raise ConfigError(f"{len(incomplete)} incomplete case(s); {preview}")
+
+
+def read_prompt_text(case: Any) -> str:
+    return case.prompt_path.read_text(encoding="utf-8", errors="replace").strip()
 
 
 def _is_valid_external_checklist(value: Any, dimension: str, case_id: str) -> bool:
@@ -211,7 +237,7 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run the local D13-D18 video evaluation workflow")
+    parser = argparse.ArgumentParser(description="Run the local D13-D18/D20 video evaluation workflow")
     parser.add_argument("--task-config", "--config", required=True, type=Path)
     parser.add_argument("--dims-config", type=Path, default=DEFAULT_DIMS)
     parser.add_argument("--stages", nargs="+", choices=["check", "checklist", "evaluate", "score"])
@@ -223,6 +249,10 @@ def main(argv: list[str] | None = None) -> int:
         validate_task(task, dims)
         stages = args.stages or task.get("stages", ["check", "checklist", "evaluate", "score"])
         cases = run_check(task) if "check" in stages else discover_cases(task)
+        if not cases and any(stage in stages for stage in ("checklist", "evaluate", "score")):
+            raise ConfigError(f"no cases found for {task['dimension']}; add case directories before evaluating")
+        if any(stage in stages for stage in ("checklist", "evaluate")):
+            validate_cases_ready(cases)
         if "checklist" in stages:
             run_checklist(task, dims, cases, args.force)
         if "evaluate" in stages:

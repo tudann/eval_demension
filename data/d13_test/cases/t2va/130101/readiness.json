@@ -1,0 +1,16 @@
+{
+  "case_id": "130101",
+  "mode": "t2va",
+  "subpoint": "风格准确性",
+  "expected_subpoint": "style_accuracy",
+  "media": [
+    {
+      "case_id": "130101",
+      "file": "cases\\t2va\\130101\\video.mp4",
+      "kind": "video",
+      "status": "missing",
+      "error": "URLError"
+    }
+  ],
+  "ready": false
+}

@@ -1,0 +1,28 @@
+{
+  "case_id": "200403",
+  "csv_row": 115,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "微动作自然性",
+  "source_mode": "reference",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": null
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2YxYTQ5YTE0YzNmMmM1OGRhOWJlMTU0ZWE1MTIxNjVfZmVmZWI0MjNlMWQ5YWU0MGQzY2M3MmUzZjA3Y2NkNjRfSUQ6NzY5NTk2MjQyNzg5NjU2NDY4N18xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2Q4Y2EwMmIwOGNmNjRmMjdlNzdhZTdiNWVhNWJlZThfZTI5ZTRhZDc4NWM5NzI0MzI5N2FlZDQxMTUwNWFhMjFfSUQ6NzY5NTk2MjQzNTA4MjAxMzY1OF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

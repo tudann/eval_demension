@@ -1,0 +1,24 @@
+{
+  "case_id": "170102",
+  "csv_row": 66,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "人体畸变率",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_KxaINEZKGp8ejHE3XTi9WgHNX1I051yr.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDA4ODAwMzQyYzNhOWRkZjU2YWFkMGY4ZTkwMzAzZGZfYWM4MDU2OGY5NGFlZjZiMDVhN2U0NGJjMGVjNDg2NzhfSUQ6NzY5NTIwODAxNjQxNjg2OTMzOF8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

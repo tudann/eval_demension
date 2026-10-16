@@ -1,0 +1,19 @@
+{
+  "case_id": "150101",
+  "csv_row": 35,
+  "source_dimension": "15. 音频生成能力",
+  "source_subdimension": "对白内容正确性",
+  "source_mode": "text",
+  "evaluation_dimension": "15_audio_quality_control",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Q5pz8ggtThYsWY2m5VD4w0tPVyBidAmn.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

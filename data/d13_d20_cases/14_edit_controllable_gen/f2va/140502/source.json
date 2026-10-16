@@ -1,0 +1,24 @@
+{
+  "case_id": "140502",
+  "csv_row": 30,
+  "source_dimension": "14. 编辑与可控生成能力",
+  "source_subdimension": "视频延长",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "14_edit_controllable_gen",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_VgcLrkWay5v18UmzjRupqWF3iDUTD9cN.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://api3-eeft-drive.feishu.cn/space/api/box/stream/download/authcode/?code=ZWRlZGM5YmU5N2YyZjg3YjU5ZDVjMjVlYThmM2NkMzdfMDdiNGIzZThiM2EyM2FmNmFhOWNiODY3ZDYyZDg1ZDlfSUQ6NzY5NTIwNzkxNTY5ODg4MzU2NV8xNzkxOTQ5MTQ2OjE3OTIwMzU1NDZfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

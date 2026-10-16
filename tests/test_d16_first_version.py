@@ -34,8 +34,8 @@ class MediaProtocolTests(unittest.TestCase):
                 "items": [
                     {"subpoint": "lip_sync", "time_hint": "1.0-2.0s"},
                     {"subpoint": "multi_speaker_match", "time_hint": "全片"},
-                    {"subpoint": "audio_change_alignment", "time_hint": "8秒至9秒"},
-                    {"subpoint": "realism", "time_hint": "全片"},
+                    {"subpoint": "action_sound_sync", "time_hint": "8秒至9秒"},
+                    {"subpoint": "ambient_sound_sync", "time_hint": "全片"},
                 ]
             }
         }
@@ -45,14 +45,15 @@ class MediaProtocolTests(unittest.TestCase):
         self.assertLessEqual(sum(window.end - window.start for window in windows), 8.000001)
         reasons = {reason for window in windows for reason in window.reasons}
         self.assertIn("lip_sync", reasons)
-        self.assertIn("audio_change_alignment", reasons)
+        self.assertIn("action_sound_sync", reasons)
+        self.assertIn("ambient_sound_sync", reasons)
 
     def test_repeated_hints_do_not_exclude_other_question_types(self) -> None:
         payload = {"checklist": {"items": [
             {"subpoint": "lip_sync", "time_hint": f"{index}-{index + 1}s"} for index in range(4)
-        ] + [{"subpoint": "audio_change_alignment", "time_hint": "8-9s"}]}}
+        ] + [{"subpoint": "action_sound_sync", "time_hint": "8-9s"}]}}
         windows = _d16_media_windows(payload, 10.0)
-        self.assertIn("audio_change_alignment", {reason for window in windows for reason in window.reasons})
+        self.assertIn("action_sound_sync", {reason for window in windows for reason in window.reasons})
         self.assertLessEqual(sum(window.end - window.start for window in windows), 12.0)
 
     def test_invalid_window_limit_falls_back_to_safe_defaults(self) -> None:
@@ -115,14 +116,49 @@ class MediaProtocolTests(unittest.TestCase):
             output.mkdir(parents=True)
             (output / "checklist.json").write_text(__import__("json").dumps(checklist))
             (output / "facts.json").write_text('{"dialogues": true}')
-            with patch("v_eval.core.answer_checklist", return_value={"status": "media_error", "source": "judge",
+            with patch("v_eval.workflow.answer_checklist", return_value={"status": "media_error", "source": "judge",
                                                                       "error": "audio unavailable", "answers": [], "gates": []}), \
-                    patch("v_eval.core.run_component", side_effect=AssertionError("numeric component must not run")):
+                    patch("v_eval.scoring.run_component", side_effect=AssertionError("numeric component must not run")):
                 result = evaluate_case(task, {"subpoints": {"lip_sync": {"components": {"syncnet_conf": 1.0}}}},
                                        case, {}, force=False)
             self.assertEqual(result["status"], "media_error")
             self.assertIsNone(result["score"])
             self.assertEqual(result["subpoints"], {})
+
+    def test_judge_error_produces_no_case_score(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            video = root / "video.mp4"
+            video.write_bytes(b"video")
+            case = Case("case", root, "t2va", None, video)
+            dimension = "16_audio_visual_sync"
+            task = {"dimension": dimension, "output_dir": str(root), "run_name": "test"}
+            checklist = {"version": 2, "dimension": dimension, "case_id": "case", "judge_mode": "external",
+                         "facts": {"dialogues": True}, "gates": [],
+                         "items": [{"id": "q1", "subpoint": "lip_sync", "kind": "rubric_5", "core": True}]}
+            output = root / "runs" / "test" / dimension / "case"
+            output.mkdir(parents=True)
+            (output / "checklist.json").write_text(__import__("json").dumps(checklist))
+            (output / "facts.json").write_text('{"dialogues": true}')
+            with patch("v_eval.workflow.answer_checklist", return_value={"status": "error", "source": "judge",
+                                                                      "error": "service unavailable", "answers": [], "gates": []}):
+                result = evaluate_case(task, {"subpoints": {"lip_sync": {"components": {"checklist": 1.0}}}},
+                                       case, {}, force=False)
+            self.assertEqual(result["status"], "judge_error")
+            self.assertIsNone(result["score"])
+            self.assertEqual(result["subpoints"], {})
+            with patch("v_eval.workflow.answer_checklist", return_value={"status": "ok", "source": "judge",
+                                                                    "answers": [{"id": "q1", "score": 4}], "gates": []}):
+                retry = evaluate_case(task, {"subpoints": {"lip_sync": {"components": {"checklist": 1.0}}}},
+                                      case, {}, force=False)
+            self.assertEqual(retry["status"], "ok")
+            self.assertEqual(retry["score"], 4.0)
+
+    def test_missing_gate_answer_is_incomplete_not_passed(self) -> None:
+        from v_eval.core import gate_result
+
+        checklist = {"gates": [{"id": "g1", "expect": "yes"}]}
+        self.assertIsNone(gate_result(checklist, {"gates": []})["passed"])
 
 
 class SyncNetAdapterTests(unittest.TestCase):
@@ -135,11 +171,14 @@ class SyncNetAdapterTests(unittest.TestCase):
         self.assertIsNone(result["score"])
 
     def test_real_adapter_protocol_maps_confidence_and_keeps_offset(self) -> None:
-        command = (
-            f"{sys.executable} -c 'import json,sys; json.load(sys.stdin); "
-            "print(json.dumps({\"status\":\"ok\",\"confidence\":6.0,\"offset_ms\":-40}))'"
-        )
         with tempfile.TemporaryDirectory() as directory:
+            adapter = Path(directory) / "adapter.py"
+            adapter.write_text(
+                'import json, sys\njson.load(sys.stdin)\n'
+                'print(json.dumps({"status": "ok", "confidence": 6.0, "offset_ms": -40}))\n',
+                encoding="utf-8",
+            )
+            command = f'"{Path(sys.executable).as_posix()}" "{adapter.as_posix()}"'
             video = Path(directory) / "video.mp4"
             audio = Path(directory) / "audio.wav"
             video.write_bytes(b"video")
@@ -166,7 +205,7 @@ class SyncNetAdapterTests(unittest.TestCase):
         case = Case("case", Path("."), "t2va", None, None)
         config = {"applies": "facts.dialogues", "components": {"checklist": 0.7, "syncnet_conf": 0.3}}
         unavailable = {"component": "syncnet_conf", "status": "not_configured", "score": None}
-        with patch("v_eval.core.run_component", return_value=unavailable):
+        with patch("v_eval.scoring.run_component", return_value=unavailable):
             result = score_subpoint({}, "lip_sync", config, checklist, answers, case,
                                     {"dialogues": True}, True, {})
         self.assertEqual(result["score"], 4.0)

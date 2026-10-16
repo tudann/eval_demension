@@ -1,0 +1,28 @@
+{
+  "case_id": "180103",
+  "csv_row": 88,
+  "source_dimension": "18. 文字与字幕能力",
+  "source_subdimension": "文字内容准确性",
+  "source_mode": "reference",
+  "evaluation_dimension": "18_text_visual_consistency",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_TiFkKTpbE9mHezHbz5h3xswpoFBaaLdH.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTI1ZTUyYjFmYjQ0NThiMWE3NGRkMWU5MzRkNjdiNjBfYTQ0MzM3M2IyZWNlZmJjZDdmOGNiMTZiYTUyM2U3ZWNfSUQ6NzY5NTU5NDQxNzQ0NjIyNjkwMF8xNzkxOTQ5MTUwOjE3OTIwMzU1NTBfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjhhOTBlZmVlYTlhOTYwODA4MjBjZDdjNzU3MThhODJfMDI4Y2ZjMDQ2ZDc5N2Y5NGJhMzFkNTVhY2JiNzE3YzNfSUQ6NzY5NTU5NDQyNzY4NzI1OTA3M18xNzkxOTQ5MTUxOjE3OTIwMzU1NTFfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

@@ -1,0 +1,24 @@
+{
+  "case_id": "160402",
+  "csv_row": 63,
+  "source_dimension": "16. 音视频同步能力",
+  "source_subdimension": "多人对白匹配",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "16_audio_visual_sync",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_dWiihJ15d71B6eKc2m7rSWqvrTc7W2CU.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmJiMmI4OTRiY2U4NDNhODM4ZjQwMTE3NjRlMzQxMDFfZjlkZTg1NmEwY2ZjZDNkMWVjMDg5ZWIyZDgyMTQzYmVfSUQ6NzY5NTIwNjYxODIzNzA0NTY5N18xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

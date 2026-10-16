@@ -1,0 +1,24 @@
+{
+  "case_id": "150502",
+  "csv_row": 48,
+  "source_dimension": "15. 音频生成能力",
+  "source_subdimension": "环境音",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "15_audio_quality_control",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_MX0QRKcU3DVSw27nYRoZKxHyhRb2sBTC.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWE5M2Y5ZTczZTE3MGFjNjFiYmY5Zjc2NDk0N2U5YzRfYWY0YWFjYjVjZDNjMmEwNmY0OTE1YzMwYmU2MzBmMTlfSUQ6NzY5NTIwNjQ5MjIyNzc2NzIyNF8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

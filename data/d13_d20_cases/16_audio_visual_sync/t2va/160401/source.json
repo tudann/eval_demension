@@ -1,0 +1,19 @@
+{
+  "case_id": "160401",
+  "csv_row": 62,
+  "source_dimension": "16. 音视频同步能力",
+  "source_subdimension": "多人对白匹配",
+  "source_mode": "text",
+  "evaluation_dimension": "16_audio_visual_sync",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "7",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_sVyQRsytZECk4bp8yPbCgce5aHEDlVLw.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

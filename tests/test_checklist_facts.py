@@ -62,60 +62,68 @@ class ChecklistFactAliasTests(unittest.TestCase):
         self.assertEqual(len(checklist["items"]), 5)
         self.assertTrue(all(item["kind"] == "rubric_5" for item in checklist["items"]))
 
-    def test_d15_music_and_sfx_aliases_enable_conditional_items(self) -> None:
+    def test_d15_sfx_alias_enables_conditional_item_but_music_is_not_a_subpoint(self) -> None:
         dimension = "15_audio_quality_control"
         payload = {
-            "facts": {"music_requirement": "童话风格配乐", "sfx_requirement": "叮一声的问号音效"},
+            "facts": {"sfx_requirement": "叮一声的问号音效"},
             "gates": _gates(dimension),
             "items": [
-                _item(1, "music_match", "配乐是否达到童话风格？"),
-                _item(2, "action_sfx", "动作音效是否达到叮一声的问号音效？"),
-                _item(3, "voice_naturalness", "人声是否自然？"),
+                _item(1, "action_sfx", "动作音效是否达到叮一声的问号音效？"),
+                _item(2, "voice_naturalness", "人声是否自然？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
         self.assertIsNotNone(checklist)
-        self.assertIs(checklist["facts"]["music_required"], True)
-        self.assertEqual(checklist["facts"]["music_description"], "童话风格配乐")
         self.assertEqual(checklist["facts"]["sfx"], "叮一声的问号音效")
         self.assertEqual(checklist["facts"]["sfx_description"], "叮一声的问号音效")
+        payload["items"].append(_item(3, "music_match", "配乐是否达到童话风格？"))
+        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
 
     def test_d16_dialogue_alias_enables_lip_sync(self) -> None:
         dimension = "16_audio_visual_sync"
         payload = {
-            "facts": {"dialogue": "啊，故事挺好的。", "audio_layers": "人声清晰，背景音乐轻微"},
+            "facts": {"dialogue": "啊，故事挺好的。", "actions": "拍手并发出拍手声", "environment_changes": "雨落下时出现雨声"},
             "gates": _gates(dimension),
             "items": [
                 _item(1, "lip_sync", "口型是否与台词同步？"),
-                _item(2, "realism", "音画关系是否自然？"),
+                _item(2, "action_sound_sync", "拍手声是否与拍手动作同步？"),
+                _item(3, "ambient_sound_sync", "雨声是否与落雨画面同步？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
         self.assertIsNotNone(checklist)
         self.assertEqual(checklist["facts"]["dialogues"], "啊，故事挺好的。")
-        self.assertIs(checklist["facts"]["realistic"], True)
+        self.assertEqual(checklist["facts"]["av_events"], "拍手并发出拍手声")
+        self.assertEqual(checklist["facts"]["env_changes"], "雨落下时出现雨声")
 
-    def test_d17_motion_aliases_enable_conditional_items(self) -> None:
-        dimension = "17_motion_temporal_consistency"
+    def test_d17_failure_anomaly_items_and_human_applicability(self) -> None:
+        dimension = "17_failure_anomaly_control"
         payload = {
             "facts": {
-                "camera_motion": "连续跟随长镜头",
-                "subject_consistency": "棕色皮风衣男子",
-                "human_motion": "男子稳步行走",
+                "subject": "棕色皮风衣男子",
+                "has_human": True,
+                "fixed_attributes": "棕色皮风衣",
+                "camera_movement": "连续跟随长镜头",
             },
             "gates": _gates(dimension),
             "items": [
-                _item(1, "camera_motion", "镜头运动是否达到连续跟随长镜头？"),
-                _item(2, "subject_consistency", "棕色皮风衣男子是否保持一致？"),
-                _item(3, "temporal_continuity", "从酒吧到森林是否连续？"),
-                _item(4, "human_motion", "男子行走是否自然？"),
+                _item(1, "human_deformation_rate", "男子的手和身体是否没有畸变？"),
+                _item(2, "subject_disappearance_rate", "男子是否没有意外消失？"),
+                _item(3, "subject_duplication_rate", "男子是否没有被复制？"),
+                _item(4, "attribute_drift_rate", "皮风衣颜色是否没有漂移？"),
+                _item(5, "penetration_issue", "人物是否没有穿过其他物体？"),
+                _item(6, "camera_anomaly_rate", "镜头是否没有意外跳切？"),
+                _item(7, "breakdown_duration", "视觉崩坏是否没有持续？"),
             ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
         self.assertIsNotNone(checklist)
-        self.assertEqual(checklist["facts"]["requested_camera_motion"], "连续跟随长镜头")
         self.assertEqual(checklist["facts"]["subjects"], "棕色皮风衣男子")
         self.assertIs(checklist["facts"]["has_humans"], True)
+        self.assertEqual(checklist["facts"]["protected_attributes"], "棕色皮风衣")
+        self.assertEqual(checklist["facts"]["camera_constraints"], "连续跟随长镜头")
+        payload["facts"]["has_human"] = False
+        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
 
     def test_d18_copies_allowed_text_when_expected_text_is_empty(self) -> None:
         dimension = "18_text_visual_consistency"
@@ -230,7 +238,7 @@ class RubricScoreTests(unittest.TestCase):
         case = Case("case", Path("."), "t2va", None, None)
         config = {"components": {"checklist": 0.6, "ocr_cer": 0.4}}
         measured = {"component": "ocr_cer", "status": "ok", "score": 2.0}
-        with patch("v_eval.core.run_component", return_value=measured):
+        with patch("v_eval.scoring.run_component", return_value=measured):
             result = score_subpoint({}, "text_accuracy", config, checklist, answers, case, {}, True, {})
         self.assertEqual(result["score"], 3.8)
         self.assertEqual(result["score_basis"], "weighted")

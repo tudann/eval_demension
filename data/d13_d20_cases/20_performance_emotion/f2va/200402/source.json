@@ -1,0 +1,24 @@
+{
+  "case_id": "200402",
+  "csv_row": 114,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "微动作自然性",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "f2va",
+  "ratio": "9:16",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_nedHwrcuBHeXmhdr8DCEO6ZWuZEZ7o0I.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjkxZTA0NTMxN2UxNDhjYjc1NDYxNzI4MGY4YzIxMTZfOWRkYjNmOGY2MTc1M2NjYjQwZjk1ZDI0YzkwZGE0OTZfSUQ6NzY5NTIwNzAwMDA1NzEwNTM4OF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

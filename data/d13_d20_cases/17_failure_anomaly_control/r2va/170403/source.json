@@ -1,0 +1,24 @@
+{
+  "case_id": "170403",
+  "csv_row": 76,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "属性漂移率",
+  "source_mode": "reference",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_Osnl3IAWhig4jaBC5ddOx5T4PeNnKaok.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTMxZjE5ZTY3OTJhZDM3NGNlM2ExMDhmZTRiM2RhODJfOTVlM2E1Y2U5ZDE4NzM2NjU1Mjc3Yjg0MWI2NGZlMzhfSUQ6NzY5NDk3MjAxMzkyMDc2NzE1OV8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

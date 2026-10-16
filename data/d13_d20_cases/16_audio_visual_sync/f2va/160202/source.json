@@ -1,0 +1,24 @@
+{
+  "case_id": "160202",
+  "csv_row": 57,
+  "source_dimension": "16. 音视频同步能力",
+  "source_subdimension": "动作音同步",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "16_audio_visual_sync",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_1W2XkazaQCbn2Y42fVwwiSUI1d1M1QIA.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjFkZTg2YjE4ZGI5ZTBjMGZmMWZmMWYyNWFhNWFhMGVfMGY3YjU3MzAyMDZjMjUzN2JmOTQwNWI3MzgzNmRkMTBfSUQ6NzY5NTIwNjU3MjA3ODczMDIwOV8xNzkxOTQ5MTQ4OjE3OTIwMzU1NDhfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

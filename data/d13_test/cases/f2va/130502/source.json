@@ -1,0 +1,20 @@
+{
+  "csv": "data/d13_d20_cases.csv",
+  "csv_row": 15,
+  "case_id": "130502",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "色彩控制",
+  "mode": "first_frame",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "prompt_input": "图里这位穿红底碎花头巾的人背对镜头，坐在透光的乡村灶台前。锅具、竹棚和她的位置保持，横屏六秒。镜头从现在的位置微微推向灶台，整段落到低饱和的青绿色，但不要做成来回跳的高饱和滤镜。光还是从棚缝进来，不要变成黑夜，也不要换成现代厨房。红头巾可以压暗，色相不要漂成别的颜色，锅和篮子还要认得出来。很轻的环境声，可以有锅具轻碰一下，不要配乐，不要字幕。最后她仍背对着坐在灶台前。\n竹棚的缝还在，不要封成实墙。她的背影不要转成正面，灶台上的锅不要换成现代电器。青绿是整间屋子一起沉下去，不是只给她的衣服换色。头巾的碎花还认得出来，灶台的烟或热气可以很淡。\n画幅比例16:9。",
+  "images": "[\"https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWEzMWVmMDc3YWJmZTY0MjBmNjVkNjEwN2RhMjA2ZGJfYWY2NTA5NWY4YjVjNTdjNGM2ZThiOGQ2YTliM2ZiY2VfSUQ6NzY5NTIwNjIzNjE2NTI5NTA3MF8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM\"]",
+  "audios": "[]",
+  "input_videos": "[]",
+  "output_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_FquaWEoRJLDgQItM64D1w9xqmg2SsYwu.mp4",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "f2va",
+  "expected_subpoint": "color_control",
+  "prompt_adaptation": "none"
+}

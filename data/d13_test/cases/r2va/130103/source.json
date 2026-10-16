@@ -1,0 +1,20 @@
+{
+  "csv": "data/d13_d20_cases.csv",
+  "csv_row": 4,
+  "case_id": "130103",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格准确性",
+  "mode": "reference",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "prompt_input": "第一张是夜里的肉摊，第二张是那个戴白帽子、穿白外套切肉的人，脸、帽子和外套都按他的来。整段改成能一眼认出的彩色铅笔画，不要只在照片上罩一层滤镜。摊子、白外套、帽子和前面那口大锅都还得认得出来。铅笔画要停在画面上，不要画到一半变回照片，也不要改成油画。横屏，八秒左右。摊位上有人声和铁板声，没有台词，没有字幕。\n切肉的手还是这个人的手，不要换成摊位外面的路人。大锅留在前景，不要被铅笔画糊没。帽子的形状一直是这顶白帽子。\n画幅比例16:9。",
+  "images": "[\"https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTI2YzBhMjQ0YTlmMjcyNDA0MzJjOTZlZWIxM2E4ZDhfY2Y5YzUxMmYzMGYxZjg2Mzk5OGE3ZmI3MWQyMzQ0ZTRfSUQ6NzY5NTk2MjMwMTg2NjI2NTU4OF8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM\", \"https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjE1NTFjODkxNDA2ZjMzZTUzNDQ4ZDY4ZTAxODNjMzFfNzhiZjE4YzQxYTEyMGJmOGI5MWNjMTM5YjZjNWMwOTJfSUQ6NzY5NTk2MjMxMDcyNTAyODgyOF8xNzkxOTQ5MTQzOjE3OTIwMzU1NDNfVjM\"]",
+  "audios": "[]",
+  "input_videos": "[]",
+  "output_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_jzpOnJdsnhPyuDE5H3uiAsVndO1dPrAc.mp4",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "r2va",
+  "expected_subpoint": "style_accuracy",
+  "prompt_adaptation": "reference index legend added"
+}

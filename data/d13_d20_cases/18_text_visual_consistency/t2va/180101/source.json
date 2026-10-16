@@ -1,0 +1,19 @@
+{
+  "case_id": "180101",
+  "csv_row": 86,
+  "source_dimension": "18. 文字与字幕能力",
+  "source_subdimension": "文字内容准确性",
+  "source_mode": "text",
+  "evaluation_dimension": "18_text_visual_consistency",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_WE68moXwJ0OAEI0jBvQqVMUm01hVCZYB.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

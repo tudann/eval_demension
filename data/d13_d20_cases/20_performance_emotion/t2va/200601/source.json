@@ -1,0 +1,19 @@
+{
+  "case_id": "200601",
+  "csv_row": 119,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "台词与表演匹配",
+  "source_mode": "text",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "5",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_G0gYvQAmySzXzzz56r31gov8avpQnPab.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

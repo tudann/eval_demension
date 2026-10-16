@@ -1,0 +1,19 @@
+{
+  "case_id": "130101",
+  "csv_row": 2,
+  "source_dimension": "13. 风格与视觉控制能力",
+  "source_subdimension": "风格准确性",
+  "source_mode": "text",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "15",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_SHLQDZV4ereegdzHwUb3Ao7uvUtvnAjn.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

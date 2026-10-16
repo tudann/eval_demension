@@ -46,8 +46,8 @@ _AUDIO_FORMAT = {".wav": "wav", ".mp3": "mp3", ".m4a": "mp4", ".flac": "flac", "
 _D16_WINDOW_SECONDS = {
     "lip_sync": 2.0,
     "multi_speaker_match": 2.5,
-    "audio_change_alignment": 3.0,
-    "realism": 3.0,
+    "action_sound_sync": 3.0,
+    "ambient_sound_sync": 3.0,
 }
 
 
@@ -202,7 +202,7 @@ def _d16_media_windows(payload: dict[str, Any], duration: float) -> list[MediaWi
         for start, end in _time_hint_ranges(item.get("time_hint"), duration):
             hinted.append((start, end, subpoint))
     if not active:
-        active = ["realism"]
+        active = ["ambient_sound_sync"]
 
     try:
         max_windows = max(1, int(os.getenv("V_EVAL_D16_MAX_WINDOWS", "4")))

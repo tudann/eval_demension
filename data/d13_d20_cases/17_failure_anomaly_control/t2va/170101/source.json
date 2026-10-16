@@ -1,0 +1,19 @@
+{
+  "case_id": "170101",
+  "csv_row": 65,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "人体畸变率",
+  "source_mode": "text",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_oPiLWqG5RZZF4HuD4YPzUIVF3Q4ghxm9.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

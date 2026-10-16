@@ -1,0 +1,28 @@
+{
+  "case_id": "200303",
+  "csv_row": 112,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "视线与注意力",
+  "source_mode": "reference",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_giiE0GqBhEoXl1kD9I3U9GT1YmC7Y6IT.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDFlZTk5N2RjNWRiOWUyMDk4NjYxNzNjNTUxMWUxZTZfOTVjYjhlOWJkZjJlOTkwZjQxMmNlMGM4ZDk1MjY3MDNfSUQ6NzY5NTIwODE3ODUyNDE2MzAxN18xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDhhNTRhOTQwNjhmZjU4YjMyZmE1NTEwMTk0OTUzYWZfYmJhYThlODVmMGZhYjVmYTdjMDA3YTdjMjYyMjRjYTZfSUQ6NzY5NTIwODE4NjYzMDAxNTk2OF8xNzkxOTQ5MTUzOjE3OTIwMzU1NTNfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

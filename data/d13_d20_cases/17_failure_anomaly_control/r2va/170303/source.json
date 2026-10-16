@@ -1,0 +1,24 @@
+{
+  "case_id": "170303",
+  "csv_row": 73,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "主体复制率",
+  "source_mode": "reference",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "r2va",
+  "ratio": "9:16",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_w14i73wicUGRDy83Ljf2RXHK1d1UCxO9.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmU5MTQwYmI0NTk1NDgxNTRjMDAyMzlhM2RiODllY2RfNTlmMmU0MDg0YmFhMmY2NzBiMmQ0ZTliYTFmN2U5YTNfSUQ6NzY5NDk3MjAxNTExOTMzODcyNV8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

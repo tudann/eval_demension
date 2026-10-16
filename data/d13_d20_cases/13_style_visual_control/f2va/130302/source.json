@@ -1,0 +1,24 @@
+{
+  "case_id": "130302",
+  "csv_row": 9,
+  "source_dimension": "13. 风格与视觉控制能力",
+  "source_subdimension": "风格与内容兼容",
+  "source_mode": "first_frame",
+  "evaluation_dimension": "13_style_visual_control",
+  "evaluation_mode": "f2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_fKnNbkNbD8nOH1YBh9961cTzY5OVz4vW.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzkwNTE4NjY5MTJjYmZhNWQxOTQxZDFlZTdjYzYxMjZfZTQ0YTY4MTk4YWIzYmU0YWQxM2Y5M2U2MGI4MTc5ODlfSUQ6NzY5NTIwNjIwNzA5OTA3OTYxMF8xNzkxOTQ5MTQ0OjE3OTIwMzU1NDRfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

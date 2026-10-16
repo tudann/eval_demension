@@ -1,0 +1,23 @@
+{
+  "case_id": "130502",
+  "mode": "f2va",
+  "subpoint": "色彩控制",
+  "expected_subpoint": "color_control",
+  "media": [
+    {
+      "case_id": "130502",
+      "file": "cases\\f2va\\130502\\input_01.png",
+      "kind": "image",
+      "status": "missing",
+      "error": "URLError"
+    },
+    {
+      "case_id": "130502",
+      "file": "cases\\f2va\\130502\\video.mp4",
+      "kind": "video",
+      "status": "missing",
+      "error": "URLError"
+    }
+  ],
+  "ready": false
+}

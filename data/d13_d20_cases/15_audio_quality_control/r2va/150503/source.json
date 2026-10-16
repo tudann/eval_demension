@@ -1,0 +1,28 @@
+{
+  "case_id": "150503",
+  "csv_row": 49,
+  "source_dimension": "15. 音频生成能力",
+  "source_subdimension": "环境音",
+  "source_mode": "reference",
+  "evaluation_dimension": "15_audio_quality_control",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_P64ocdp5J5X6ZHqpY9Ie73oiem7ASccs.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTFjMmE1ZDg0ZGQ1OTU0YTAxZDJiZWMyMWVhYjNmZGVfOTYzZmQwY2EzOTM5YWMzOWVmMTVkNTBjM2JhMTU5YjlfSUQ6NzY5NTU5NDM5NzQ0NjY4NzczMl8xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDExMDZlYTNkMzc2ZGFkOGNhOWQ1N2RkNzMzZGViYTZfMTc4YjYyNTA2NmI1OTEwMDIwYzQzMDlhNTg5NmJiZDVfSUQ6NzY5NTU5NDQwODQ0Nzg4ODM1M18xNzkxOTQ5MTQ3OjE3OTIwMzU1NDdfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

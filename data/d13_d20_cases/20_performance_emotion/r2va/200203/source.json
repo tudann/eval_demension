@@ -1,0 +1,24 @@
+{
+  "case_id": "200203",
+  "csv_row": 109,
+  "source_dimension": "20. 人物表演与情绪表达",
+  "source_subdimension": "表情变化自然性",
+  "source_mode": "reference",
+  "evaluation_dimension": "20_performance_emotion",
+  "evaluation_mode": "r2va",
+  "ratio": "9:16",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_RrjFJkQlGcfdLBgFS5ZZhyfxRSf9xO4W.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjdmMzIyNWNhMTJjNTg1OGE0NTI4MjgzMGYwNjlmNmRfYTEwMDVhZTk3YzljOGM2OGUyOTY3NzcyZDM5NDk0OGNfSUQ6NzY5NDk3NzM4MjU0MTIxNjcyMF8xNzkxOTQ5MTUyOjE3OTIwMzU1NTJfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}

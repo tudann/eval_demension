@@ -1,0 +1,19 @@
+{
+  "case_id": "140401",
+  "csv_row": 26,
+  "source_dimension": "14. 编辑与可控生成能力",
+  "source_subdimension": "增删物体",
+  "source_mode": "text",
+  "evaluation_dimension": "14_edit_controllable_gen",
+  "evaluation_mode": "t2va",
+  "ratio": "16:9",
+  "seconds": "6",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_c1183KqTHMjrFWZj5EMAuBL5AMNTIOQh.mp4"
+  },
+  "reference_images": [],
+  "reference_audios": [],
+  "reference_videos": []
+}

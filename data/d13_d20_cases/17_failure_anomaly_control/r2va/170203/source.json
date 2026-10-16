@@ -1,0 +1,28 @@
+{
+  "case_id": "170203",
+  "csv_row": 70,
+  "source_dimension": "17. 失败与异常控制",
+  "source_subdimension": "主体消失率",
+  "source_mode": "reference",
+  "evaluation_dimension": "17_failure_anomaly_control",
+  "evaluation_mode": "r2va",
+  "ratio": "16:9",
+  "seconds": "8",
+  "size": "720P",
+  "target_video": {
+    "filename": "video.mp4",
+    "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-2.5/task_UazUegoO8mJsM0Itbv2UUgvFtHwqSTZ4.mp4"
+  },
+  "reference_images": [
+    {
+      "filename_stem": "input_01",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTAzNzI3ZWFhZmU1MzZmMWIwZjk1M2ViODg2MGYzMTlfN2U0NzIyN2Y0NjQwYzBlNGIyNWJjZGI4ZjkwYjkyZGZfSUQ6NzY5NTk2MjM5NTYwODg2MTY0OF8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"
+    },
+    {
+      "filename_stem": "input_02",
+      "url": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NGVjNjFkYzY1YTYyMDA5ZTQzOThmYTJhYzE4MDFhMWRfY2ZiYzM1OTQ1MDExZTM2NzRjMmUwOGIxNGM0YzM1ZmJfSUQ6NzY5NTk2MjQwNTM2NjM4NTYzMF8xNzkxOTQ5MTQ5OjE3OTIwMzU1NDlfVjM"
+    }
+  ],
+  "reference_audios": [],
+  "reference_videos": []
+}
