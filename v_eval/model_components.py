@@ -149,7 +149,7 @@ def extract_audio(video: Path | None, sample_rate: int = 16000) -> Path | None:
 
 def _stage_local_model(source: Path) -> Path:
     """Copy a model off the shared filesystem once, so later loads are not silent multi-minute reads."""
-    cache_root = Path(os.getenv("V_EVAL_LOCAL_CACHE", "/var/tmp/v_eval_models"))
+    cache_root = Path(os.getenv("V_EVAL_LOCAL_CACHE", str(ROOT / ".runtime" / "model-cache")))
     dest = cache_root / source.name
     marker = dest / ".staged_from"
     signature = str(source.resolve())

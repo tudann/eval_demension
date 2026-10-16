@@ -5,6 +5,9 @@ source "$HERE/config.env"
 BIN="$PROJECT_ROOT/.runtime/serving-venv/bin/vllm"
 [[ -x "$BIN" ]] || { echo 'Missing serving runtime: run serving/install_runtime.sh' >&2; exit 1; }
 [[ -s "$OMNI_MODEL_PATH/model.safetensors.index.json" ]] || { echo 'Missing Qwen2.5-Omni weights: run serving/download_omni.sh' >&2; exit 1; }
+# shellcheck disable=SC1091
+source "$HERE/off_overlay_env.sh"
+off_overlay_cache_root
 export CUDA_VISIBLE_DEVICES="$OMNI_GPU"
 exec "$BIN" serve "$OMNI_MODEL_PATH" --omni \
   --host 127.0.0.1 --port "$OMNI_PORT" \

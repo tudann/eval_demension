@@ -19,6 +19,9 @@ if [[ -n "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader -i "$VISIO
 fi
 
 mkdir -p "$HERE/logs"
+# shellcheck disable=SC1091
+source "$HERE/off_overlay_env.sh"
+off_overlay_cache_root
 export CUDA_VISIBLE_DEVICES="$VISION_GPU"
 export PYTHONUNBUFFERED=1
 nohup "$BIN" -u -m sglang.launch_server \
