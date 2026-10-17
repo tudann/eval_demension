@@ -13,8 +13,15 @@ CHECKLIST_MAX_ITEMS = 30
 CHECKLIST_MAX_CORE_ITEMS = 3
 RUBRIC_KIND = "rubric_5"
 
+_ITEM_OBJECT_RULES = (
+    "Each item object must contain id, subpoint, question, kind, and core. "
+    "kind is the string rubric_5, not a number and not a field named rubric. "
+    "question is the requirement itself. Do not use requirement, description, applied, or fulfilled."
+)
+
 _RUBRIC_GENERATION_RULES = (
     "Each item uses kind rubric_5 and states one requirement. "
+    f"{_ITEM_OBJECT_RULES} "
     "Write at most one item for each applicable subpoint, and do not add items to reach a count of six. "
     "A later score of 5 means that requirement is fully achieved. Do not set expect to yes or no, and do not use yes_no or multiple-choice items. "
     "Mark core true only for a requirement the prompt insists on, and mark at most 3 items core. "
@@ -247,14 +254,25 @@ def _normalize_choice_kind(kind: Any, options: Any) -> tuple[str, list[dict[str,
     return normalized_kind, normalized
 
 
+def _item_kind(item: dict[str, Any]) -> Any:
+    """Read kind, and accept a numeric rubric field as the required 5-point item."""
+    kind = item.get("kind")
+    if kind not in (None, ""):
+        return kind
+    rubric = item.get("rubric")
+    if rubric in {5, "5", "rubric", "rubric_5"}:
+        return RUBRIC_KIND
+    return "yes_no"
+
+
 def _normalize_item(item: dict[str, Any], configured_subpoints: set[str], index: int) -> dict[str, Any] | None:
     if str(item.get("subpoint")) not in configured_subpoints:
         return None
-    question = str(item.get("question") or item.get("description") or "").strip()
+    question = str(item.get("question") or item.get("description") or item.get("requirement") or "").strip()
     item_id = str(item.get("id") or f"q{index}")
     if not question:
         return None
-    normalized_choice = _normalize_choice_kind(item.get("kind", "yes_no"), item.get("options", []))
+    normalized_choice = _normalize_choice_kind(_item_kind(item), item.get("options", []))
     if normalized_choice is None:
         return None
     kind, options = normalized_choice
@@ -518,6 +536,11 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         },
         "fact_schema": _FACT_SCHEMAS.get(dimension, ""),
         "output_schema": {"facts": "object", "gates": "array", "items": "array"},
+        "item_schema": {
+            "id": "q1", "subpoint": "one allowed subpoint",
+            "question": "the requirement, written as one question",
+            "kind": "rubric_5", "core": False,
+        },
     }
     content = build_judge_content(prompt, request_payload, case, judge.modality,
                                   media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0",
@@ -543,7 +566,10 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         from .eval_log import log_event
         log_event("checklist", "清单未通过校验，使用 temperature=0.4 重出一次", case_id=case.case_id)
         response = judge.complete(
-            system + " Your previous JSON was rejected. Use each subpoint at most once, keep at most 3 core items, and return only valid JSON.",
+            system + " Your previous JSON was rejected. "
+            "Each item needs question and kind set to the string rubric_5. "
+            "Do not put the question in description or requirement, and do not send a numeric rubric field. "
+            "Use each subpoint at most once, keep at most 3 core items, and return only valid JSON.",
             content,
             temperature=0.4,
             max_tokens=6000,
@@ -594,15 +620,25 @@ def _with_basis(rows: list[Any]) -> list[dict[str, Any]]:
     return normalized
 
 
-def _normalize_gate_answers(gates: Any) -> list[dict[str, Any]]:
+def _normalize_gate_answers(gates: Any, expected_ids: list[str] | None = None) -> list[dict[str, Any]]:
     if isinstance(gates, dict):
         gates = [{"id": key, "answer": value} for key, value in gates.items()]
-    if isinstance(gates, list):
-        return _with_basis(gates)
-    return []
+    if not isinstance(gates, list):
+        return []
+    normalized = _with_basis(gates)
+    # A bare list in checklist order still belongs to those gate ids.
+    if expected_ids and len(normalized) == len(expected_ids) and all(not row.get("id") for row in normalized):
+        for row, gate_id in zip(normalized, expected_ids):
+            row["id"] = gate_id
+    return normalized
 
 
-def _parse_judge_payload(payload: Any) -> dict[str, Any] | None:
+def _missing_gate_ids(parsed: dict[str, Any], expected_ids: list[str]) -> list[str]:
+    returned = {str(row.get("id")) for row in parsed.get("gates") or [] if isinstance(row, dict) and row.get("id")}
+    return [gate_id for gate_id in expected_ids if gate_id not in returned]
+
+
+def _parse_judge_payload(payload: Any, expected_gate_ids: list[str] | None = None) -> dict[str, Any] | None:
     parsed = _parse_json_response(payload)
     if not isinstance(parsed, dict):
         return None
@@ -610,7 +646,7 @@ def _parse_judge_payload(payload: Any) -> dict[str, Any] | None:
     if not isinstance(answers, list):
         answers = parsed.get("items")
     if isinstance(answers, list):
-        return {"answers": _with_basis(answers), "gates": _normalize_gate_answers(parsed.get("gates", []))}
+        return {"answers": _with_basis(answers), "gates": _normalize_gate_answers(parsed.get("gates", []), expected_gate_ids)}
     return None
 
 
@@ -647,22 +683,33 @@ def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: 
             f"{_ANSWER_RUBRIC} "
             "Use the supplied exact media timestamps in concise evidence when possible. "
             "The JSON object must use the keys gates and answers. "
+            "Return one gate object for every supplied gate id, for example "
+            '{"id":"g1","answer":"yes","回答依据":"what was heard"}. '
             "Every gate and every answer must include a non-empty 回答依据."
         )
+        expected_gate_ids = [str(gate.get("id")) for gate in checklist.get("gates") or [] if isinstance(gate, dict) and gate.get("id")]
         response = judge.complete(system, content, max_tokens=4096)
         if response.get("status") == "ok":
-            parsed = _parse_judge_payload(response.get("response"))
-            if parsed is None or _missing_answer_basis(parsed):
+            parsed = _parse_judge_payload(response.get("response"), expected_gate_ids)
+            missing_gates = _missing_gate_ids(parsed, expected_gate_ids) if parsed else expected_gate_ids
+            if parsed is None or _missing_answer_basis(parsed) or missing_gates:
                 from .eval_log import log_event
-                reason = "作答 JSON 无法解析" if parsed is None else "作答缺少回答依据"
+                if parsed is None:
+                    reason = "作答 JSON 无法解析"
+                elif missing_gates:
+                    reason = f"作答缺少门槛 {','.join(missing_gates)}"
+                else:
+                    reason = "作答缺少回答依据"
                 log_event("judge", f"{reason}，使用 temperature=0.4 重试一次")
                 response = judge.complete(
-                    system + " Your previous response was rejected. Return only one JSON object, and every gate and answer must include a non-empty 回答依据.",
+                    system + " Your previous response was rejected. Return only one JSON object. "
+                    f"Include every gate id: {', '.join(expected_gate_ids)}. "
+                    "Each gate object needs id, answer, and a non-empty 回答依据.",
                     content,
                     temperature=0.4,
                     max_tokens=4096,
                 )
-                parsed = _parse_judge_payload(response.get("response")) if response.get("status") == "ok" else None
+                parsed = _parse_judge_payload(response.get("response"), expected_gate_ids) if response.get("status") == "ok" else None
             if parsed is not None and response.get("status") == "ok":
                 _log_answer_basis(parsed)
                 return {"status": "ok", "source": "judge", "model": judge.model,

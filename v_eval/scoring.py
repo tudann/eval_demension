@@ -181,7 +181,9 @@ def score_subpoint(task: dict[str, Any], sp_name: str, sp_cfg: dict[str, Any], c
     core_base = None if checklist_result is None else checklist_result.get("core_score")
     noncore_flaw = bool(checklist_result.get("noncore_flaw")) if checklist_result else False
     score = _blend_component_scores(base if isinstance(base, (int, float)) else None, checklist_weight, numeric_ok, missing_measurement)
-    core_score = _blend_component_scores(core_base if isinstance(core_base, (int, float)) else None, checklist_weight, numeric_ok, missing_measurement)
+    # A missing core checklist grade means this subpoint is not core. Numeric scores still
+    # change the subpoint grade, but must not become a core grade and pull the dimension below 4.
+    core_score = _blend_component_scores(float(core_base), checklist_weight, numeric_ok, missing_measurement) if isinstance(core_base, (int, float)) else None
     basis = "checklist_only" if missing_measurement else "weighted"
     return {"applicable": True, "status": "ok" if score is not None else "no_component_score", "score": score,
             "core_score": core_score, "noncore_flaw": noncore_flaw, "score_basis": basis, "components": components}

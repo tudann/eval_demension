@@ -9,6 +9,10 @@ for spec in vision omni; do
     echo "$spec already healthy at 127.0.0.1:$port"
     continue
   fi
+  if [[ "$spec" == omni ]]; then
+    "$HERE/start_omni.sh"
+    continue
+  fi
   nohup "$HERE/start_${spec}.sh" > "$HERE/logs/${spec}.log" 2>&1 < /dev/null &
   echo $! > "$HERE/logs/${spec}.pid"
   echo "Started $spec, PID $(cat "$HERE/logs/${spec}.pid"), log $HERE/logs/${spec}.log"

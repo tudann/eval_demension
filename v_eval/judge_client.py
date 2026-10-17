@@ -17,13 +17,17 @@ class JudgeClient:
                  api_key: str | None = None, timeout: int = 180, role: str = "judge"):
         self.modality = modality
         self.role = role
-        prefix = "V_EVAL_AUDIO_JUDGE" if modality in {"audio", "audio_visual"} else "V_EVAL_VISION_JUDGE"
+        audio_modality = modality in {"audio", "audio_visual"}
+        prefix = "V_EVAL_AUDIO_JUDGE" if audio_modality else "V_EVAL_VISION_JUDGE"
         role_prefix = "V_EVAL_CHECKLIST"
         legacy_url = os.getenv("V_EVAL_JUDGE_URL")
         legacy_model = os.getenv("V_EVAL_JUDGE_MODEL")
-        role_url = os.getenv(f"{role_prefix}_URL") if role == "checklist" else None
-        role_model = os.getenv(f"{role_prefix}_MODEL") if role == "checklist" else None
-        role_key = os.getenv(f"{role_prefix}_API_KEY") if role == "checklist" else None
+        # Audio and audio-visual checklists use the Omni judge. The shared
+        # checklist endpoint stays on the vision model for the other dimensions.
+        use_checklist_endpoint = role == "checklist" and not audio_modality
+        role_url = os.getenv(f"{role_prefix}_URL") if use_checklist_endpoint else None
+        role_model = os.getenv(f"{role_prefix}_MODEL") if use_checklist_endpoint else None
+        role_key = os.getenv(f"{role_prefix}_API_KEY") if use_checklist_endpoint else None
         self.base_url = base_url or role_url or os.getenv(f"{prefix}_URL") or legacy_url
         self.model = model or role_model or os.getenv(f"{prefix}_MODEL") or legacy_model or (
             "Qwen2.5-Omni-7B" if modality in {"audio", "audio_visual"} else "Qwen3-VL-32B-Instruct"

@@ -472,6 +472,12 @@ def _load_clap() -> tuple[Any | None, Any | None, str | None]:
         return None, None, f"CLAP load failed: {exc}"
 
 
+def _clap_embedding(value: Any) -> Any:
+    """Accept both a raw feature tensor and the newer pooled model output."""
+    pooled = getattr(value, "pooler_output", None)
+    return value if pooled is None else pooled
+
+
 def clap_component(component: str, case: Any, facts: dict[str, Any]) -> dict[str, Any]:
     processor, model, error = _load_clap()
     if error:
@@ -492,16 +498,52 @@ def clap_component(component: str, case: Any, facts: dict[str, Any]) -> dict[str
         import librosa
         import torch
         waveform, _ = librosa.load(str(audio), sr=48000, mono=True)
-        inputs = processor(text=descriptions, audios=waveform, sampling_rate=48000, return_tensors="pt", padding=True)
+        processor_kwargs = {"text": descriptions, "sampling_rate": 48000, "return_tensors": "pt", "padding": True, "audio": waveform}
+        try:
+            inputs = processor(**processor_kwargs)
+        except TypeError:
+            processor_kwargs.pop("audio")
+            inputs = processor(text=descriptions, audios=waveform, sampling_rate=48000, return_tensors="pt", padding=True)
         with torch.no_grad():
-            audio_features = model.get_audio_features(input_features=inputs.get("input_features"), is_longer=inputs.get("is_longer"))
-            text_features = model.get_text_features(input_ids=inputs.get("input_ids"), attention_mask=inputs.get("attention_mask"))
+            audio_features = _clap_embedding(model.get_audio_features(input_features=inputs.get("input_features"), is_longer=inputs.get("is_longer")))
+            text_features = _clap_embedding(model.get_text_features(input_ids=inputs.get("input_ids"), attention_mask=inputs.get("attention_mask")))
             audio_features = audio_features / audio_features.norm(dim=-1, keepdim=True)
             text_features = text_features / text_features.norm(dim=-1, keepdim=True)
             value = float((audio_features @ text_features.T).mean().item())
         return _result(component, "ok", _clip_score(value, (0.45, 0.35, 0.25, 0.15)), value=round(value, 6), method="clap_htsat_unfused")
     except Exception as exc:  # noqa: BLE001
         return _result(component, "error", reason=f"CLAP inference failed: {exc}")
+
+
+_DNSMOS_SR = 16000
+_DNSMOS_INPUT_SECONDS = 9.01
+
+
+def _dnsmos_mel_batches(signal: Any) -> list[Any]:
+    """Build the P.808 mel batches expected by DNSMOS model_v8: (1, 900, 120)."""
+    import librosa
+    import numpy as np
+
+    audio = np.asarray(signal, dtype=np.float32).reshape(-1)
+    target = int(_DNSMOS_INPUT_SECONDS * _DNSMOS_SR)
+    while len(audio) < target:
+        audio = np.concatenate([audio, audio])
+    num_hops = int(np.floor(len(audio) / _DNSMOS_SR) - _DNSMOS_INPUT_SECONDS) + 1
+    batches: list[Any] = []
+    for index in range(max(1, num_hops)):
+        start = index * _DNSMOS_SR
+        segment = audio[start:start + target]
+        if len(segment) < target:
+            continue
+        mel = librosa.feature.melspectrogram(y=segment[:-160], sr=_DNSMOS_SR, n_fft=321, hop_length=160, n_mels=120)
+        mel = (librosa.power_to_db(mel, ref=np.max) + 40.0) / 40.0
+        features = np.asarray(mel.T, dtype=np.float32)
+        if features.shape != (900, 120):
+            raise ValueError(f"DNSMOS mel shape {features.shape}, expected (900, 120)")
+        batches.append(features[None, :, :])
+    if not batches:
+        raise ValueError("DNSMOS produced no mel segments")
+    return batches
 
 
 def dnsmos_component(case: Any) -> dict[str, Any]:
@@ -521,8 +563,10 @@ def dnsmos_component(case: Any) -> dict[str, Any]:
         session = _CACHE.get("dnsmos") or onnxruntime.InferenceSession(str(model_path), providers=["CPUExecutionProvider"])
         _CACHE["dnsmos"] = session
         input_name = session.get_inputs()[0].name
-        result = session.run(None, {input_name: signal.astype(np.float32)[None, :]})
-        values = [float(item) for item in np.asarray(result[0]).reshape(-1) if math.isfinite(float(item))]
+        values: list[float] = []
+        for batch in _dnsmos_mel_batches(signal):
+            result = session.run(None, {input_name: batch})
+            values.extend(float(item) for item in np.asarray(result[0]).reshape(-1) if math.isfinite(float(item)))
         value = sum(values) / len(values) if values else None
         if value is None:
             return _result("dnsmos_ovr", "error", reason="DNSMOS returned no numeric output")

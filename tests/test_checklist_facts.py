@@ -62,6 +62,53 @@ class ChecklistFactAliasTests(unittest.TestCase):
         self.assertEqual(len(checklist["items"]), 5)
         self.assertTrue(all(item["kind"] == "rubric_5" for item in checklist["items"]))
 
+    def test_d15_numeric_rubric_field_becomes_rubric_item(self) -> None:
+        dimension = "15_audio_quality_control"
+        payload = {
+            "facts": {
+                "dialogues": "报表怎么还没交。",
+                "has_repeated_speaker": False,
+                "dialogue_emotions": False,
+                "target_emotion": "",
+                "ambient": "办公室里很轻的环境声",
+                "ambient_description": "办公室里很轻的环境声",
+                "sfx": "",
+                "sfx_description": "",
+            },
+            "gates": _gates(dimension),
+            "items": [
+                {
+                    "id": "i1", "requirement": "对话准确性", "rubric": 5,
+                    "description": "对白是否准确传达老板和员工的两句台词？",
+                    "subpoint": "dialogue_accuracy", "applied": True, "fulfilled": True,
+                },
+                {
+                    "id": "i2", "requirement": "背景音效", "rubric": 5,
+                    "description": "是否能听到办公室内很轻的环境声？",
+                    "subpoint": "ambient_sound",
+                },
+                {
+                    "id": "i3", "requirement": "自然的语音质量", "rubric": 5,
+                    "description": "语音是否自然清晰？",
+                    "subpoint": "voice_naturalness",
+                },
+            ],
+        }
+        checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
+        self.assertIsNotNone(checklist)
+        self.assertEqual([item["kind"] for item in checklist["items"]], ["rubric_5", "rubric_5", "rubric_5"])
+        self.assertEqual(checklist["items"][0]["question"], "对白是否准确传达老板和员工的两句台词？")
+
+    def test_gate_answers_without_ids_follow_checklist_order(self) -> None:
+        from v_eval.checklists import _parse_judge_payload
+
+        parsed = _parse_judge_payload(
+            {"gates": [{"answer": "yes", "回答依据": "听得清"}, {"answer": "yes", "回答依据": "没有损坏"}],
+             "answers": [{"id": "i1", "score": 5, "回答依据": "对白完整"}]},
+            ["g1", "g2"],
+        )
+        self.assertEqual([gate["id"] for gate in parsed["gates"]], ["g1", "g2"])
+
     def test_d15_sfx_alias_enables_conditional_item_but_music_is_not_a_subpoint(self) -> None:
         dimension = "15_audio_quality_control"
         payload = {
@@ -245,6 +292,21 @@ class RubricScoreTests(unittest.TestCase):
         self.assertEqual(result["score"], 3.8)
         self.assertEqual(result["score_basis"], "weighted")
         self.assertEqual(result["core_score"], 3.8)
+
+    def test_noncore_numeric_score_caps_dimension_at_four(self) -> None:
+        checklist = {"items": [
+            {"id": "i1", "subpoint": "dialogue_accuracy", "core": True},
+            {"id": "i4", "subpoint": "ambient_sound", "core": False},
+        ]}
+        answers = {"answers": [{"id": "i1", "score": 5}, {"id": "i4", "score": 5}]}
+        case = Case("case", Path("."), "t2va", None, None)
+        measured = {"component": "clap_ambient", "status": "ok", "score": 1.0}
+        with patch("v_eval.scoring.run_component", return_value=measured):
+            dialogue = score_subpoint({}, "dialogue_accuracy", {"components": {"checklist": 1.0}}, checklist, answers, case, {}, True, {})
+            ambient = score_subpoint({}, "ambient_sound", {"components": {"checklist": 0.6, "clap_ambient": 0.4}}, checklist, answers, case, {}, True, {})
+        self.assertEqual(ambient["score"], 3.4)
+        self.assertIsNone(ambient["core_score"])
+        self.assertEqual(dimension_score({"dialogue_accuracy": dialogue, "ambient_sound": ambient}), 4.0)
 
 
 if __name__ == "__main__":
