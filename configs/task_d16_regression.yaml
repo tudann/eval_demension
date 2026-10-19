@@ -1,0 +1,25 @@
+task_name: d16_regression
+run_name: d16_regression
+dimension: 16_audio_visual_sync
+inputs:
+  - id: t2va
+    root: ./data/固定回归case/16_audio_visual_sync/t2va
+    mode: t2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+  - id: r2va
+    root: ./data/固定回归case/16_audio_visual_sync/r2va
+    mode: r2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      image_pattern: input_{index:02d}
+      video_pattern: ref_video_{index:02d}
+      audio_pattern: ref_audio_{index:02d}
+evaluation:
+  subpoints:
+    lip_sync: {components: {syncnet_conf: true}}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d16_regression

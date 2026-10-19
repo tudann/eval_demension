@@ -10,7 +10,8 @@ from unittest.mock import patch
 
 from v_eval.core import Case, answer_checklist, evaluate_case, score_subpoint
 from v_eval.judge_media import (MediaPreparationError, _d16_media_windows, _extract_video_frames,
-                                _uniform_timestamps, build_judge_content)
+                                _fit_image_long_side, _frame_scale_filter, _uniform_timestamps,
+                                build_judge_content)
 from v_eval.model_components import syncnet_component
 
 
@@ -153,6 +154,52 @@ class MediaProtocolTests(unittest.TestCase):
                                       case, {}, force=False)
             self.assertEqual(retry["status"], "ok")
             self.assertEqual(retry["score"], 4.0)
+
+    def test_d20_bounds_the_long_side_while_other_dimensions_keep_width_scaling(self) -> None:
+        self.assertEqual(_frame_scale_filter(640), "scale=640:-2:force_original_aspect_ratio=decrease")
+        self.assertEqual(
+            _frame_scale_filter(640, "long_side"),
+            "scale=640:640:force_original_aspect_ratio=decrease",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            video = root / "video.mp4"
+            video.write_bytes(b"video")
+            reference = root / "input_01.png"
+            from PIL import Image
+            Image.new("RGB", (800, 1200), "white").save(reference)
+            case = SimpleNamespace(
+                video_path=video, first_frame=reference, last_frame=None,
+                reference_images=[], reference_videos=[], reference_audios=[],
+            )
+            frame = SimpleNamespace(path=reference, timestamp=0.0)
+            calls: list[str] = []
+
+            def capture_frames(*_args, **kwargs):
+                calls.append(kwargs["bound"])
+                return [frame]
+
+            with patch("v_eval.judge_media._extract_video_frames", side_effect=capture_frames), \
+                    patch("v_eval.judge_media._extract_video_audio", return_value=root / "audio.wav"), \
+                    patch("v_eval.judge_media._audio_block", return_value={"type": "input_audio"}):
+                (root / "audio.wav").write_bytes(b"audio")
+                d18 = build_judge_content("prompt", {"checklist": {"dimension": "18_text_visual_consistency"}}, case, "vision")
+                d20 = build_judge_content("prompt", {"checklist": {"dimension": "20_performance_emotion"}}, case, "audio_visual")
+            self.assertEqual(calls, ["width", "long_side"])
+            self.assertTrue(any("input_01" in str(block) for block in d18 if isinstance(block, dict)))
+            fitted = [block for block in d20 if isinstance(block, dict) and str(block.get("image_url", {})).find("image/jpeg") >= 0]
+            self.assertGreaterEqual(len(fitted), 1)
+
+    def test_long_side_fit_shrinks_portrait_stills_only(self) -> None:
+        from PIL import Image
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "tall.png"
+            Image.new("RGB", (800, 1200), "white").save(source)
+            fitted = _fit_image_long_side(source, root / "fitted.jpg", 640)
+            with Image.open(fitted) as image:
+                self.assertLessEqual(max(image.size), 640)
+                self.assertEqual(image.size[1], 640)
 
     def test_missing_gate_answer_is_incomplete_not_passed(self) -> None:
         from v_eval.core import gate_result

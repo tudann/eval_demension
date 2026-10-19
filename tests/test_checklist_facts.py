@@ -420,5 +420,141 @@ class SpokenTextChecklistTests(unittest.TestCase):
         self.assertTrue(checklist["items"][0]["core"])
 
 
+class D16EmptyFactRepairTests(unittest.TestCase):
+    def test_sound_questions_fill_empty_facts_and_drop_invented_speech_items(self) -> None:
+        from v_eval.checklists import _d16_checklist
+
+        prompt = "开头是晴天，只有远处车流和风。雨点出现时雨声开始。不要配乐，不要字幕。"
+        payload = {
+            "facts": {},
+            "gates": _gates("16_audio_visual_sync"),
+            "items": [
+                _item(1, "lip_sync", "视频中是否有对话口型？"),
+                _item(2, "multi_speaker_match", "是否有多人说话？"),
+                _item(3, "action_sound_sync", "雨点打湿伞面时是否有对应的声音？"),
+                _item(4, "ambient_sound_sync", "雨声是否在地面变湿时开始，开头干地没有雨声？"),
+            ],
+        }
+        checklist = _d16_checklist(payload, DIMS["16_audio_visual_sync"], _case("160301"), "fake", prompt)
+        self.assertIsNotNone(checklist)
+        self.assertFalse(checklist["facts"]["dialogues"])
+        self.assertIn("雨声", checklist["facts"]["env_changes"])
+        self.assertEqual(
+            [item["subpoint"] for item in checklist["items"]],
+            ["action_sound_sync", "ambient_sound_sync"],
+        )
+
+    def test_prompt_sounds_become_a_checklist_when_the_judge_leaves_facts_empty(self) -> None:
+        from v_eval.checklists import _d16_fallback_checklist
+
+        prompt = "环境音同步：渔网被拉动时产生细微摩擦声。全程保持低沉柔和的水下环境声。"
+        checklist = _d16_fallback_checklist(DIMS["16_audio_visual_sync"], _case("160302"), "fake", prompt)
+        self.assertIsNotNone(checklist)
+        self.assertIn("摩擦", checklist["facts"]["av_events"])
+        self.assertIn("水下", checklist["facts"]["env_changes"])
+        self.assertEqual(
+            [item["subpoint"] for item in checklist["items"]],
+            ["action_sound_sync", "ambient_sound_sync"],
+        )
+
+    def test_prompt_dump_and_yes_no_facts_are_replaced_with_prompt_sounds(self) -> None:
+        from v_eval.checklists import _d16_checklist
+
+        prompt = (
+            "8秒视频继续动作提示词：渔网被拉动时产生细微摩擦声。"
+            "环境音同步：全程保持低沉柔和的水下环境声；呼吸器发出“呼——咕噜”气泡声。"
+        )
+        payload = {
+            "facts": {
+                "dialogues": prompt,
+                "multi_speaker": False,
+                "av_events": "视频中描述的动作声音是否与相应的视觉事件同步？",
+                "env_changes": "视频中的环境声音是否与对应的场景同步？",
+            },
+            "gates": _gates("16_audio_visual_sync"),
+            "items": [
+                _item(1, "lip_sync", "视频中的对话与画面是否同步？"),
+                _item(3, "action_sound_sync", "视频中描述的动作声音是否与相应的视觉事件同步？"),
+                _item(4, "ambient_sound_sync", "视频中的环境声音是否与对应的场景同步？"),
+            ],
+        }
+        checklist = _d16_checklist(payload, DIMS["16_audio_visual_sync"], _case("160302"), "fake", prompt)
+        self.assertIsNotNone(checklist)
+        self.assertFalse(checklist["facts"]["dialogues"])
+        self.assertIn("摩擦", checklist["facts"]["av_events"])
+        self.assertIn("水下", checklist["facts"]["env_changes"])
+        self.assertEqual(
+            [item["subpoint"] for item in checklist["items"]],
+            ["action_sound_sync", "ambient_sound_sync"],
+        )
+        self.assertIn("摩擦", checklist["items"][0]["question"])
+
+    def test_filled_dialogue_fact_is_left_unchanged(self) -> None:
+        from v_eval.checklists import _d16_prepare_payload
+
+        payload = {
+            "facts": {"dialogues": "明天早上八点，老地方见。", "multi_speaker": False, "av_events": "", "env_changes": ""},
+            "items": [_item(1, "lip_sync", "嘴部开合是否与这句话对应？")],
+        }
+        prepared = _d16_prepare_payload(payload, "她说：“明天早上八点，老地方见。”")
+        self.assertEqual(prepared["facts"]["dialogues"], "明天早上八点，老地方见。")
+        self.assertEqual(prepared["items"][0]["subpoint"], "lip_sync")
+
+
+class D20EmptyFactRepairTests(unittest.TestCase):
+    def test_empty_facts_are_filled_from_questions_and_prompt_speech(self) -> None:
+        from v_eval.checklists import _d20_checklist
+
+        prompt = "主刀医生低头做手术。听到监护仪警示音后看向监护仪，并低声说：“Check the monitor.”"
+        payload = {
+            "facts": {},
+            "gates": _gates("20_performance_emotion"),
+            "items": [
+                _item(1, "emotion_accuracy", "主刀医生的表情是否沉稳并专注于手术？", core=True),
+                _item(2, "expression_transition", "听到警示音后表情是否过渡到警觉？", core=True),
+                _item(3, "gaze_attention", "听到警示音后视线是否转到监护仪？"),
+                _item(4, "micro_motion", "片段中是否有眨眼或呼吸？"),
+                _item(5, "reaction_timing", "听到警示音后的反应是否及时？"),
+                _item(6, "dialogue_performance", "说出的台词是否和当时的情绪一致？"),
+            ],
+        }
+        checklist = _d20_checklist(payload, DIMS["20_performance_emotion"], _case("200301"), "fake", prompt)
+        self.assertIsNotNone(checklist)
+        self.assertTrue(checklist["facts"]["has_humans"])
+        self.assertIn("Check the monitor", checklist["facts"]["dialogues"])
+        self.assertIn("监护仪", checklist["facts"]["gaze_target"])
+        self.assertEqual(
+            [item["subpoint"] for item in checklist["items"]],
+            ["emotion_accuracy", "expression_transition", "gaze_attention", "micro_motion", "reaction_timing", "dialogue_performance"],
+        )
+
+    def test_dialogue_item_is_dropped_when_the_prompt_has_no_speech(self) -> None:
+        from v_eval.checklists import _d20_checklist
+
+        payload = {
+            "facts": {},
+            "gates": _gates("20_performance_emotion"),
+            "items": [
+                _item(1, "emotion_accuracy", "人物是否表现出犹豫？", core=True),
+                _item(6, "dialogue_performance", "台词是否和表情一致？"),
+            ],
+        }
+        checklist = _d20_checklist(payload, DIMS["20_performance_emotion"], _case("200301"), "fake", "一个人站在门口，神情犹豫。")
+        self.assertIsNotNone(checklist)
+        self.assertFalse(checklist["facts"]["dialogues"])
+        self.assertEqual([item["subpoint"] for item in checklist["items"]], ["emotion_accuracy"])
+
+    def test_filled_facts_are_left_unchanged(self) -> None:
+        from v_eval.checklists import _d20_prepare_payload
+
+        payload = {
+            "facts": {"has_humans": True, "target_emotion": "悲伤", "character_situation": "", "emotion_change": "", "gaze_target": "", "reaction_event": "", "dialogues": False},
+            "items": [_item(1, "emotion_accuracy", "表情是否表现出悲伤？", core=True)],
+        }
+        prepared = _d20_prepare_payload(payload, "她低声说：“你真的要走？”")
+        self.assertEqual(prepared["facts"]["target_emotion"], "悲伤")
+        self.assertFalse(prepared["facts"]["dialogues"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -94,12 +94,20 @@ def _uniform_timestamps(start: float, end: float, *, fps: float, limit: int) -> 
     return [min(upper, start + (index + 0.5) * step) for index in range(count)]
 
 
-def _extract_one_frame(video: Path, timestamp: float, target: Path, size: int, quality: int) -> bool:
+def _frame_scale_filter(size: int, bound: str = "width") -> str:
+    """Width-bound scaling is the shared default. D20 bounds the long side instead."""
+    if bound == "long_side":
+        return f"scale={size}:{size}:force_original_aspect_ratio=decrease"
+    return f"scale={size}:-2:force_original_aspect_ratio=decrease"
+
+
+def _extract_one_frame(video: Path, timestamp: float, target: Path, size: int, quality: int,
+                       bound: str = "width") -> bool:
     raw = target.with_suffix(".png")
     try:
         subprocess.run(
             ["ffmpeg", "-v", "error", "-ss", f"{timestamp:.6f}", "-i", str(video),
-             "-frames:v", "1", "-vf", f"scale={size}:-2:force_original_aspect_ratio=decrease", "-y", str(raw)],
+             "-frames:v", "1", "-vf", _frame_scale_filter(size, bound), "-y", str(raw)],
             capture_output=True, text=True, check=True, timeout=60,
         )
         with Image.open(raw) as image:
@@ -113,7 +121,7 @@ def _extract_one_frame(video: Path, timestamp: float, target: Path, size: int, q
 
 def _extract_video_frames(video: Path, directory: Path, *, fps: float, limit: int,
                           size: int, quality: int, label: str, start: float = 0.0,
-                          end: float | None = None) -> list[TimedFrame]:
+                          end: float | None = None, bound: str = "width") -> list[TimedFrame]:
     if not video.is_file() or limit <= 0:
         return []
     duration = _duration(video)
@@ -127,7 +135,7 @@ def _extract_video_frames(video: Path, directory: Path, *, fps: float, limit: in
     frames: list[TimedFrame] = []
     for index, timestamp in enumerate(timestamps):
         target = frame_dir / f"frame-{index:03d}-t{timestamp:.3f}.jpg"
-        if not _extract_one_frame(video, timestamp, target, size, quality):
+        if not _extract_one_frame(video, timestamp, target, size, quality, bound):
             return []
         frames.append(TimedFrame(target, timestamp))
     from .eval_log import archive_frames
@@ -242,6 +250,15 @@ def _d16_media_windows(payload: dict[str, Any], duration: float) -> list[MediaWi
     return sorted(windows, key=lambda item: item.start)
 
 
+def _fit_image_long_side(source: Path, dest: Path, size: int, quality: int = 90) -> Path:
+    """Shrink a still so its longer side is at most `size`. Smaller images stay as they are."""
+    with Image.open(source) as image:
+        fitted = image.convert("RGB")
+        fitted.thumbnail((size, size), Image.Resampling.LANCZOS)
+        fitted.save(dest, format="JPEG", quality=quality, optimize=True)
+    return dest
+
+
 def _append_target_frames(content: list[dict[str, Any]], frames: list[TimedFrame], *, window_id: str | None = None) -> None:
     for index, frame in enumerate(frames, start=1):
         prefix = f"{window_id}-" if window_id else ""
@@ -307,8 +324,11 @@ def build_judge_content(prompt: str, payload: dict[str, Any], case: CaseLike, mo
             _build_d16_content(content, payload, case, temp_dir)
         else:
             if include_images:
+                # D20 portrait frames previously kept a 640px width and became ~640x860,
+                # which pushed the answer request past the 16384-token limit.
+                frame_bound = "long_side" if dimension == "20_performance_emotion" else "width"
                 frames = _extract_video_frames(video, temp_dir, fps=2.0, limit=32,
-                                               size=640, quality=90, label="target")
+                                               size=640, quality=90, label="target", bound=frame_bound)
                 if not frames:
                     raise MediaPreparationError("target video frames could not be extracted")
                 content.append({"type": "text", "text": (
@@ -324,10 +344,13 @@ def build_judge_content(prompt: str, payload: dict[str, Any], case: CaseLike, mo
                 content.append(_audio_block(extracted))
 
         image_paths = _unique_paths([case.first_frame, case.last_frame, *case.reference_images])
-        for path in image_paths:
+        for index, path in enumerate(image_paths):
             try:
+                image_path = path
+                if dimension == "20_performance_emotion":
+                    image_path = _fit_image_long_side(path, temp_dir / f"reference-{index:02d}.jpg", 640)
                 content.append({"type": "text", "text": f"Condition/reference image {path.stem}; this is not a target-video frame."})
-                content.append(_image_block(path))
+                content.append(_image_block(image_path))
             except (OSError, ValueError):
                 continue
         for index, path in enumerate(_unique_paths([*case.reference_audios])[:2] if dimension != "16_audio_visual_sync" else [], start=1):

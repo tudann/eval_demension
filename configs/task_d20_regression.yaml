@@ -1,0 +1,30 @@
+task_name: d20_regression
+run_name: d20_regression
+dimension: 20_performance_emotion
+inputs:
+  - id: t2va
+    root: ./data/固定回归case/20_performance_emotion/t2va
+    mode: t2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+  - id: f2va
+    root: ./data/固定回归case/20_performance_emotion/f2va
+    mode: f2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+  - id: r2va
+    root: ./data/固定回归case/20_performance_emotion/r2va
+    mode: r2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      image_pattern: input_{index:02d}
+      video_pattern: ref_video_{index:02d}
+      audio_pattern: ref_audio_{index:02d}
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d20_regression

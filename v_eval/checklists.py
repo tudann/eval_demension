@@ -341,9 +341,9 @@ def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: 
         seen_ids.add(normalized["id"])
         seen_questions.add(question_key)
         seen_subpoints.add(normalized["subpoint"])
+        if normalized["core"] and core_count >= CHECKLIST_MAX_CORE_ITEMS:
+            normalized["core"] = False
         core_count += int(normalized["core"])
-        if core_count > CHECKLIST_MAX_CORE_ITEMS:
-            return None
         normalized_items.append(normalized)
     applicable = [
         name for name, cfg in subpoints.items()
@@ -676,6 +676,260 @@ def _model_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, A
             "judge_mode": "external", "judge_model": model}
 
 
+def _missing_applicable_subpoints(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any],
+                                  dimension: str, case: Case) -> list[str]:
+    """Name applicable subpoints that the rejected checklist left without an item."""
+    if not isinstance(payload, dict) or not isinstance(payload.get("facts"), dict):
+        return []
+    facts = _canonicalize_facts(dimension, payload["facts"])
+    items = payload.get("items") if isinstance(payload.get("items"), list) else []
+    present = {str(item.get("subpoint")) for item in items if isinstance(item, dict)}
+    missing: list[str] = []
+    for name, cfg in (dimension_cfg.get("subpoints") or {}).items():
+        if isinstance(cfg, dict) and evaluate_applies(cfg.get("applies"), facts, case) and name not in present:
+            missing.append(name)
+    return missing
+
+
+_D16_EMPTY_FACT = {
+    "", "true", "false", "none", "null",
+    "action_sound_sync", "ambient_sound_sync", "lip_sync", "multi_speaker_match",
+}
+_D16_ACTION_CUES = ("摩擦", "咔嗒", "齿轮", "绷断", "嗡鸣", "咯吱", "拍动", "拧紧", "拉动", "摆动", "螺旋桨", "扣件")
+_D16_AMBIENT_CUES = ("风", "雨", "水下", "气泡", "钟声", "车流", "环境声", "海水", "瀑布")
+
+
+def _d16_text(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+    text = value.strip()
+    if text.casefold() in _D16_EMPTY_FACT:
+        return ""
+    return text
+
+
+def _d16_unusable_fact(value: Any) -> bool:
+    """A D16 fact is unusable when it is empty, a yes/no question, or a pasted prompt."""
+    text = _d16_text(value)
+    if not text or "是否" in text or len(text) > 180:
+        return True
+    return False
+
+
+def _d16_generic_question(question: str) -> bool:
+    return "是否" in question and not any(cue in question for cue in (*_D16_ACTION_CUES, *_D16_AMBIENT_CUES))
+
+
+def _d16_speech_lines(prompt: str) -> list[str]:
+    """Speaker lines and quoted words. Format notes and sound effects are not speech."""
+    blocked = ("比例", "画幅", "提示", "环境", "时长", "音画", "音效")
+    lines: list[str] = []
+    for match in _SPEAKER_LINE.finditer(prompt):
+        speaker = re.sub(r"[（(][^）)]*[）)]", "", match.group(1)).strip()
+        spoken = match.group(2).strip()
+        if speaker in _NON_SPEAKERS or any(word in speaker for word in blocked):
+            continue
+        if len(spoken) > 80 or len(_compact_text(spoken)) < 2:
+            continue
+        lines.append(spoken)
+    if lines:
+        return lines
+    quotes: list[str] = []
+    for clause in re.split(r"[。；;\n]", prompt):
+        if "声" in clause:
+            continue
+        for quote in re.findall(r"[“\"]([^”\"]{2,80})[”\"]", clause):
+            if len(_compact_text(quote)) < 2:
+                continue
+            quotes.append(quote)
+    return quotes
+
+
+def _d16_prepare_payload(payload: dict[str, Any], prompt: str) -> dict[str, Any]:
+    """Keep D16 facts tied to prompt speech and sounds, including when the judge fills them with junk."""
+    facts = dict(payload.get("facts") or {})
+    items = [dict(item) for item in payload.get("items") or [] if isinstance(item, dict)]
+    spoken = _d16_speech_lines(prompt)
+    if spoken:
+        if _d16_unusable_fact(facts.get("dialogues")):
+            facts["dialogues"] = " ".join(spoken)
+    else:
+        facts["dialogues"] = False
+        facts["multi_speaker"] = False
+        items = [item for item in items if item.get("subpoint") not in {"lip_sync", "multi_speaker_match"}]
+    action, ambient = _d16_sounds_from_prompt(prompt)
+    action_questions = [
+        str(item.get("question") or "").strip() for item in items
+        if item.get("subpoint") == "action_sound_sync" and not _d16_generic_question(str(item.get("question") or ""))
+    ]
+    ambient_questions = [
+        str(item.get("question") or "").strip() for item in items
+        if item.get("subpoint") == "ambient_sound_sync" and not _d16_generic_question(str(item.get("question") or ""))
+    ]
+    if _d16_unusable_fact(facts.get("av_events")):
+        facts["av_events"] = action or " ".join(question for question in action_questions if question)
+    if _d16_unusable_fact(facts.get("env_changes")):
+        facts["env_changes"] = ambient or " ".join(question for question in ambient_questions if question)
+    repaired: list[dict[str, Any]] = []
+    for item in items:
+        subpoint = item.get("subpoint")
+        question = str(item.get("question") or "")
+        if subpoint == "action_sound_sync":
+            if not _d16_text(facts.get("av_events")):
+                continue
+            if action and action not in question:
+                item["question"] = f"这些动作声音是否与对应的可见动作同时发生：{action}"
+        elif subpoint == "ambient_sound_sync":
+            if not _d16_text(facts.get("env_changes")):
+                continue
+            if ambient and ambient not in question:
+                item["question"] = f"这些环境声音是否与画面中的场景或变化一致：{ambient}"
+        repaired.append(item)
+    if repaired and not any(item.get("core") for item in repaired):
+        repaired[0]["core"] = True
+    facts.setdefault("multi_speaker", False)
+    return {**payload, "facts": facts, "items": repaired}
+
+
+def _d16_sounds_from_prompt(prompt: str) -> tuple[str, str]:
+    """Split prompt clauses into action sounds and environmental sounds."""
+    text = prompt
+    action: list[str] = []
+    ambient: list[str] = []
+    for clause in re.split(r"[。；;\n]", text):
+        clause = re.sub(r"^环境音同步[:：]?", "", clause).strip(" ：:")
+        if "声" not in clause:
+            continue
+        is_action = any(cue in clause for cue in _D16_ACTION_CUES)
+        is_ambient = any(cue in clause for cue in _D16_AMBIENT_CUES)
+        if is_action and not is_ambient:
+            action.append(clause)
+        elif is_ambient:
+            ambient.append(clause)
+        elif is_action:
+            action.append(clause)
+    return "；".join(action), "；".join(ambient)
+
+
+def _d16_fallback_checklist(dimension_cfg: dict[str, Any], case: Case, model: str | None,
+                            prompt: str) -> dict[str, Any] | None:
+    """Build a D16 checklist from prompt sounds after the judge leaves the facts empty."""
+    action, ambient = _d16_sounds_from_prompt(prompt)
+    if not action and not ambient:
+        return None
+    items = []
+    if action:
+        items.append({
+            "id": "i1", "subpoint": "action_sound_sync", "kind": RUBRIC_KIND, "core": True,
+            "question": f"这些动作声音是否与对应的可见动作同时发生：{action}",
+        })
+    if ambient:
+        items.append({
+            "id": "i2" if action else "i1", "subpoint": "ambient_sound_sync", "kind": RUBRIC_KIND,
+            "core": not action,
+            "question": f"这些环境声音是否与画面中的场景或变化一致：{ambient}",
+        })
+    payload = {
+        "facts": {
+            "dialogues": False,
+            "multi_speaker": False,
+            "av_events": action,
+            "env_changes": ambient,
+        },
+        "gates": [
+            {"id": gate.get("id"), "question": gate.get("question"), "expect": gate.get("expect", "yes"),
+             "modality": gate.get("modality"), "core": gate.get("core", True)}
+            for gate in dimension_cfg.get("gates", []) if isinstance(gate, dict)
+        ],
+        "items": items,
+    }
+    return _model_checklist_payload(payload, dimension_cfg, "16_audio_visual_sync", case, model)
+
+
+def _d16_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any], case: Case,
+                   model: str | None, prompt: str) -> dict[str, Any] | None:
+    if not isinstance(payload, dict):
+        return None
+    prepared = _d16_prepare_payload(payload, prompt)
+    return _model_checklist_payload(prepared, dimension_cfg, "16_audio_visual_sync", case, model)
+
+
+_D20_FACT_BY_SUBPOINT = {
+    "emotion_accuracy": "character_situation",
+    "expression_transition": "emotion_change",
+    "gaze_attention": "gaze_target",
+    "reaction_timing": "reaction_event",
+}
+
+
+def _d20_text(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+    text = value.strip()
+    if text.casefold() in {"", "true", "false", "none", "null"}:
+        return ""
+    return text
+
+
+def _d20_facts_unusable(facts: dict[str, Any]) -> bool:
+    """True when D20 facts enable no subpoint, so every item would be dropped."""
+    if not facts:
+        return True
+    if facts.get("has_humans") is True:
+        return False
+    keys = ("target_emotion", "character_situation", "emotion_change", "gaze_target", "reaction_event", "dialogues")
+    return not any(_d20_text(facts.get(key)) for key in keys)
+
+
+def _d20_spoken(prompt: str) -> list[str]:
+    return [line.strip() for line in re.findall(r"[“\"「]([^”\"」]{1,120})[”\"」]", prompt) if line.strip()]
+
+
+def _d20_prepare_payload(payload: dict[str, Any], prompt: str) -> dict[str, Any]:
+    """Fill empty D20 facts from the questions the judge already wrote."""
+    facts = dict(payload.get("facts") or {})
+    items = [dict(item) for item in payload.get("items") or [] if isinstance(item, dict)]
+    if not _d20_facts_unusable(facts):
+        return payload
+    repaired_facts: dict[str, Any] = {
+        "has_humans": False,
+        "target_emotion": "",
+        "character_situation": "",
+        "emotion_change": "",
+        "gaze_target": "",
+        "reaction_event": "",
+        "dialogues": False,
+    }
+    repaired_items: list[dict[str, Any]] = []
+    spoken = _d20_spoken(prompt)
+    for item in items:
+        subpoint = item.get("subpoint")
+        question = str(item.get("question") or "").strip()
+        if subpoint == "micro_motion" and question:
+            repaired_facts["has_humans"] = True
+            repaired_items.append(item)
+            continue
+        if subpoint == "dialogue_performance":
+            if not spoken:
+                continue
+            repaired_facts["dialogues"] = " ".join(spoken)
+            repaired_items.append(item)
+            continue
+        fact_key = _D20_FACT_BY_SUBPOINT.get(str(subpoint))
+        if fact_key and question:
+            repaired_facts[fact_key] = question
+            repaired_items.append(item)
+    return {**payload, "facts": repaired_facts, "items": repaired_items}
+
+
+def _d20_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any], case: Case,
+                   model: str | None, prompt: str) -> dict[str, Any] | None:
+    if not isinstance(payload, dict):
+        return None
+    prepared = _d20_prepare_payload(payload, prompt)
+    return _model_checklist_payload(prepared, dimension_cfg, "20_performance_emotion", case, model)
+
+
 def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
                              prompt: str) -> dict[str, Any]:
     dimension = str(task["dimension"])
@@ -719,16 +973,21 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
     if response.get("status") != "ok":
         raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
     parsed = _parse_json_response(response.get("response"))
-    normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
-    if normalized is None:
+    if dimension == "16_audio_visual_sync":
+        normalized = _d16_checklist(parsed, dimension_cfg, case, judge.model, prompt)
+    elif dimension == "20_performance_emotion":
+        normalized = _d20_checklist(parsed, dimension_cfg, case, judge.model, prompt)
+    else:
+        normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
+    if normalized is None and dimension == "16_audio_visual_sync":
         from .eval_log import log_event
-        log_event("checklist", "清单未通过校验，使用 temperature=0.4 重出一次", case_id=case.case_id)
+        log_event("checklist", "第16维事实为空，重出一次", case_id=case.case_id)
         response = judge.complete(
-            system + " Your previous JSON was rejected. "
-            "Each item needs question and kind set to the string rubric_5. "
-            "Do not put the question in description or requirement, and do not send a numeric rubric field. "
-            "Use each subpoint at most once, include exactly one item for every applicable subpoint, "
-            "keep at most 3 core items, and return only valid JSON.",
+            system + " Your previous JSON was rejected because dialogues, av_events, and env_changes were empty. "
+            "Put spoken lines in dialogues, action sounds that must match a visible action in av_events, "
+            "and environmental sound that must match a visible scene or change in env_changes. "
+            "Use false or an empty string only when the prompt does not request that sound. "
+            "Do not leave those requirements only in the question text.",
             content,
             temperature=0.4,
             max_tokens=6000,
@@ -736,7 +995,32 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         if response.get("status") != "ok":
             raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
         parsed = _parse_json_response(response.get("response"))
-        normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
+        normalized = _d16_checklist(parsed, dimension_cfg, case, judge.model, prompt)
+        if normalized is None:
+            normalized = _d16_fallback_checklist(dimension_cfg, case, judge.model, prompt)
+    if normalized is None:
+        from .eval_log import log_event
+        log_event("checklist", "清单未通过校验，使用 temperature=0.4 重出一次", case_id=case.case_id)
+        missing = _missing_applicable_subpoints(parsed, dimension_cfg, dimension, case)
+        missing_hint = f" Add one rubric_5 item for each missing applicable subpoint: {', '.join(missing)}. Set core false when the checklist already has 3 core items." if missing else ""
+        response = judge.complete(
+            system + " Your previous JSON was rejected. "
+            "Each item needs question and kind set to the string rubric_5. "
+            "Do not put the question in description or requirement, and do not send a numeric rubric field. "
+            "Use each subpoint at most once, include exactly one item for every applicable subpoint, "
+            "keep at most 3 core items, and return only valid JSON."
+            + missing_hint,
+            content,
+            temperature=0.4,
+            max_tokens=6000,
+        )
+        if response.get("status") != "ok":
+            raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
+        parsed = _parse_json_response(response.get("response"))
+        if dimension == "20_performance_emotion":
+            normalized = _d20_checklist(parsed, dimension_cfg, case, judge.model, prompt)
+        else:
+            normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
     if normalized is None:
         raw = _response_content(response.get("response"))
         preview = str(raw)[:2000].replace("\n", " ")
