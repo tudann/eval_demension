@@ -1,0 +1,29 @@
+{
+  "case_id": "150303",
+  "一级维度": "15. 音频生成能力",
+  "二级维度": "音色一致性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 14,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Hih5b63wgoCL5txUcZWcsJ8dnAg",
+      "caption": "",
+      "width": 1672,
+      "height": 941,
+      "block_id": "TLgYdUgz1oS1f0xz7gocMRKdnqh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Hih5b63wgoCL5txUcZWcsJ8dnAg",
+      "file": "input_01.png",
+      "bytes": 3059781,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

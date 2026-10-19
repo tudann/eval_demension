@@ -60,6 +60,27 @@ class LocalWorkflowTests(unittest.TestCase):
             self.assertEqual([case.case_id for case in ready], ["with_image", "r2va_ok"])
             self.assertEqual([case.case_id for case in skipped], ["no_image", "r2va_no_ref"])
 
+    def test_unnumbered_reference_prompt_keeps_every_input_image(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "r2va"
+            case_dir = root / "case1"
+            case_dir.mkdir(parents=True)
+            (case_dir / "prompt_final.txt").write_text("以参考图为首帧，保持原图构图。", encoding="utf-8")
+            (case_dir / "video.mp4").write_bytes(b"placeholder")
+            (case_dir / "input_01.png").write_bytes(b"png")
+            (case_dir / "input_02.jpg").write_bytes(b"jpg")
+            task = {"inputs": [{
+                "id": "r2va", "root": str(root), "mode": "r2va",
+                "prompt_filename": "prompt_final.txt", "video_filename": "video.mp4",
+                "references": {"image_pattern": "input_{index:02d}"},
+            }]}
+            found = discover_cases(task)
+            self.assertEqual([path.name for path in found[0].reference_images], ["input_01.png", "input_02.jpg"])
+            numbered = case_dir / "prompt_final.txt"
+            numbered.write_text("只使用参考图1，不要使用其他图。", encoding="utf-8")
+            found = discover_cases(task)
+            self.assertEqual([path.name for path in found[0].reference_images], ["input_01.png"])
+
     def test_each_dimension_produces_a_score_with_valid_judge_responses(self) -> None:
         dims = load_yaml(DEFAULT_DIMS)
         with tempfile.TemporaryDirectory() as directory:

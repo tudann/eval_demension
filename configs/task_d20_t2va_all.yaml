@@ -1,0 +1,12 @@
+task_name: d20_t2va_all
+run_name: d20_t2va_all
+dimension: 20_performance_emotion
+inputs:
+  - id: t2va
+    root: ./data/csv_eval_inputs/20_performance_emotion/t2va
+    mode: t2va
+    prompt_filename: prompt_final.txt
+    video_filename: agnes.mp4
+    case_ids: ["200101", "200201", "200301", "200401", "200501", "200601"]
+stages: [check, checklist, evaluate, score]
+output_dir: ./outputs/d20_t2va_all

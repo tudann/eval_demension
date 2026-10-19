@@ -1,0 +1,12 @@
+{
+  "case_id": "170101",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "人体畸变率",
+  "task_type": "文生",
+  "source_column": "完整提示词",
+  "classification_reason": "文档完整提示词列按任务定义归为文生",
+  "table_row": 22,
+  "image_tokens": [],
+  "downloaded_files": [],
+  "download_errors": []
+}

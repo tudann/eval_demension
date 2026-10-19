@@ -10,6 +10,7 @@ from typing import Any
 import yaml
 
 from v_eval.cases import ConfigError, _prompt_reference_indices, discover_cases
+from v_eval.checklists import spoken_lines_filed_as_visible_text
 from v_eval.workflow import evaluate_case, prepare_case
 
 
@@ -221,8 +222,18 @@ def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], 
         if checklist_path.is_file() and not force:
             cached = json.loads(checklist_path.read_text(encoding="utf-8"))
             if _is_valid_external_checklist(cached, str(task["dimension"]), case.case_id):
-                prepared.append(cached)
-                continue
+                spoken_conflict = (
+                    str(task["dimension"]) == "18_text_visual_consistency"
+                    and spoken_lines_filed_as_visible_text(read_prompt_text(case), cached.get("facts") or {})
+                )
+                if not spoken_conflict:
+                    prepared.append(cached)
+                    continue
+                for name in ("result.json", "answers.json"):
+                    stale = checklist_path.parent / name
+                    if stale.is_file():
+                        stale.unlink()
+                print(f"checklist: {case.output_id} spoken dialogue was filed as visible text; regenerating", flush=True)
         print(f"checklist: {case.output_id}", flush=True)
         try:
             prepared.append(prepare_case(task, dimension_cfg, case))

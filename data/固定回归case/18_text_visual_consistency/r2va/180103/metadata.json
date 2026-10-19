@@ -1,0 +1,29 @@
+{
+  "case_id": "180103",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "文字内容准确性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 29,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "KVc8bJ8umoff8oxj3IIcLDAXnFb",
+      "caption": "",
+      "width": 941,
+      "height": 1672,
+      "block_id": "JJFEdiGbmozJvZxfKVNcx0E6nid"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "KVc8bJ8umoff8oxj3IIcLDAXnFb",
+      "file": "input_01.png",
+      "bytes": 1682821,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

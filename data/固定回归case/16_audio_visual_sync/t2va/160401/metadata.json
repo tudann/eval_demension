@@ -1,0 +1,12 @@
+{
+  "case_id": "160401",
+  "一级维度": "16. 音视频同步能力",
+  "二级维度": "多人对白匹配",
+  "task_type": "文生",
+  "source_column": "完整提示词",
+  "classification_reason": "文档完整提示词列按任务定义归为文生",
+  "table_row": 21,
+  "image_tokens": [],
+  "downloaded_files": [],
+  "download_errors": []
+}

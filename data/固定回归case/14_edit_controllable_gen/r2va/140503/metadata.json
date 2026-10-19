@@ -1,0 +1,29 @@
+{
+  "case_id": "140503",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "视频延长",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 10,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "P3YJbC5mKosLgNxa4jvcvTDVnwg",
+      "caption": "",
+      "width": 1672,
+      "height": 941,
+      "block_id": "EPzTdVEWiov28oxalCMcMNvlnWw"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "P3YJbC5mKosLgNxa4jvcvTDVnwg",
+      "file": "input_01.png",
+      "bytes": 2798090,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

@@ -1,0 +1,44 @@
+{
+  "case_id": "140102",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "局部修改准确性",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 6,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Es7tbqiNYoELb9xl2jWcuYGdnOd",
+      "caption": "",
+      "width": 1080,
+      "height": 1440,
+      "block_id": "K6lLd3fxwoVMZNx3htBcuNRengc"
+    },
+    {
+      "index": 2,
+      "token": "U2nWb8P5ho6ozZx7j33cEiv7nEd",
+      "caption": "",
+      "width": 1080,
+      "height": 1443,
+      "block_id": "JJqGd3ePSo6fsaxhdbFcBzZynmh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Es7tbqiNYoELb9xl2jWcuYGdnOd",
+      "file": "input_01.png",
+      "bytes": 1556563,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "U2nWb8P5ho6ozZx7j33cEiv7nEd",
+      "file": "input_02.png",
+      "bytes": 1565889,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

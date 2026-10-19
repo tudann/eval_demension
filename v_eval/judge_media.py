@@ -324,9 +324,9 @@ def build_judge_content(prompt: str, payload: dict[str, Any], case: CaseLike, mo
                 content.append(_audio_block(extracted))
 
         image_paths = _unique_paths([case.first_frame, case.last_frame, *case.reference_images])
-        for index, path in enumerate(image_paths, start=1):
+        for path in image_paths:
             try:
-                content.append({"type": "text", "text": f"Condition/reference image {index}; this is not a target-video frame."})
+                content.append({"type": "text", "text": f"Condition/reference image {path.stem}; this is not a target-video frame."})
                 content.append(_image_block(path))
             except (OSError, ValueError):
                 continue

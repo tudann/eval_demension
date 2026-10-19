@@ -1,0 +1,29 @@
+{
+  "case_id": "190103",
+  "一级维度": "19. 时间成本",
+  "二级维度": "视频生成耗时",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 34,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "K0xcbqYRRofIeQx27IrcAeHDn0b",
+      "caption": "",
+      "width": 1080,
+      "height": 1440,
+      "block_id": "J9c1dOKVOoUipwx66vncG92snIT"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "K0xcbqYRRofIeQx27IrcAeHDn0b",
+      "file": "input_01.png",
+      "bytes": 1741379,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

@@ -283,13 +283,13 @@ def csd_component(component: str, case: Any) -> dict[str, Any]:
                     ref_features = ref_features / ref_features.norm(dim=-1, keepdim=True)
                     similarities = (frame_features @ ref_features.T).max(dim=1).values.cpu().tolist()
                     value = sum(similarities) / len(similarities)
-                    result = _result(component, "ok", _clip_score(value, (0.80, 0.65, 0.50, 0.35)), value=round(value, 6), method="clip_vit_large_patch14", frames=archived)
+                    result = _result(component, "ok", _clip_score(value, (0.90, 0.65, 0.50, 0.35)), value=round(value, 6), method="clip_vit_large_patch14", frames=archived)
                     log_event("numeric", f"{component} 完成", score=result["score"], value=result["value"], frames=len(archived))
                     return result
                 mean = frame_features.mean(dim=0, keepdim=True)
                 mean = mean / mean.norm(dim=-1, keepdim=True)
                 drift = float((1.0 - (frame_features @ mean.T).squeeze(-1)).mean().item())
-                result = _result(component, "ok", _clip_score(drift, (0.05, 0.10, 0.18, 0.28), higher=False), value=round(drift, 6), method="clip_vit_large_patch14", frames=archived)
+                result = _result(component, "ok", _clip_score(drift, (0.03, 0.10, 0.18, 0.28), higher=False), value=round(drift, 6), method="clip_vit_large_patch14", frames=archived)
                 log_event("numeric", f"{component} 完成", score=result["score"], value=result["value"], frames=len(archived))
                 return result
     except Exception as exc:  # noqa: BLE001
@@ -728,9 +728,207 @@ def _load_ocr() -> tuple[Any | None, str | None]:
         return None, f"PP-OCRv5 load failed: {exc}"
 
 
-def _ocr_texts(case: Any) -> tuple[list[str], str | None]:
+_OCR_PRESENT_CER = 0.30
+
+
+def _ocr_key(text: str) -> str:
+    """Drop whitespace and punctuation so repeated frames and line breaks can still match."""
+    return re.sub(r"[\s\W_]+", "", str(text).casefold())
+
+
+def _ocr_target_lines(values: Any) -> list[str]:
+    lines: list[str] = []
+    items = values if isinstance(values, list) else []
+    for item in items:
+        for line in str(item).splitlines():
+            if _ocr_key(line):
+                lines.append(line.strip())
+    return lines
+
+
+def _ocr_cer(expected: str, recognized: str) -> float:
+    left, right = _ocr_key(expected), _ocr_key(recognized)
+    if not left:
+        return 0.0
+    if not right:
+        return 1.0
+    return 1.0 - difflib.SequenceMatcher(None, left, right).ratio()
+
+
+def _ocr_box_height(box: Any) -> float | None:
+    if box is None:
+        return None
+    if hasattr(box, "tolist"):
+        box = box.tolist()
+    try:
+        points = list(box)
+    except TypeError:
+        return None
+    if len(points) == 4:
+        try:
+            return abs(float(points[3]) - float(points[1]))
+        except (TypeError, ValueError):
+            pass
+    ys = [float(point[1]) for point in points if isinstance(point, (list, tuple)) and len(point) >= 2]
+    if len(ys) >= 2:
+        return max(ys) - min(ys)
+    return None
+
+
+def _ocr_as_list(value: Any) -> list[Any]:
+    if value is None:
+        return []
+    if hasattr(value, "tolist"):
+        value = value.tolist()
+    try:
+        return list(value)
+    except TypeError:
+        return []
+
+
+def _ocr_lines_from_result(result: Any) -> list[dict[str, Any]]:
+    if not hasattr(result, "get"):
+        return []
+    texts = _ocr_as_list(result.get("rec_texts"))
+    scores = _ocr_as_list(result.get("rec_scores"))
+    boxes = _ocr_as_list(result.get("rec_boxes"))
+    lines: list[dict[str, Any]] = []
+    for index, text in enumerate(texts):
+        cleaned = str(text).strip()
+        if not cleaned:
+            continue
+        score = _safe_float(scores[index]) if index < len(scores) else None
+        height = _ocr_box_height(boxes[index]) if index < len(boxes) else None
+        lines.append({"text": cleaned, "score": score, "height": height})
+    return lines
+
+
+def _ocr_best_line(target: str, lines: list[dict[str, Any]]) -> tuple[float, dict[str, Any] | None]:
+    """Match one target against a line or a short run of adjacent lines."""
+    best_cer = 1.0
+    best: dict[str, Any] | None = None
+    for start, line in enumerate(lines):
+        for span in (1, 2, 3):
+            group = lines[start:start + span]
+            if len(group) < span:
+                continue
+            scores = [item["score"] for item in group if item.get("score") is not None]
+            heights = [item["height"] for item in group if item.get("height") is not None]
+            candidate = {
+                "text": "".join(str(item["text"]) for item in group),
+                "score": min(scores) if scores else None,
+                "height": max(heights) if heights else None,
+            }
+            cer = _ocr_cer(target, candidate["text"])
+            if cer < best_cer:
+                best_cer = cer
+                best = candidate
+    return best_cer, best
+
+
+def _ocr_best_across(target: str, frames: list[list[dict[str, Any]]]) -> tuple[float, dict[str, Any] | None]:
+    best_cer = 1.0
+    best: dict[str, Any] | None = None
+    for lines in frames:
+        cer, candidate = _ocr_best_line(target, lines)
+        if cer < best_cer:
+            best_cer = cer
+            best = candidate
+    return best_cer, best
+
+
+def _ocr_mean_cer(targets: list[str], frames: list[list[dict[str, Any]]]) -> float:
+    if not targets:
+        return 1.0
+    return sum(_ocr_best_across(target, frames)[0] for target in targets) / len(targets)
+
+
+def _ocr_readability(targets: list[str], frames: list[list[dict[str, Any]]]) -> float:
+    """Score how clearly each target was read. Extra unrelated text does not raise this."""
+    if not targets:
+        return 0.0
+    qualities: list[float] = []
+    for target in targets:
+        cer, candidate = _ocr_best_across(target, frames)
+        confidence = 1.0 if candidate is None or candidate.get("score") is None else float(candidate["score"])
+        height = None if candidate is None else candidate.get("height")
+        size = 1.0 if height is None or float(height) >= 12 else max(0.0, float(height) / 12.0)
+        qualities.append((1.0 - cer) * confidence * size)
+    return sum(qualities) / len(qualities)
+
+
+def _ocr_scene_stability(targets: list[str], frames: list[list[dict[str, Any]]]) -> float:
+    """Scene text should remain visible across the sampled frames."""
+    if not targets or not frames:
+        return 0.0
+    ratios = []
+    for target in targets:
+        hits = sum(_ocr_best_line(target, lines)[0] <= _OCR_PRESENT_CER for lines in frames)
+        ratios.append(hits / len(frames))
+    return sum(ratios) / len(ratios)
+
+
+def _ocr_span_stability(targets: list[str], frames: list[list[dict[str, Any]]]) -> float:
+    """A subtitle line only needs to stay stable between its first and last appearance."""
+    if not targets or not frames:
+        return 0.0
+    ratios = []
+    for target in targets:
+        present = [_ocr_best_line(target, lines)[0] <= _OCR_PRESENT_CER for lines in frames]
+        indexes = [index for index, flag in enumerate(present) if flag]
+        if not indexes:
+            ratios.append(0.0)
+            continue
+        span = present[indexes[0]:indexes[-1] + 1]
+        ratios.append(sum(span) / len(span))
+    return sum(ratios) / len(ratios)
+
+
+def _ocr_deduped_track(frames: list[list[dict[str, Any]]]) -> list[dict[str, Any]]:
+    track: list[dict[str, Any]] = []
+    for lines in frames:
+        for line in lines:
+            key = _ocr_key(line["text"])
+            if not key:
+                continue
+            if track:
+                previous = _ocr_key(track[-1]["text"])
+                if key == previous or difflib.SequenceMatcher(None, key, previous).ratio() >= 0.85:
+                    continue
+            track.append(line)
+    return track
+
+
+def _ocr_ordered_cer(targets: list[str], frames: list[list[dict[str, Any]]]) -> float:
+    """Match subtitle lines in order after collapsing text that stays on screen."""
+    track = _ocr_deduped_track(frames)
+    if not targets:
+        return 1.0
+    cursor = 0
+    errors: list[float] = []
+    for target in targets:
+        best_index: int | None = None
+        best_span = 1
+        best_cer = 1.0
+        for index in range(cursor, len(track)):
+            for span in (1, 2, 3):
+                group = track[index:index + span]
+                if len(group) < span:
+                    continue
+                cer = _ocr_cer(target, "".join(str(item["text"]) for item in group))
+                if cer < best_cer:
+                    best_index, best_span, best_cer = index, span, cer
+            if best_cer <= 0.05:
+                break
+        if best_index is not None and best_cer <= 0.50:
+            cursor = best_index + best_span
+        errors.append(best_cer)
+    return sum(errors) / len(errors)
+
+
+def _ocr_frames(case: Any) -> tuple[list[list[dict[str, Any]]], str | None]:
     video = getattr(case, "video_path", None)
-    cache_key = f"ocr_texts:{video}"
+    cache_key = f"ocr_frames:{video}"
     cached = _CACHE.get(cache_key)
     if isinstance(cached, tuple):
         return cached
@@ -738,14 +936,14 @@ def _ocr_texts(case: Any) -> tuple[list[str], str | None]:
     if error:
         return [], error
     frames = video_frames(video, 8)
-    texts: list[str] = []
+    parsed: list[list[dict[str, Any]]] = []
     try:
         for frame in frames:
-            results = ocr.predict(str(frame))
-            for result in results:
-                data = result.get("rec_texts", []) if hasattr(result, "get") else []
-                texts.extend(str(item) for item in data if str(item).strip())
-        value = (texts, None)
+            lines: list[dict[str, Any]] = []
+            for result in ocr.predict(str(frame)):
+                lines.extend(_ocr_lines_from_result(result))
+            parsed.append(lines)
+        value = (parsed, None)
         _CACHE[cache_key] = value
         return value
     except Exception as exc:  # noqa: BLE001
@@ -753,28 +951,67 @@ def _ocr_texts(case: Any) -> tuple[list[str], str | None]:
 
 
 def ocr_component(component: str, case: Any, facts: dict[str, Any]) -> dict[str, Any]:
-    texts, error = _ocr_texts(case)
+    frames, error = _ocr_frames(case)
     if error:
         return _result(component, "not_configured", reason=error)
-    expected = [str(item) for item in facts.get("expected_texts", []) if str(item).strip()]
-    if component == "ocr_cer" and not expected:
-        return _result(component, "not_applicable", reason="no expected text")
-    if component == "ocr_subtitle_alignment" and not facts.get("subtitles_required"):
-        return _result(component, "not_applicable", reason="subtitles not required")
-    joined = " ".join(texts)
-    if component in {"ocr_cer", "ocr_subtitle_alignment"}:
-        target = " ".join(expected) or str(facts.get("subtitle_lines") or "")
-        ratio = difflib.SequenceMatcher(None, target, joined).ratio() if target else 0.0
-        cer = 1.0 - ratio
-        return _result(component, "ok", _clip_score(cer, (0.05, 0.15, 0.30, 0.50), higher=False), value=round(cer, 6), recognized=texts, method="ppocrv5")
+    expected = _ocr_target_lines(facts.get("expected_texts"))
+    subtitles = _ocr_target_lines(facts.get("subtitle_lines"))
+    recognized = [line["text"] for lines in frames for line in lines]
+    if component == "ocr_cer":
+        if not expected:
+            return _result(component, "not_applicable", reason="no expected text")
+        cer = _ocr_mean_cer(expected, frames)
+        return _result(component, "ok", _clip_score(cer, (0.05, 0.15, 0.30, 0.50), higher=False), value=round(cer, 6), recognized=recognized, method="ppocrv5_per_target")
+    if component == "ocr_subtitle_alignment":
+        if not facts.get("subtitles_required"):
+            return _result(component, "not_applicable", reason="subtitles not required")
+        if not subtitles:
+            return _result(component, "missing_input", reason="subtitle lines unavailable")
+        cer = _ocr_ordered_cer(subtitles, frames)
+        return _result(component, "ok", _clip_score(cer, (0.05, 0.15, 0.30, 0.50), higher=False), value=round(cer, 6), recognized=recognized, method="ppocrv5_subtitle_order")
+    targets = expected or (subtitles if facts.get("subtitles_required") else [])
     if component == "ocr_readability":
-        ratio = min(1.0, len(texts) / max(1, len(expected))) if expected else min(1.0, len(texts) / 3.0)
-        return _result(component, "ok", _clip_score(ratio, (1.0, 0.8, 0.6, 0.3)), value=round(ratio, 6), recognized=texts, method="ppocrv5")
+        if not targets:
+            return _result(component, "not_applicable", reason="no text target")
+        groups = []
+        if expected:
+            groups.append(_ocr_readability(expected, frames))
+        if facts.get("subtitles_required") and subtitles:
+            groups.append(_ocr_readability(subtitles, frames))
+        ratio = sum(groups) / len(groups)
+        return _result(component, "ok", _clip_score(ratio, (1.0, 0.8, 0.6, 0.3)), value=round(ratio, 6), recognized=recognized, method="ppocrv5_matched_readability")
     if component == "ocr_text_stability":
-        frames = max(1, len(video_frames(case.video_path, 8)))
-        ratio = min(1.0, len(texts) / frames)
-        return _result(component, "ok", _clip_score(ratio, (0.9, 0.75, 0.5, 0.25)), value=round(ratio, 6), recognized=texts, method="ppocrv5")
+        if not targets:
+            return _result(component, "not_applicable", reason="no text target")
+        groups = []
+        if expected:
+            groups.append(_ocr_scene_stability(expected, frames))
+        if facts.get("subtitles_required") and subtitles:
+            groups.append(_ocr_span_stability(subtitles, frames))
+        ratio = sum(groups) / len(groups)
+        return _result(component, "ok", _clip_score(ratio, (0.9, 0.75, 0.5, 0.25)), value=round(ratio, 6), recognized=recognized, method="ppocrv5_frame_presence")
     return _result(component, "not_applicable", reason="unsupported OCR component")
+
+
+def _read_pcm_wav(path: Path, sampling_rate: int) -> Any:
+    """Load a mono PCM wav without torchaudio. Current torchaudio requires torchcodec."""
+    import wave
+
+    import torch
+
+    with wave.open(str(path), "rb") as handle:
+        channels = handle.getnchannels()
+        width = handle.getsampwidth()
+        rate = handle.getframerate()
+        frames = handle.readframes(handle.getnframes())
+    if width != 2 or channels < 1:
+        raise ValueError(f"expected 16-bit PCM wav, got {channels} channels and {width * 8}-bit samples")
+    if rate != sampling_rate:
+        raise ValueError(f"expected {sampling_rate} Hz wav, got {rate} Hz")
+    audio = torch.frombuffer(bytearray(frames), dtype=torch.int16).to(torch.float32).div_(32768.0)
+    if channels > 1:
+        audio = audio.view(-1, channels).mean(dim=1)
+    return audio
 
 
 def _silero_speech_intervals(audio: Path) -> tuple[list[tuple[float, float]], str | None]:
@@ -789,7 +1026,7 @@ def _silero_speech_intervals(audio: Path) -> tuple[list[tuple[float, float]], st
             except TypeError:
                 vad = module.load_silero_vad()
             _CACHE["silero_vad"] = vad
-        waveform = module.read_audio(str(audio), sampling_rate=16000)
+        waveform = _read_pcm_wav(audio, 16000)
         timestamps = module.get_speech_timestamps(
             waveform, vad, sampling_rate=16000, return_seconds=True,
         )

@@ -1,0 +1,29 @@
+{
+  "case_id": "200402",
+  "一级维度": "20. 人物表演与情绪表达",
+  "二级维度": "微动作自然性",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 38,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "UQ37b8K5golpntxEHm7cJFamnvc",
+      "caption": "",
+      "width": 1086,
+      "height": 1448,
+      "block_id": "RuNcdC3tSopZ9yxmemucR0glnZg"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "UQ37b8K5golpntxEHm7cJFamnvc",
+      "file": "input_01.png",
+      "bytes": 2495705,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

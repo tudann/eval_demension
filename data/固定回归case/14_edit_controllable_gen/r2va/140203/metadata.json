@@ -1,0 +1,44 @@
+{
+  "case_id": "140203",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "非目标区域保持",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 7,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Zk7kbuLzUo8dRgxwFJRc9SVAn1f",
+      "caption": "",
+      "width": 1024,
+      "height": 1536,
+      "block_id": "WENBdzR4Mo79pkx9YxocbX1KnHh"
+    },
+    {
+      "index": 2,
+      "token": "J7oJbnwuRo391YxGf2BchG5Anyf",
+      "caption": "",
+      "width": 1080,
+      "height": 1440,
+      "block_id": "Y4nMd7qySoWN0pxWqK5clHXWnQf"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Zk7kbuLzUo8dRgxwFJRc9SVAn1f",
+      "file": "input_01.png",
+      "bytes": 1840687,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "J7oJbnwuRo391YxGf2BchG5Anyf",
+      "file": "input_02.png",
+      "bytes": 1201932,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

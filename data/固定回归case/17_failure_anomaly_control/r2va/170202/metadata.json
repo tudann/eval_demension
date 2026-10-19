@@ -1,0 +1,59 @@
+{
+  "case_id": "170202",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "主体消失率",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 23,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "YPojbN10komRAlxqidrc8gjLn8f",
+      "caption": "",
+      "width": 1280,
+      "height": 960,
+      "block_id": "ZHibdjHISoTOLHxqJk3c5UG7nGc"
+    },
+    {
+      "index": 2,
+      "token": "KanqbgdGGoRThsxnuJicLKK7nHK",
+      "caption": "",
+      "width": 1280,
+      "height": 960,
+      "block_id": "WeULd7sU1ozmXkxjxnncpJdTnHf"
+    },
+    {
+      "index": 3,
+      "token": "KhAxbsKoLoUlx1xzTzTcxmS1nne",
+      "caption": "",
+      "width": 1280,
+      "height": 960,
+      "block_id": "Aeo5d7QRxo9iWHxyMnHcqaSmnuc"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "YPojbN10komRAlxqidrc8gjLn8f",
+      "file": "input_01.png",
+      "bytes": 2204651,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "KanqbgdGGoRThsxnuJicLKK7nHK",
+      "file": "input_02.png",
+      "bytes": 1871528,
+      "content_type": "image/png"
+    },
+    {
+      "index": 3,
+      "token": "KhAxbsKoLoUlx1xzTzTcxmS1nne",
+      "file": "input_03.png",
+      "bytes": 2181817,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

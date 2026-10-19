@@ -1,0 +1,44 @@
+{
+  "case_id": "130302",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格与内容兼容",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 3,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "NLYObwogooQawYxNYzAc5WoJnye",
+      "caption": "",
+      "width": 1920,
+      "height": 917,
+      "block_id": "GYwhdqMeYo8mSnxDZZ6cCegcnHh"
+    },
+    {
+      "index": 2,
+      "token": "T7cwbsuRlo2YuRxfLhncrXlonZc",
+      "caption": "",
+      "width": 1920,
+      "height": 950,
+      "block_id": "XcGUdznyRob4Exxz0COcStBon8d"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "NLYObwogooQawYxNYzAc5WoJnye",
+      "file": "input_01.png",
+      "bytes": 2386333,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "T7cwbsuRlo2YuRxfLhncrXlonZc",
+      "file": "input_02.png",
+      "bytes": 3272566,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

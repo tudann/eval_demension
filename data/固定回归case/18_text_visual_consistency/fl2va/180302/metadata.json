@@ -1,0 +1,44 @@
+{
+  "case_id": "180302",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "字体与文字可读性",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 31,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "AuE5bkTcsoGCrdxw03mcop1inlh",
+      "caption": "",
+      "width": 941,
+      "height": 1672,
+      "block_id": "FAwgdWvYao55F5xTnWhcJVuFn4b"
+    },
+    {
+      "index": 2,
+      "token": "S3y2bd2oto1XAjxP3CBceikAnkf",
+      "caption": "",
+      "width": 941,
+      "height": 1672,
+      "block_id": "GQJAdBsR9o4aKgx06OWcGVR3nYd"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "AuE5bkTcsoGCrdxw03mcop1inlh",
+      "file": "input_01.png",
+      "bytes": 2945065,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "S3y2bd2oto1XAjxP3CBceikAnkf",
+      "file": "input_02.png",
+      "bytes": 2910921,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

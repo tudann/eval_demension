@@ -1,0 +1,44 @@
+{
+  "case_id": "130303",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格与内容兼容",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 3,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "WzW7be5pgogGaTxaF6wcBnxinvc",
+      "caption": "",
+      "width": 1680,
+      "height": 720,
+      "block_id": "STVMdaWifocVaJxEj35ctbvcnxh"
+    },
+    {
+      "index": 2,
+      "token": "Cdzhbv08OogvJSxRC3GcjpcZnGf",
+      "caption": "",
+      "width": 2523,
+      "height": 1080,
+      "block_id": "P9dqdJ3GNoHlxwxCyihcHRxRn5t"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "WzW7be5pgogGaTxaF6wcBnxinvc",
+      "file": "input_01.png",
+      "bytes": 2184485,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "Cdzhbv08OogvJSxRC3GcjpcZnGf",
+      "file": "input_02.png",
+      "bytes": 3421474,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

@@ -79,6 +79,11 @@ data/**/*.png
 data/**/*.jpg
 data/**/*.jpeg
 
+# Container images stay local. Dockerfiles and usage docs under mirror/ are kept.
+*.tar
+*.tar.gz
+*.tgz
+
 # Large local data and media
 *.npy
 *.npz

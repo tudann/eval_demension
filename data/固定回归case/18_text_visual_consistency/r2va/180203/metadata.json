@@ -1,0 +1,44 @@
+{
+  "case_id": "180203",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "字幕内容完整性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 30,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "OuxwbS5n1ohVuMxU8LCcaAcvndL",
+      "caption": "",
+      "width": 700,
+      "height": 938,
+      "block_id": "FmdYdTqe2oucjUx9cIMcAPFenxd"
+    },
+    {
+      "index": 2,
+      "token": "Ytmcb2QHXoeC0Bxw2mmcSnFnnve",
+      "caption": "",
+      "width": 1536,
+      "height": 1024,
+      "block_id": "Ili4d6SlwoBo91xFpK2cpugdn6c"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "OuxwbS5n1ohVuMxU8LCcaAcvndL",
+      "file": "input_01.png",
+      "bytes": 556553,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "Ytmcb2QHXoeC0Bxw2mmcSnFnnve",
+      "file": "input_02.png",
+      "bytes": 1892323,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

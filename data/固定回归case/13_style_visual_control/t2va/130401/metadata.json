@@ -1,0 +1,12 @@
+{
+  "case_id": "130401",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "光照控制",
+  "task_type": "文生",
+  "source_column": "完整提示词",
+  "classification_reason": "文档完整提示词列按任务定义归为文生",
+  "table_row": 4,
+  "image_tokens": [],
+  "downloaded_files": [],
+  "download_errors": []
+}

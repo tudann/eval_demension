@@ -1,0 +1,12 @@
+{
+  "case_id": "140501",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "视频延长",
+  "task_type": "文生",
+  "source_column": "完整提示词",
+  "classification_reason": "文档完整提示词列按任务定义归为文生",
+  "table_row": 10,
+  "image_tokens": [],
+  "downloaded_files": [],
+  "download_errors": []
+}

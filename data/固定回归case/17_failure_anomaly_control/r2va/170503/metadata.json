@@ -1,0 +1,29 @@
+{
+  "case_id": "170503",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "穿模问题",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 26,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "RixxbhN8doUZ9lxVMfVc0Q9Wnlh",
+      "caption": "",
+      "width": 1086,
+      "height": 1448,
+      "block_id": "EynPdUT0FoEtbGxnIqScsa5enMh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "RixxbhN8doUZ9lxVMfVc0Q9Wnlh",
+      "file": "input_01.png",
+      "bytes": 3261681,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

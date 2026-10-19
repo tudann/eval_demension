@@ -1,0 +1,29 @@
+{
+  "case_id": "130402",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "光照控制",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 4,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "LhAmbOjoLow47sxVPzhcAWmznqf",
+      "caption": "",
+      "width": 2048,
+      "height": 1152,
+      "block_id": "OyyydXnLwoTwvlxQZdacIpOwnTf"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "LhAmbOjoLow47sxVPzhcAWmznqf",
+      "file": "input_01.png",
+      "bytes": 1967892,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

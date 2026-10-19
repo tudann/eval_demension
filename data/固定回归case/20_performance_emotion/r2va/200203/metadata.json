@@ -1,0 +1,29 @@
+{
+  "case_id": "200203",
+  "一级维度": "20. 人物表演与情绪表达",
+  "二级维度": "表情变化自然性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 36,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "LjZbbXXHDoKkynx6Sa6cjQSmnKf",
+      "caption": "",
+      "width": 1536,
+      "height": 1024,
+      "block_id": "AnX2dGr3QojhugxyEy3cfO5ZnQh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "LjZbbXXHDoKkynx6Sa6cjQSmnKf",
+      "file": "input_01.png",
+      "bytes": 2898816,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

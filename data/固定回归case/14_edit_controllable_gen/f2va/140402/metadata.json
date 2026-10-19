@@ -1,0 +1,29 @@
+{
+  "case_id": "140402",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "增删物体",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 9,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "HmIHb5QNnop20NxpMrLcvvNcnHe",
+      "caption": "",
+      "width": 1672,
+      "height": 941,
+      "block_id": "Dyi3dgaStoSYrHxvEqCc4kH6ncd"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "HmIHb5QNnop20NxpMrLcvvNcnHe",
+      "file": "input_01.png",
+      "bytes": 3024415,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

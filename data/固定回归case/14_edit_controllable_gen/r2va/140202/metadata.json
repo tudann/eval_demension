@@ -1,0 +1,44 @@
+{
+  "case_id": "140202",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "非目标区域保持",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 7,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "EADzbzqEmoN42uxGH2OcRTA7nmh",
+      "caption": "",
+      "width": 1080,
+      "height": 1436,
+      "block_id": "T6HmdMUxPoG79HxDTp7cdSgdnIe"
+    },
+    {
+      "index": 2,
+      "token": "TdoSb9LXxox06ExlWO3ce0yfn5e",
+      "caption": "",
+      "width": 1080,
+      "height": 1436,
+      "block_id": "EnvYdFZAqoAoHDxE0N8c2cZGnzh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "EADzbzqEmoN42uxGH2OcRTA7nmh",
+      "file": "input_01.png",
+      "bytes": 2058964,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "TdoSb9LXxox06ExlWO3ce0yfn5e",
+      "file": "input_02.png",
+      "bytes": 2228855,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

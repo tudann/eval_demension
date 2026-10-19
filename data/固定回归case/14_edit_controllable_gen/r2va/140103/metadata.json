@@ -1,0 +1,44 @@
+{
+  "case_id": "140103",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "局部修改准确性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 6,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "LbYib0AEhoVoubx6hoQc79ulnue",
+      "caption": "",
+      "width": 2532,
+      "height": 1080,
+      "block_id": "KUpJdPuoeoHLaTxboqLc40JEnXf"
+    },
+    {
+      "index": 2,
+      "token": "UMWrbyZdKoDLTFxTwmUcRAUcn9c",
+      "caption": "",
+      "width": 1080,
+      "height": 1440,
+      "block_id": "Y5FMdn5jcoMvKbxHB8DcNN3CnWc"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "LbYib0AEhoVoubx6hoQc79ulnue",
+      "file": "input_01.png",
+      "bytes": 5061490,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "UMWrbyZdKoDLTFxTwmUcRAUcn9c",
+      "file": "input_02.png",
+      "bytes": 1696143,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

@@ -22,8 +22,10 @@ _ITEM_OBJECT_RULES = (
 _RUBRIC_GENERATION_RULES = (
     "Each item uses kind rubric_5 and states one requirement. "
     f"{_ITEM_OBJECT_RULES} "
-    "Write at most one item for each applicable subpoint, and do not add items to reach a count of six. "
-    "A later score of 5 means that requirement is fully achieved. Do not set expect to yes or no, and do not use yes_no or multiple-choice items. "
+    "Write exactly one item for every applicable subpoint. "
+    "If the facts make a subpoint apply, that subpoint must have its own question; do not leave it out. "
+    "Do not add items for subpoints that do not apply, and do not add extra items to reach a fixed count. "
+    "A later score of 5 is reserved for an exceptional result with no concrete flaw. A successful result with any slight flaw scores 4, and a clear problem scores 3. Do not set expect to yes or no, and do not use yes_no or multiple-choice items. "
     "Mark core true only for a requirement the prompt insists on, and mark at most 3 items core. "
     "A prohibition is core only when that absence is itself the demand. "
     "Do not split one requirement into separate questions about incidental absences such as watermarks, timestamps, or tickers."
@@ -31,14 +33,18 @@ _RUBRIC_GENERATION_RULES = (
 
 _ANSWER_RUBRIC = (
     "Score every checklist item with an integer from 1 to 5. Do not answer yes or no. "
-    "5: the requirement is fully and accurately achieved, natural and stable, with almost no perceptible problem. "
-    "4: the core of the requirement is achieved, with only a slight flaw or local deviation that does not obviously affect viewing. "
-    "3: the requirement is basically achieved, but a clear problem, omission, or unnatural result remains. "
+    "Reserve 5 for an exceptional result. A successful or mostly correct result is 4 or 3, not 5. "
+    "5: every visible part of this one requirement is achieved, and you cannot name a concrete flaw. "
+    "4: the requirement is achieved, but a slight flaw, local deviation, or small instability remains. "
+    "3: the requirement is recognizable, but a clear omission, unnatural passage, inconsistency, or imperfect match remains. Use 3 for an adequate but imperfect result. "
     "2: the requirement is only partly achieved, and the error, absence, or instability already affects whether the content holds. "
     "1: the requirement is basically missed, or the result is severely broken or unusable. "
-    "For a yes_no item, expect decides what 5 means: expect yes means the described state is fully present; "
+    "Before giving 5, cite evidence that every part of the requirement is excellent. "
+    "If you can point to any flaw, the score is at most 4. If that flaw is clear, the score is at most 3. "
+    "Do not give 5 merely because the prompt's main subject, style, color, lighting, or action is present. "
+    "For a yes_no item, expect decides what 5 means: expect yes means the described state is fully present with no concrete flaw; "
     "expect no means the named problem is fully absent. "
-    "For a rubric_5 item, 5 means the requirement written in the question is fully achieved. "
+    "For a rubric_5 item, 5 means the requirement written in the question is exceptionally achieved, not merely recognizable. "
     "Score multiple-choice items on the same 1-5 scale; do not return an option id. "
     "Return only JSON with gates and answers. "
     "Each gate object contains id, answer, and 回答依据. The answer is the string yes or no. "
@@ -86,8 +92,10 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
     ),
     "18_text_visual_consistency": (
         "D18 strategy: create questions only for text requirements or explicit absence of text. "
-        "Use text_accuracy for required strings, subtitle_alignment for requested subtitles, text_readability for required visible text, "
+        "Use text_accuracy for strings that must be visibly rendered, subtitle_alignment for requested subtitles, text_readability for required visible text, "
         "text_stability for text persistence, and no_unrequested_text specifically for subtitles when they were not requested. "
+        "A text_accuracy question asks whether those strings appear as visible glyphs. Do not ask about lip sync, turn-taking, or whether a line was spoken aloud. "
+        "Spoken dialogue is not a visible-text requirement unless the prompt asks to display that sentence or show it as subtitles. "
         "Do not invent subtitles or required strings, and do not split one text requirement across several questions."
     ),
     "20_performance_emotion": (
@@ -337,13 +345,108 @@ def _validate_checklist_items(items: Any, dimension_cfg: dict[str, Any], facts: 
         if core_count > CHECKLIST_MAX_CORE_ITEMS:
             return None
         normalized_items.append(normalized)
+    applicable = [
+        name for name, cfg in subpoints.items()
+        if isinstance(cfg, dict) and evaluate_applies(cfg.get("applies"), facts, case)
+    ]
+    if any(name not in seen_subpoints for name in applicable):
+        return None
     if not CHECKLIST_MIN_ITEMS <= len(normalized_items) <= CHECKLIST_MAX_ITEMS:
         return None
     return normalized_items
 
 
+_VISIBLE_SPEECH_BANS = (
+    "不要字幕",
+    "禁止字幕",
+    "无字幕",
+    "不要屏幕文字",
+    "禁止屏幕文字",
+    "不要画面文字",
+    "禁止画面文字",
+    "禁止旁白画面文字",
+    "不得出现字幕",
+    "不要出现字幕",
+    "不得有字幕",
+    "不要有字幕",
+)
+_VISIBLE_DIALOGUE_CUES = (
+    "对话气泡",
+    "漫画气泡",
+    "气泡文字",
+    "字幕",
+    "配字幕",
+    "打成字幕",
+    "写成字幕",
+    "显示为字幕",
+    "屏幕字幕",
+    "画面文字",
+    "写在画面",
+    "写在屏幕",
+)
+_NON_SPEAKERS = {"场景", "画面", "镜头", "时长", "画幅", "风格", "摄影", "音乐", "音效", "要求", "注意", "主题", "作品"}
+_SPEAKER_LINE = re.compile(r"(?m)^[ \t\u3000]*([^：:\n]{1,40})\s*[：:]\s*(\S.*?)\s*$")
+
+
+def _compact_text(text: str) -> str:
+    return re.sub(r"[\s\W_]+", "", text.casefold())
+
+
+def _dialogue_lines(prompt: str) -> list[str]:
+    """Return speaker-labeled lines. Section labels such as 场景 are not dialogue."""
+    lines: list[str] = []
+    for match in _SPEAKER_LINE.finditer(prompt):
+        speaker = re.sub(r"[（(][^）)]*[）)]", "", match.group(1)).strip()
+        spoken = match.group(2).strip()
+        if speaker in _NON_SPEAKERS or len(_compact_text(spoken)) < 2:
+            continue
+        lines.append(spoken)
+    return lines
+
+
+def _prompt_forbids_visible_speech(prompt: str) -> bool:
+    return any(phrase in prompt for phrase in _VISIBLE_SPEECH_BANS)
+
+
+def _prompt_still_displays_dialogue(prompt: str) -> bool:
+    """True when a subtitle ban coexists with a separate request to render the lines."""
+    remaining = prompt
+    for phrase in _VISIBLE_SPEECH_BANS:
+        remaining = remaining.replace(phrase, "")
+    return any(cue in remaining for cue in _VISIBLE_DIALOGUE_CUES)
+
+
+def _fact_text_values(facts: dict[str, Any]) -> list[str]:
+    values: list[str] = []
+    for key in ("expected_texts", "allowed_texts", "subtitle_lines", "requested_text", "requested_subtitles", "subtitles"):
+        raw = facts.get(key)
+        if isinstance(raw, str):
+            raw = [raw]
+        if isinstance(raw, list):
+            values.extend(str(item).strip() for item in raw if isinstance(item, str) and str(item).strip())
+    return values
+
+
+def _text_matches_spoken(candidate: str, spoken: str) -> bool:
+    left = _compact_text(candidate)
+    right = _compact_text(spoken)
+    if len(left) < 2 or len(right) < 2:
+        return False
+    return left == right or right in left or (len(left) >= 4 and left in right)
+
+
+def spoken_lines_filed_as_visible_text(prompt: str, facts: dict[str, Any]) -> bool:
+    """True when spoken lines were stored as required on-screen text despite a subtitle ban."""
+    if not prompt or not _prompt_forbids_visible_speech(prompt) or _prompt_still_displays_dialogue(prompt):
+        return False
+    spoken = _dialogue_lines(prompt)
+    if not spoken:
+        return False
+    return any(_text_matches_spoken(candidate, line) for candidate in _fact_text_values(facts) for line in spoken)
+
+
 def _d18_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
-                           model: str | None = None) -> dict[str, Any] | None:
+                           model: str | None = None, prompt: str | None = None) -> dict[str, Any] | None:
     """Validate a model-authored D18 facts/checklist without local question generation."""
     facts = payload.get("facts")
     gates = payload.get("gates")
@@ -385,6 +488,8 @@ def _d18_checklist_payload(payload: dict[str, Any], dimension_cfg: dict[str, Any
     if not isinstance(facts["subtitles_required"], bool) or not isinstance(facts["text_forbidden"], bool):
         return None
     if not isinstance(facts["subtitle_lines"], list) or not all(isinstance(item, str) for item in facts["subtitle_lines"]):
+        return None
+    if prompt and spoken_lines_filed_as_visible_text(prompt, facts):
         return None
     configured_gates = {str(gate.get("id")): gate for gate in dimension_cfg.get("gates", []) if isinstance(gate, dict)}
     if not gates or any(not isinstance(gate, dict) or str(gate.get("id")) not in configured_gates for gate in gates):
@@ -429,7 +534,7 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
     content = build_judge_content(prompt, request_payload, case, judge.modality,
                                   media_env="V_EVAL_CHECKLIST_MEDIA", default_media="0",
                                   allow_media=False)
-    response = judge.complete(
+    system = (
         "For D18, return exactly one JSON object and no markdown or explanatory text. "
         "The JSON must contain exactly these top-level keys: facts, gates, items. "
         "facts must contain exactly these keys and value types: expected_texts (array of strings), "
@@ -446,18 +551,71 @@ def generate_d18_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], 
         "each item must contain id, subpoint, question, kind, time_hint, core, evidence_required. "
         "Every subpoint must be one of the allowed subpoints. Use question, never description, requirement, or other aliases. "
         f"{_CHECKLIST_STRATEGIES['18_text_visual_consistency']} "
-        "Facts describe only requested text/subtitles/forbidden text from the prompt. Do not inspect or judge the generated video.",
-        content,
-        max_tokens=6000,
+        "Facts describe only requested text/subtitles/forbidden text from the prompt. Do not inspect or judge the generated video."
     )
-    if response.get("status") != "ok":
-        raise ConfigError(f"D18 checklist judge failed: {response.get('error')}")
-    parsed = _parse_json_response(response.get("response"))
-    checklist = _d18_checklist_payload(parsed, dimension_cfg, case, judge.model) if parsed else None
+    response = judge.complete(system, content, max_tokens=6000)
+    checklist, conflict = _d18_checklist_from_response(response, dimension_cfg, case, judge.model, prompt)
+    if checklist is None:
+        response = judge.complete(
+            system + " The previous JSON was rejected. If the prompt forbids on-screen text, titles, subtitles, logos, or watermarks, "
+            "leave expected_texts, allowed_texts, and subtitle_lines empty and set subtitles_required false. "
+            "Do not put spoken dialogue into expected_texts. Then the only applicable item is no_unrequested_text. "
+            "If expected_texts is non-empty, include exactly one item for each of text_accuracy, text_readability, and text_stability.",
+            content,
+            max_tokens=6000,
+        )
+        checklist, retried_conflict = _d18_checklist_from_response(response, dimension_cfg, case, judge.model, prompt)
+        conflict = conflict or retried_conflict
+    if checklist is None and conflict:
+        return _d18_no_visible_text_checklist(dimension_cfg, case, judge.model)
     if checklist is None:
         raw = _response_content(response.get("response"))
         preview = str(raw)[:3000].replace("\n", " ")
         raise ConfigError(f"D18 checklist judge returned invalid facts/gates/items JSON; response={preview}")
+    return checklist
+
+
+def _d18_checklist_from_response(response: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
+                                 model: str | None, prompt: str) -> tuple[dict[str, Any] | None, bool]:
+    """Return a valid checklist, and whether spoken lines were filed as visible text."""
+    if response.get("status") != "ok":
+        raise ConfigError(f"D18 checklist judge failed: {response.get('error')}")
+    parsed = _parse_json_response(response.get("response"))
+    facts = parsed.get("facts") if isinstance(parsed, dict) else None
+    conflict = isinstance(facts, dict) and spoken_lines_filed_as_visible_text(prompt, facts)
+    if conflict or not isinstance(parsed, dict):
+        return None, conflict
+    return _d18_checklist_payload(parsed, dimension_cfg, case, model, prompt), False
+
+
+def _d18_no_visible_text_checklist(dimension_cfg: dict[str, Any], case: Case, model: str | None) -> dict[str, Any]:
+    """Score only the absence of on-screen text after spoken lines were misfiled twice."""
+    payload = {
+        "facts": {
+            "expected_texts": [],
+            "allowed_texts": [],
+            "subtitles_required": False,
+            "subtitle_lines": [],
+            "text_forbidden": True,
+        },
+        "gates": [
+            {"id": gate.get("id"), "question": gate.get("question"), "expect": gate.get("expect", "yes"),
+             "modality": gate.get("modality"), "core": gate.get("core", True)}
+            for gate in dimension_cfg.get("gates", []) if isinstance(gate, dict)
+        ],
+        "items": [{
+            "id": "i1",
+            "subpoint": "no_unrequested_text",
+            "question": "画面是否没有字幕、对白文字、标题、Logo、水印或其他未被要求出现的文字？",
+            "kind": RUBRIC_KIND,
+            "time_hint": "全片",
+            "core": True,
+            "evidence_required": True,
+        }],
+    }
+    checklist = _d18_checklist_payload(payload, dimension_cfg, case, model, prompt=None)
+    if checklist is None:
+        raise ConfigError("D18 fallback checklist for forbidden on-screen text failed validation")
     return checklist
 
 
@@ -569,7 +727,8 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
             system + " Your previous JSON was rejected. "
             "Each item needs question and kind set to the string rubric_5. "
             "Do not put the question in description or requirement, and do not send a numeric rubric field. "
-            "Use each subpoint at most once, keep at most 3 core items, and return only valid JSON.",
+            "Use each subpoint at most once, include exactly one item for every applicable subpoint, "
+            "keep at most 3 core items, and return only valid JSON.",
             content,
             temperature=0.4,
             max_tokens=6000,

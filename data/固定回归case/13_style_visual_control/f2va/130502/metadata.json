@@ -1,0 +1,29 @@
+{
+  "case_id": "130502",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "色彩控制",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 5,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "B6Awb0qoVo7t7mxFp42cnKHHnZc",
+      "caption": "",
+      "width": 1672,
+      "height": 940,
+      "block_id": "QorBdQpCToBqKZxXoMWch9MjnRb"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "B6Awb0qoVo7t7mxFp42cnKHHnZc",
+      "file": "input_01.png",
+      "bytes": 2960657,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

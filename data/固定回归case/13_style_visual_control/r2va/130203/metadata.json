@@ -1,0 +1,29 @@
+{
+  "case_id": "130203",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格持续性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 2,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Ekv3b9t1IotHT9xdNC4cgzj1nOb",
+      "caption": "",
+      "width": 1536,
+      "height": 1024,
+      "block_id": "Ei96djUUJocLBWxe0t8cFO3Cn8b"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Ekv3b9t1IotHT9xdNC4cgzj1nOb",
+      "file": "input_01.png",
+      "bytes": 2429191,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

@@ -1,0 +1,29 @@
+{
+  "case_id": "140403",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "增删物体",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 9,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Fzl5b7qHYoYROCxs9S1cdLOmnsc",
+      "caption": "",
+      "width": 2048,
+      "height": 1152,
+      "block_id": "Iz7WdJEy2oEKA7xOm4tclKvMnyc"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Fzl5b7qHYoYROCxs9S1cdLOmnsc",
+      "file": "input_01.png",
+      "bytes": 1309219,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

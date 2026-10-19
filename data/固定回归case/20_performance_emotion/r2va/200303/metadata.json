@@ -1,0 +1,29 @@
+{
+  "case_id": "200303",
+  "一级维度": "20. 人物表演与情绪表达",
+  "二级维度": "视线与注意力",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 37,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "IeOfb3ID9ozYl9xU2lVcxURRnof",
+      "caption": "",
+      "width": 2560,
+      "height": 1440,
+      "block_id": "KgQIdG5i7oIGeyxsnO0c6z4RnKd"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "IeOfb3ID9ozYl9xU2lVcxURRnof",
+      "file": "input_01.png",
+      "bytes": 4096238,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

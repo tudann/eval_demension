@@ -1,0 +1,29 @@
+{
+  "case_id": "130202",
+  "一级维度": "13. 风格与视觉控制能力",
+  "二级维度": "风格持续性",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 2,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "DJwzbUwnHoHmmaxbGiBcIaw7nwh",
+      "caption": "",
+      "width": 1086,
+      "height": 1448,
+      "block_id": "XIsEdOubzo4Hdox0bv0cGPTOn70"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "DJwzbUwnHoHmmaxbGiBcIaw7nwh",
+      "file": "input_01.png",
+      "bytes": 2989365,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

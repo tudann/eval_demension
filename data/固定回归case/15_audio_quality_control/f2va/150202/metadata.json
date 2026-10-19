@@ -1,0 +1,29 @@
+{
+  "case_id": "150202",
+  "一级维度": "15. 音频生成能力",
+  "二级维度": "声音自然度",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 13,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "JVKFb06UsoRssBxYjsHcPcL5nnh",
+      "caption": "",
+      "width": 1672,
+      "height": 941,
+      "block_id": "KvEodNWJNocyx1xhy7PcEQLOncd"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "JVKFb06UsoRssBxYjsHcPcL5nnh",
+      "file": "input_01.png",
+      "bytes": 2755501,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

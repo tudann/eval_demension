@@ -1,0 +1,29 @@
+{
+  "case_id": "170602",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "镜头异常率",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 27,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "EtwHb3kpRoipOnx2dv8cowZOnme",
+      "caption": "",
+      "width": 1280,
+      "height": 720,
+      "block_id": "RqyEdoiG2o4MNwx0qwvcK7gDn8b"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "EtwHb3kpRoipOnx2dv8cowZOnme",
+      "file": "input_01.png",
+      "bytes": 2074665,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

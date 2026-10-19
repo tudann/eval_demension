@@ -11,7 +11,7 @@ checklist:
 # the evaluator at their /v1 endpoints with the environment variables below.
 vision:
   model: Qwen3-VL-32B-Instruct
-  url: http://127.0.0.1:8011/v1
+  url: http://127.0.0.1:8013/v1
   env_url: V_EVAL_VISION_JUDGE_URL
   env_model: V_EVAL_VISION_JUDGE_MODEL
   env_api_key: V_EVAL_VISION_JUDGE_API_KEY

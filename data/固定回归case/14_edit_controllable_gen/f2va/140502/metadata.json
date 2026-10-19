@@ -1,0 +1,29 @@
+{
+  "case_id": "140502",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "视频延长",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 10,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "ZXDobVC9soAZXixSTnAcK1jAnSg",
+      "caption": "",
+      "width": 1086,
+      "height": 1448,
+      "block_id": "EAZsd6I87o1P1MxUe8dcCz63nGh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "ZXDobVC9soAZXixSTnAcK1jAnSg",
+      "file": "input_01.png",
+      "bytes": 3012440,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

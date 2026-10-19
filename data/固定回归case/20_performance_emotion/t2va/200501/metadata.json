@@ -1,0 +1,12 @@
+{
+  "case_id": "200501",
+  "一级维度": "20. 人物表演与情绪表达",
+  "二级维度": "反应时机合理性",
+  "task_type": "文生",
+  "source_column": "完整提示词",
+  "classification_reason": "文档完整提示词列按任务定义归为文生",
+  "table_row": 39,
+  "image_tokens": [],
+  "downloaded_files": [],
+  "download_errors": []
+}

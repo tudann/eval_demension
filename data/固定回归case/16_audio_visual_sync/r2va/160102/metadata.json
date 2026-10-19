@@ -1,0 +1,29 @@
+{
+  "case_id": "160102",
+  "一级维度": "16. 音视频同步能力",
+  "二级维度": "口型同步",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 18,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "CACBbK1Xiov8iJxcHwVcQYr5nTe",
+      "caption": "",
+      "width": 2560,
+      "height": 1440,
+      "block_id": "RhXIdltXEoNQ24x4umPcE6P7noe"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "CACBbK1Xiov8iJxcHwVcQYr5nTe",
+      "file": "input_01.jpg",
+      "bytes": 245057,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "download_errors": []
+}

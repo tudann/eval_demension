@@ -1,0 +1,44 @@
+{
+  "case_id": "140603",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "首尾帧控制",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 11,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "UjabbjpM2osWCtxNFZrcoN2Hnkc",
+      "caption": "参考图1",
+      "width": 1672,
+      "height": 941,
+      "block_id": "Tzm4dRvFHoCtrOxedzYcNXnnnVd"
+    },
+    {
+      "index": 2,
+      "token": "VNIxbZybkohy9vxocQwcCs19nJb",
+      "caption": "参考图2",
+      "width": 1672,
+      "height": 941,
+      "block_id": "KW7Gd3fPIonqQqxsa3xc0JxQn0b"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "UjabbjpM2osWCtxNFZrcoN2Hnkc",
+      "file": "input_01.jpg",
+      "bytes": 199777,
+      "content_type": "image/jpeg"
+    },
+    {
+      "index": 2,
+      "token": "VNIxbZybkohy9vxocQwcCs19nJb",
+      "file": "input_02.jpg",
+      "bytes": 375488,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "download_errors": []
+}

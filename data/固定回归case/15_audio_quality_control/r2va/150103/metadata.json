@@ -1,0 +1,29 @@
+{
+  "case_id": "150103",
+  "一级维度": "15. 音频生成能力",
+  "二级维度": "对白内容正确性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 12,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "MrtKbE5wgo27syxIpVocBhPpnLh",
+      "caption": "参考图1",
+      "width": 2624,
+      "height": 1472,
+      "block_id": "QWMEdkLzvoVs8CxCC5BcSawPnAg"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "MrtKbE5wgo27syxIpVocBhPpnLh",
+      "file": "input_01.jpg",
+      "bytes": 274801,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "download_errors": []
+}

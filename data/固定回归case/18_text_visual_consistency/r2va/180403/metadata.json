@@ -1,0 +1,44 @@
+{
+  "case_id": "180403",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "文字时序稳定性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 32,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "JsIxbNAAooEpanx6L0gc1AWpn4f",
+      "caption": "",
+      "width": 941,
+      "height": 1672,
+      "block_id": "VVpXdBM0BoOzYsxH181cb0Pinrh"
+    },
+    {
+      "index": 2,
+      "token": "EkljbLEJzosXq9xWZfhcl7ZEngW",
+      "caption": "",
+      "width": 941,
+      "height": 1672,
+      "block_id": "XQ9XdFxrHo4JmUx2xDFcRsXpnbP"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "JsIxbNAAooEpanx6L0gc1AWpn4f",
+      "file": "input_01.png",
+      "bytes": 2464440,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "EkljbLEJzosXq9xWZfhcl7ZEngW",
+      "file": "input_02.png",
+      "bytes": 2209146,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

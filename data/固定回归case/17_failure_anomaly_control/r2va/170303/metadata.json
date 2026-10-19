@@ -1,0 +1,44 @@
+{
+  "case_id": "170303",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "主体复制率",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 24,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "FuCNb9WUGoUfblxay3icz0YZnBe",
+      "caption": "",
+      "width": 1440,
+      "height": 1080,
+      "block_id": "NKA5dKVLeot2Hhxv9RTcZByNnI1"
+    },
+    {
+      "index": 2,
+      "token": "Vpw7bcPnqoKNocxTHLIcHXKpnEg",
+      "caption": "",
+      "width": 360,
+      "height": 202,
+      "block_id": "RbfbdQ1Cyo25Syxrn81cFkVUnod"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "FuCNb9WUGoUfblxay3icz0YZnBe",
+      "file": "input_01.png",
+      "bytes": 1680532,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "Vpw7bcPnqoKNocxTHLIcHXKpnEg",
+      "file": "input_02.png",
+      "bytes": 169189,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

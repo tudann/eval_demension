@@ -1,0 +1,29 @@
+{
+  "case_id": "140302",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "主体替换一致性",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 8,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Jjh3bLXF1ocaCFxSKYSclUFmn8d",
+      "caption": "",
+      "width": 1672,
+      "height": 941,
+      "block_id": "Z7KjdqNtYo7WDKxUf1BcZj8wnUf"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Jjh3bLXF1ocaCFxSKYSclUFmn8d",
+      "file": "input_01.png",
+      "bytes": 3062465,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

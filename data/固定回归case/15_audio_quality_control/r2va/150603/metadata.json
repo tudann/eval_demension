@@ -1,0 +1,29 @@
+{
+  "case_id": "150603",
+  "一级维度": "15. 音频生成能力",
+  "二级维度": "动作音效",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 17,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "A8YMbwVOsouDgQxToBxcM0Wdnsh",
+      "caption": "",
+      "width": 1086,
+      "height": 1448,
+      "block_id": "BNk5dRpp9oJ6LIxzVx7clpNWn0e"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "A8YMbwVOsouDgQxToBxcM0Wdnsh",
+      "file": "input_01.png",
+      "bytes": 2548237,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

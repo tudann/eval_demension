@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
 
@@ -199,14 +200,18 @@ class ChecklistFactAliasTests(unittest.TestCase):
         payload = {
             "facts": {"style_spec": "写实"},
             "gates": _gates(dimension),
-            "items": [_item(1, "style_accuracy", "风格是否达到写实？")],
+            "items": [
+                _item(1, "style_accuracy", "风格是否达到写实？"),
+                _item(2, "style_persistence", "写实风格是否全程稳定？"),
+                _item(3, "style_content_compat", "风格是否保留人物主体？"),
+            ],
         }
         checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
-        self.assertEqual(len(checklist["items"]), 1)
-        payload["items"].append(_item(2, "style_accuracy", "另一种风格问法？"))
+        self.assertEqual(len(checklist["items"]), 3)
+        payload["items"].append(_item(4, "style_accuracy", "另一种风格问法？"))
         deduped = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
         self.assertIsNotNone(deduped)
-        self.assertEqual([item["id"] for item in deduped["items"]], ["q1"])
+        self.assertEqual([item["id"] for item in deduped["items"]], ["i1", "i2", "i3"])
         payload["items"] = [{"id": "i1", "subpoint": "style_accuracy", "question": "是否写实？", "kind": "yes_no", "expect": "yes"}]
         self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
 
@@ -250,6 +255,22 @@ class ChecklistFactAliasTests(unittest.TestCase):
         payload["facts"] = {"has_humans": True, "target_emotion": "", "character_situation": "", "emotion_change": "", "gaze_target": "", "reaction_event": "", "dialogues": False}
         self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
 
+    def test_dialogue_fact_without_a_dialogue_item_is_rejected(self) -> None:
+        dimension = "20_performance_emotion"
+        payload = {
+            "facts": {
+                "has_humans": False, "target_emotion": "", "character_situation": "",
+                "emotion_change": "", "gaze_target": "", "reaction_event": "",
+                "dialogues": "你先别过来。",
+            },
+            "gates": _gates(dimension),
+            "items": [_item(1, "micro_motion", "眨眼是否自然？")],
+        }
+        self.assertIsNone(_model_checklist_payload(payload, DIMS[dimension], dimension, _case()))
+        payload["items"] = [_item(1, "dialogue_performance", "说“你先别过来”时，表情和语气是否一致？")]
+        checklist = _model_checklist_payload(payload, DIMS[dimension], dimension, _case())
+        self.assertEqual([item["subpoint"] for item in checklist["items"]], ["dialogue_performance"])
+
 
 class RubricScoreTests(unittest.TestCase):
     def test_subpoint_uses_lowest_grade_and_caps_skipped_items(self) -> None:
@@ -274,6 +295,12 @@ class RubricScoreTests(unittest.TestCase):
             "core": {"applicable": True, "score": 2, "core_score": 2, "noncore_flaw": False},
             "other": {"applicable": True, "score": 5, "core_score": None, "noncore_flaw": False},
         }), 2.0)
+        self.assertEqual(dimension_score({
+            "core": {"applicable": True, "score": 4.4, "core_score": 4.4, "noncore_flaw": False},
+        }), 4.4)
+        self.assertEqual(dimension_score({
+            "core": {"applicable": True, "score": 3.2, "core_score": 3.2, "noncore_flaw": False},
+        }), 3.2)
         self.assertEqual(dimension_score({
             "core": {"applicable": True, "score": 1, "core_score": 5, "noncore_flaw": True},
         }), 4.0)
@@ -307,6 +334,90 @@ class RubricScoreTests(unittest.TestCase):
         self.assertEqual(ambient["score"], 3.4)
         self.assertIsNone(ambient["core_score"])
         self.assertEqual(dimension_score({"dialogue_accuracy": dialogue, "ambient_sound": ambient}), 4.0)
+
+
+class SpokenTextChecklistTests(unittest.TestCase):
+    def _prompt(self) -> str:
+        return (
+            "需要中文对话，不要字幕。他们的对话内容为：\n"
+            "大姐（左边那只）：她好小。\n"
+            "二哥：她比我的爪子还小。\n"
+            "禁止旁白画面文字，禁止字幕。"
+        )
+
+    def _payload(self, expected: list[str]) -> dict:
+        dimension = "18_text_visual_consistency"
+        items = [_item(1, "no_unrequested_text", "画面是否没有字幕或多余文字？", core=True)]
+        if expected:
+            items = [
+                _item(1, "text_accuracy", "画面是否准确呈现对话？", core=True),
+                _item(2, "no_unrequested_text", "画面是否没有字幕或多余文字？", core=True),
+                _item(3, "text_readability", "文字是否可读？"),
+                _item(4, "text_stability", "文字是否稳定？"),
+            ]
+        return {
+            "facts": {
+                "expected_texts": expected,
+                "allowed_texts": [],
+                "subtitles_required": False,
+                "subtitle_lines": [],
+                "text_forbidden": True,
+            },
+            "gates": _gates(dimension),
+            "items": items,
+        }
+
+    def test_spoken_lines_under_a_subtitle_ban_are_rejected(self) -> None:
+        from v_eval.checklists import spoken_lines_filed_as_visible_text
+
+        prompt = self._prompt()
+        facts = self._payload(["她好小。", "她比我的爪子还小。"])["facts"]
+        self.assertTrue(spoken_lines_filed_as_visible_text(prompt, facts))
+        self.assertIsNone(_d18_checklist_payload(self._payload(facts["expected_texts"]), DIMS["18_text_visual_consistency"], _case(), prompt=prompt))
+
+    def test_subtitle_ban_with_empty_expected_text_keeps_absence_item(self) -> None:
+        checklist = _d18_checklist_payload(self._payload([]), DIMS["18_text_visual_consistency"], _case(), prompt=self._prompt())
+        self.assertIsNotNone(checklist)
+        self.assertEqual([item["subpoint"] for item in checklist["items"]], ["no_unrequested_text"])
+
+    def test_poster_text_survives_a_ban_on_extra_subtitles(self) -> None:
+        from v_eval.checklists import spoken_lines_filed_as_visible_text
+
+        prompt = "屏幕显示“夜行声场”。无口播、额外字幕、Logo或水印。"
+        facts = {"expected_texts": ["夜行声场"], "subtitle_lines": []}
+        self.assertFalse(spoken_lines_filed_as_visible_text(prompt, facts))
+
+    def test_bubble_text_can_remain_visible_when_bottom_subtitles_are_banned(self) -> None:
+        from v_eval.checklists import spoken_lines_filed_as_visible_text
+
+        prompt = "不要字幕。对话通过漫画气泡呈现。\n女生：这杯咖啡，能让我清醒吗？"
+        facts = {"expected_texts": ["这杯咖啡，能让我清醒吗？"], "subtitle_lines": []}
+        self.assertFalse(spoken_lines_filed_as_visible_text(prompt, facts))
+
+    def test_repeated_spoken_misfile_falls_back_to_absence_only(self) -> None:
+        from v_eval.checklists import generate_d18_checklist
+
+        bad = self._payload(["她好小。", "她比我的爪子还小。"])
+        responses = [
+            {"status": "ok", "response": {"choices": [{"message": {"content": json.dumps(bad, ensure_ascii=False)}}]}},
+            {"status": "ok", "response": {"choices": [{"message": {"content": json.dumps(bad, ensure_ascii=False)}}]}},
+        ]
+
+        class FakeJudge:
+            online = True
+            model = "fake"
+            modality = "vision"
+
+            def complete(self, system: str, content: str, max_tokens: int = 6000) -> dict:
+                return responses.pop(0)
+
+        with patch("v_eval.checklists.JudgeClient", return_value=FakeJudge()):
+            checklist = generate_d18_checklist({}, DIMS["18_text_visual_consistency"], _case("180502"), self._prompt())
+        self.assertEqual(checklist["facts"]["expected_texts"], [])
+        self.assertFalse(checklist["facts"]["subtitles_required"])
+        self.assertTrue(checklist["facts"]["text_forbidden"])
+        self.assertEqual([item["subpoint"] for item in checklist["items"]], ["no_unrequested_text"])
+        self.assertTrue(checklist["items"][0]["core"])
 
 
 if __name__ == "__main__":

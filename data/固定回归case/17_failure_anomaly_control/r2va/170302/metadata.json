@@ -1,0 +1,74 @@
+{
+  "case_id": "170302",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "主体复制率",
+  "task_type": "参考生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词仅要求参考、延续或保持原图，未明确首尾帧边界",
+  "table_row": 24,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "SusLbN8k1oVjdNxW3pKcb2Lgn8n",
+      "caption": "",
+      "width": 1393,
+      "height": 784,
+      "block_id": "EFNUdYGezoV1OGxF0KIc2XSnneg"
+    },
+    {
+      "index": 2,
+      "token": "Q2GTbj10qoqb7kxjMlccShG0nuC",
+      "caption": "",
+      "width": 1536,
+      "height": 1024,
+      "block_id": "VaAvd5C5So5dY4xeg4JcDzjenOO"
+    },
+    {
+      "index": 3,
+      "token": "ATRWbDjEYoXDD0xpVifcMa7dncF",
+      "caption": "",
+      "width": 1277,
+      "height": 719,
+      "block_id": "Rdo1dngcYoXAybxgg75cwQGjngb"
+    },
+    {
+      "index": 4,
+      "token": "Oefvbcno7o5Wo1xey6UchjLWnjf",
+      "caption": "",
+      "width": 1920,
+      "height": 1080,
+      "block_id": "F99OdyaU2oD2w2xUVaSc1r8pnBh"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "SusLbN8k1oVjdNxW3pKcb2Lgn8n",
+      "file": "input_01.png",
+      "bytes": 1555683,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "Q2GTbj10qoqb7kxjMlccShG0nuC",
+      "file": "input_02.png",
+      "bytes": 1680302,
+      "content_type": "image/png"
+    },
+    {
+      "index": 3,
+      "token": "ATRWbDjEYoXDD0xpVifcMa7dncF",
+      "file": "input_03.png",
+      "bytes": 1398729,
+      "content_type": "image/png"
+    },
+    {
+      "index": 4,
+      "token": "Oefvbcno7o5Wo1xey6UchjLWnjf",
+      "file": "input_04.png",
+      "bytes": 1595461,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

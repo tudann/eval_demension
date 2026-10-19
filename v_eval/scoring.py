@@ -190,7 +190,7 @@ def score_subpoint(task: dict[str, Any], sp_name: str, sp_cfg: dict[str, Any], c
 
 
 def dimension_score(subpoints: dict[str, Any]) -> float | None:
-    """Cap the dimension by the worst core subpoint. Non-core flaws can only lower a 5 to a 4."""
+    """Use the worst core subpoint. A non-core flaw can only keep a perfect 5 from staying at 5."""
     core_values: list[float] = []
     flaw = False
     any_score = False
@@ -209,9 +209,9 @@ def dimension_score(subpoints: dict[str, Any]) -> float | None:
             flaw = True
     if core_values:
         worst = min(core_values)
-        if worst < 4:
+        if worst < 5:
             return round(worst, 3)
-        if worst < 5 or flaw:
+        if flaw:
             return 4.0
         return 5.0
     if not any_score:

@@ -1,0 +1,44 @@
+{
+  "case_id": "180303",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "字体与文字可读性",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 31,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "Jt84b4dvgoMPiSxqDZ5c8AQRnvg",
+      "caption": "参考图1",
+      "width": 1280,
+      "height": 964,
+      "block_id": "GlLmdM1n8oGww5xPrxmccsTFnnd"
+    },
+    {
+      "index": 2,
+      "token": "GE1VbL0l7ofb1rxwj3Dc8pTxnqe",
+      "caption": "参考图2",
+      "width": 1280,
+      "height": 960,
+      "block_id": "Xcw9dq5OooxZWtxaX9dcya48nGd"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "Jt84b4dvgoMPiSxqDZ5c8AQRnvg",
+      "file": "input_01.jpg",
+      "bytes": 517767,
+      "content_type": "image/jpeg"
+    },
+    {
+      "index": 2,
+      "token": "GE1VbL0l7ofb1rxwj3Dc8pTxnqe",
+      "file": "input_02.jpg",
+      "bytes": 303282,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "download_errors": []
+}

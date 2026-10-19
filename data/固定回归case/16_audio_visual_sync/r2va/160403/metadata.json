@@ -1,0 +1,29 @@
+{
+  "case_id": "160403",
+  "一级维度": "16. 音视频同步能力",
+  "二级维度": "多人对白匹配",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 21,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "MsifboxduorWWVxuObucJfpun4b",
+      "caption": "",
+      "width": 1086,
+      "height": 1448,
+      "block_id": "D9XUd1DaSoyxBzxbYy6c1MABn1e"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "MsifboxduorWWVxuObucJfpun4b",
+      "file": "input_01.png",
+      "bytes": 2787147,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

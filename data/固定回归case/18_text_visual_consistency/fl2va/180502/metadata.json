@@ -1,0 +1,44 @@
+{
+  "case_id": "180502",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "无要求字幕控制",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 33,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "UjVibOfRHo4kRDxhaLAcAtSXnMh",
+      "caption": "参考图1",
+      "width": 1672,
+      "height": 941,
+      "block_id": "DCI4dJj4Yo3xtsxsEFucjawHnGf"
+    },
+    {
+      "index": 2,
+      "token": "F0q4b4udaoFmulx4ZZWc0fINn0f",
+      "caption": "参考图2",
+      "width": 1672,
+      "height": 941,
+      "block_id": "JLgYdBt2kox57Gx1dLQcfDpZnAb"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "UjVibOfRHo4kRDxhaLAcAtSXnMh",
+      "file": "input_01.jpg",
+      "bytes": 265934,
+      "content_type": "image/jpeg"
+    },
+    {
+      "index": 2,
+      "token": "F0q4b4udaoFmulx4ZZWc0fINn0f",
+      "file": "input_02.jpg",
+      "bytes": 268936,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "download_errors": []
+}

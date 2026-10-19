@@ -1,0 +1,59 @@
+{
+  "case_id": "180503",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "无要求字幕控制",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 33,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "JoD8b4z4poIcEZx0pWBcV4P4nBf",
+      "caption": "",
+      "width": 1080,
+      "height": 1620,
+      "block_id": "QnCydJpDUooAywxUG1hc5L3unmf"
+    },
+    {
+      "index": 2,
+      "token": "ABgxbY149oXFbHxUpTFchjkNnoc",
+      "caption": "",
+      "width": 1080,
+      "height": 1352,
+      "block_id": "NqCHd75UIoRXCSxQkf1cAz3gnhg"
+    },
+    {
+      "index": 3,
+      "token": "BK16bZPYNom1GAxmmNscXl41nTd",
+      "caption": "",
+      "width": 900,
+      "height": 1200,
+      "block_id": "EtNkduGseogW1BxYWUCcfuqJnsg"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "JoD8b4z4poIcEZx0pWBcV4P4nBf",
+      "file": "input_01.png",
+      "bytes": 2709043,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "ABgxbY149oXFbHxUpTFchjkNnoc",
+      "file": "input_02.png",
+      "bytes": 1771877,
+      "content_type": "image/png"
+    },
+    {
+      "index": 3,
+      "token": "BK16bZPYNom1GAxmmNscXl41nTd",
+      "file": "input_03.png",
+      "bytes": 2079274,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

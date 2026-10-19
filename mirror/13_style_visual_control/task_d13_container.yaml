@@ -1,0 +1,43 @@
+task_name: d13_container
+run_name: d13_container
+dimension: 13_style_visual_control
+inputs:
+  - id: t2va
+    root: /data/t2va
+    mode: t2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+  - id: f2va
+    root: /data/f2va
+    mode: f2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+  - id: fl2va
+    root: /data/fl2va
+    mode: fl2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      first_frame_filename: input_01
+      last_frame_filename: input_02
+  - id: r2va
+    root: /data/r2va
+    mode: r2va
+    prompt_filename: prompt_final.txt
+    video_filename: video.mp4
+    case_ids: []
+    references:
+      image_pattern: input_{index:02d}
+      video_pattern: ref_video_{index:02d}
+      audio_pattern: ref_audio_{index:02d}
+evaluation:
+  subpoints:
+    style_accuracy: {components: {csd_ref_similarity: true}}
+    style_persistence: {components: {csd_temporal_drift: true}}
+stages: [check, checklist, evaluate, score]
+output_dir: /outputs

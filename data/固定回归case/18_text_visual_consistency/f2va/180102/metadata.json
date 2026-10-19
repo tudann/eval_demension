@@ -1,0 +1,29 @@
+{
+  "case_id": "180102",
+  "一级维度": "18. 文字与字幕能力",
+  "二级维度": "文字内容准确性",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 29,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "DMzibVhQdo904WxnAvncZIP0n1c",
+      "caption": "",
+      "width": 941,
+      "height": 1672,
+      "block_id": "GsYNdcK3uoip41xhRIic1JnQnqg"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "DMzibVhQdo904WxnAvncZIP0n1c",
+      "file": "input_01.png",
+      "bytes": 2810231,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

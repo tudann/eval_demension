@@ -1,0 +1,29 @@
+{
+  "case_id": "150402",
+  "一级维度": "15. 音频生成能力",
+  "二级维度": "情绪匹配",
+  "task_type": "关键帧生",
+  "source_column": "首/尾帧图",
+  "classification_reason": "关键帧列提示词明确指定首帧/尾帧边界",
+  "table_row": 15,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "MsT6bsFvlokgZkxDgbIcxZhGnVh",
+      "caption": "",
+      "width": 1672,
+      "height": 941,
+      "block_id": "FLZ0djZuvox57Tx4R88co8CLnP4"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "MsT6bsFvlokgZkxDgbIcxZhGnVh",
+      "file": "input_01.png",
+      "bytes": 3374598,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

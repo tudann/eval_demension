@@ -1,0 +1,12 @@
+{
+  "case_id": "140101",
+  "一级维度": "14. 编辑与可控生成能力",
+  "二级维度": "局部修改准确性",
+  "task_type": "文生",
+  "source_column": "完整提示词",
+  "classification_reason": "文档完整提示词列按任务定义归为文生",
+  "table_row": 6,
+  "image_tokens": [],
+  "downloaded_files": [],
+  "download_errors": []
+}

@@ -1,0 +1,29 @@
+{
+  "case_id": "160103",
+  "一级维度": "16. 音视频同步能力",
+  "二级维度": "口型同步",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 18,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "CjiwbqjH1otaXqxq6QgcnSfPnvh",
+      "caption": "参考图1",
+      "width": 1280,
+      "height": 854,
+      "block_id": "YOPFdXh2YoNem4xttFvcHpjinyd"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "CjiwbqjH1otaXqxq6QgcnSfPnvh",
+      "file": "input_01.jpg",
+      "bytes": 87840,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "download_errors": []
+}

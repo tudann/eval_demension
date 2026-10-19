@@ -1,0 +1,59 @@
+{
+  "case_id": "170203",
+  "一级维度": "17. 失败与异常控制",
+  "二级维度": "主体消失率",
+  "task_type": "参考生",
+  "source_column": "参考图",
+  "classification_reason": "文档参考图列按任务定义归为参考生",
+  "table_row": 23,
+  "image_tokens": [
+    {
+      "index": 1,
+      "token": "DgIBbLjuzoUqimxZMD9ci26rn8g",
+      "caption": "",
+      "width": 1280,
+      "height": 960,
+      "block_id": "L2K7dsqZWo8boMxBBwdcIlqkn0d"
+    },
+    {
+      "index": 2,
+      "token": "L1aUbSW1Vof3azxb7l8c3CC6nlK",
+      "caption": "",
+      "width": 1280,
+      "height": 960,
+      "block_id": "Bx1gdGavUoXrtwx9sSccQp9xnNg"
+    },
+    {
+      "index": 3,
+      "token": "HUzybnO3YoaL5gxLCcoc6bI7nPd",
+      "caption": "",
+      "width": 1280,
+      "height": 960,
+      "block_id": "KlWud2ABwoogYUx3DzkcieiAnXb"
+    }
+  ],
+  "downloaded_files": [
+    {
+      "index": 1,
+      "token": "DgIBbLjuzoUqimxZMD9ci26rn8g",
+      "file": "input_01.png",
+      "bytes": 2241531,
+      "content_type": "image/png"
+    },
+    {
+      "index": 2,
+      "token": "L1aUbSW1Vof3azxb7l8c3CC6nlK",
+      "file": "input_02.png",
+      "bytes": 2254677,
+      "content_type": "image/png"
+    },
+    {
+      "index": 3,
+      "token": "HUzybnO3YoaL5gxLCcoc6bI7nPd",
+      "file": "input_03.png",
+      "bytes": 2312872,
+      "content_type": "image/png"
+    }
+  ],
+  "download_errors": []
+}

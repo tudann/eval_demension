@@ -76,9 +76,10 @@ def _prompt_reference_indices(prompt: str, kind: str) -> set[int]:
 
 
 def _filter_referenced(paths: list[Path], prompt: str, kind: str) -> list[Path]:
+    """Keep numbered references when the prompt cites them; otherwise keep every file."""
     indices = _prompt_reference_indices(prompt, kind)
     if not indices:
-        return []
+        return list(paths)
     selected: list[Path] = []
     for path in paths:
         match = re.search(r"(?:_|-)(\d+)(?:\.[^.]+)?$", path.name)
