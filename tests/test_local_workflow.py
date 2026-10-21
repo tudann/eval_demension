@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
@@ -117,6 +118,38 @@ class LocalWorkflowTests(unittest.TestCase):
                     self.assertEqual(results[0]["status"], "ok")
                     self.assertEqual(results[0]["score"], 5.0)
                     self.assertEqual(summary["scored"], 1)
+
+    def test_checklist_failure_skips_that_case_and_continues(self) -> None:
+        dims = load_yaml(DEFAULT_DIMS)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            cases = []
+            for name in ("ok", "bad"):
+                case_dir = root / name
+                case_dir.mkdir()
+                prompt = case_dir / "prompt_final.txt"
+                video = case_dir / "video.mp4"
+                prompt.write_text("prompt", encoding="utf-8")
+                video.write_bytes(b"x")
+                cases.append(Case(name, case_dir, "t2va", prompt, video, task_id="t2va"))
+            task = {
+                "dimension": "15_audio_quality_control",
+                "run_name": "skip_test",
+                "output_dir": str(root / "out"),
+            }
+
+            def prepare(_task, _dimension_cfg, case):
+                if case.case_id == "bad":
+                    raise ConfigError("checklist rejected")
+                return {"ok": True}
+
+            with patch("run.prepare_case", side_effect=prepare):
+                ready = run_checklist(task, dims, cases, force=True)
+            self.assertEqual([case.case_id for case in ready], ["ok"])
+            skipped_path = root / "out" / "runs" / "skip_test" / "15_audio_quality_control" / "t2va" / "bad" / "result.json"
+            skipped = json.loads(skipped_path.read_text(encoding="utf-8"))
+            self.assertEqual(skipped["status"], "skipped_checklist")
+            self.assertIsNone(skipped["score"])
 
     def test_installed_ffmpeg_prepares_vision_audio_and_sync_media(self) -> None:
         local_bin = ROOT / ".runtime" / "ffmpeg" / "bin"

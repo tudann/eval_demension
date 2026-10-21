@@ -1,0 +1,15 @@
+# 两组视频对比测试。改完这一份后手动执行：
+#   bash scripts/run_compare.sh
+#
+# 评判提示词。增强后的提示词文件是 prompt_enhanced.txt
+prompt_filename: prompt_enhanced.txt
+# 待评视频。同一轮里每个 case 都读这个文件名。
+# 线上模型：agnes-2.5-flash.mp4
+# 视频组新模型：video-group-new.mp4
+video_filename: video-group-new.mp4
+# 要跑的维度。可选 13、14、15、16、17、18、20。第 19 维没有评分配置。
+dimensions: [15,16,20]
+# 只跑列出的 Case ID。留空则跑该视频文件实际存在的全部 case。
+case_ids: []
+# true 时忽略这一轮输出目录里的缓存，重新出题并重新打分。
+force: false

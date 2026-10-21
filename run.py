@@ -169,27 +169,31 @@ def partition_ready_cases(cases: list[Any]) -> tuple[list[Any], list[Any]]:
     return ready, skipped
 
 
+def write_unscored_result(task: dict[str, Any], case: Any, status: str, reason: str) -> dict[str, Any]:
+    """Persist one skipped case so the dimension summary can exclude it from the mean."""
+    dimension = str(task["dimension"])
+    result = {
+        "case_id": case.output_id,
+        "source_case_id": case.case_id,
+        "input_id": case.task_id,
+        "dimension": dimension,
+        "status": status,
+        "score": None,
+        "reason": reason,
+        "case": case.as_dict(),
+    }
+    write_json(output_base(task) / dimension / case.output_id / "result.json", result)
+    print(f"skip: {case.output_id} ({status}: {reason})", flush=True)
+    return result
+
+
 def write_skipped_image_results(task: dict[str, Any], cases: list[Any]) -> list[dict[str, Any]]:
     """Persist skipped image-conditioned cases so summary counts them as unscored."""
     results: list[dict[str, Any]] = []
-    dimension = str(task["dimension"])
     for case in cases:
         missing = missing_required_images(case)
         reason = f"missing required images: {', '.join(missing)}"
-        result = {
-            "case_id": case.output_id,
-            "source_case_id": case.case_id,
-            "input_id": case.task_id,
-            "dimension": dimension,
-            "status": "skipped_missing_image",
-            "score": None,
-            "reason": reason,
-            "case": case.as_dict(),
-        }
-        out_root = output_base(task) / dimension / case.output_id
-        write_json(out_root / "result.json", result)
-        results.append(result)
-        print(f"skip: {case.output_id} ({reason})", flush=True)
+        results.append(write_unscored_result(task, case, "skipped_missing_image", reason))
     return results
 
 
@@ -211,11 +215,14 @@ def _is_valid_external_checklist(value: Any, dimension: str, case_id: str) -> bo
     )
 
 
-def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> None:
-    # The checklist stage freezes facts and items. D18 is authored entirely by
-    # the online checklist judge; older/local caches must not be reused.
+def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> list[Any]:
+    """Author checklists and return the cases that can be scored.
+
+    A case whose checklist cannot be produced is recorded as unscored and the
+    remaining cases continue.
+    """
     dimension_cfg = dims["dimensions"][task["dimension"]]
-    prepared = []
+    ready: list[Any] = []
     failures: list[str] = []
     for case in cases:
         checklist_path = output_base(task) / str(task["dimension"]) / case.output_id / "checklist.json"
@@ -227,7 +234,7 @@ def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], 
                     and spoken_lines_filed_as_visible_text(read_prompt_text(case), cached.get("facts") or {})
                 )
                 if not spoken_conflict:
-                    prepared.append(cached)
+                    ready.append(case)
                     continue
                 for name in ("result.json", "answers.json"):
                     stale = checklist_path.parent / name
@@ -236,21 +243,28 @@ def run_checklist(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], 
                 print(f"checklist: {case.output_id} spoken dialogue was filed as visible text; regenerating", flush=True)
         print(f"checklist: {case.output_id}", flush=True)
         try:
-            prepared.append(prepare_case(task, dimension_cfg, case))
-        except ConfigError as exc:
+            prepare_case(task, dimension_cfg, case)
+        except Exception as exc:
             error_path = checklist_path.parent / "checklist_error.json"
             write_json(error_path, {"case_id": case.case_id, "input_id": case.task_id, "error": str(exc)})
+            write_unscored_result(task, case, "skipped_checklist", str(exc))
             failures.append(case.output_id)
-            print(f"checklist failed: {case.output_id}: {exc}", flush=True)
-    print(f"checklist: prepared {len(prepared)} external case records, failed {len(failures)}", flush=True)
+            continue
+        ready.append(case)
+    print(f"checklist: prepared {len(ready)} external case records, skipped {len(failures)}", flush=True)
     if failures:
-        preview = ", ".join(failures[:8])
-        raise ConfigError(f"{len(failures)} checklist(s) failed: {preview}")
+        print(f"checklist skipped: {', '.join(failures[:8])}", flush=True)
+    return ready
 
 
 def run_evaluate(task: dict[str, Any], dims: dict[str, Any], cases: list[Any], force: bool) -> list[dict[str, Any]]:
     dimension_cfg = dims["dimensions"][task["dimension"]]
-    results = [evaluate_case(task, dimension_cfg, case, dims["scoring"], force=force) for case in cases]
+    results: list[dict[str, Any]] = []
+    for case in cases:
+        try:
+            results.append(evaluate_case(task, dimension_cfg, case, dims["scoring"], force=force))
+        except Exception as exc:
+            results.append(write_unscored_result(task, case, "skipped_evaluate", str(exc)))
     print(f"evaluate: wrote {len(results)} case results")
     return results
 
@@ -278,6 +292,8 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
             "scored": len(mode_scores),
             "skipped": sum(row.get("score") is None for row in mode_rows),
             "skipped_missing_image": sum(row.get("status") == "skipped_missing_image" for row in mode_rows),
+            "skipped_checklist": sum(row.get("status") == "skipped_checklist" for row in mode_rows),
+            "skipped_evaluate": sum(row.get("status") == "skipped_evaluate" for row in mode_rows),
             "gate_failed": sum(row.get("status") == "gate_failed" for row in mode_rows),
             "mean_score": round(sum(mode_scores) / len(mode_scores), 3) if mode_scores else None,
         }
@@ -288,6 +304,8 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
         "scored": len(scored),
         "skipped": sum(row.get("score") is None for row in results),
         "skipped_missing_image": sum(row.get("status") == "skipped_missing_image" for row in results),
+        "skipped_checklist": sum(row.get("status") == "skipped_checklist" for row in results),
+        "skipped_evaluate": sum(row.get("status") == "skipped_evaluate" for row in results),
         "gate_failed": sum(row.get("status") == "gate_failed" for row in results),
         "mean_score": round(sum(scores) / len(scores), 3) if scores else None,
         "min_score": min(scores) if scores else None,
@@ -303,13 +321,17 @@ def run_score(task: dict[str, Any], cases: list[Any] | None = None) -> dict[str,
     (base / "summary.md").write_text(
         f"# {dimension}\n\n- Cases: {summary['n']}\n- Scored: {summary['scored']}\n"
         f"- Skipped missing image: {summary['skipped_missing_image']}\n"
+        f"- Skipped checklist: {summary['skipped_checklist']}\n"
+        f"- Skipped evaluate: {summary['skipped_evaluate']}\n"
         f"- Gate failed: {summary['gate_failed']}\n- Mean score: {summary['mean_score']} / 5\n\n"
         f"## By input mode\n\n{mode_lines}",
         encoding="utf-8",
     )
     print(
         f"score: mean={summary['mean_score']} scored={summary['scored']} "
-        f"skipped_missing_image={summary['skipped_missing_image']} gate_failed={summary['gate_failed']}"
+        f"skipped_missing_image={summary['skipped_missing_image']} "
+        f"skipped_checklist={summary['skipped_checklist']} "
+        f"skipped_evaluate={summary['skipped_evaluate']} gate_failed={summary['gate_failed']}"
     )
     return summary
 
@@ -334,12 +356,13 @@ def main(argv: list[str] | None = None) -> int:
             validate_cases_ready(ready_cases)
         if not ready_cases and skipped_image_cases and any(stage in stages for stage in ("checklist", "evaluate", "score")):
             print("check warning: every discovered case is missing required images; nothing to evaluate", flush=True)
+        evaluable_cases = ready_cases
         if "checklist" in stages and ready_cases:
-            run_checklist(task, dims, ready_cases, args.force)
+            evaluable_cases = run_checklist(task, dims, ready_cases, args.force)
         evaluated: list[dict[str, Any]] = []
         if "evaluate" in stages:
-            if ready_cases:
-                evaluated.extend(run_evaluate(task, dims, ready_cases, args.force))
+            if evaluable_cases:
+                evaluated.extend(run_evaluate(task, dims, evaluable_cases, args.force))
             if skipped_image_cases:
                 evaluated.extend(write_skipped_image_results(task, skipped_image_cases))
         if "score" in stages:
