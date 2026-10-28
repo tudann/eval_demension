@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
-# Start Qwen3-VL-32B-Instruct-FP8 on the configured GPU with the machine SGLang.
+# Start Qwen3-VL-32B-Instruct-FP8 with the machine SGLang.
+#
+#   bash serving/start_qwen3_vl.sh 2
+#
+# With no argument, the card comes from VISION_GPU in serving/config.env.
 # Uses /opt/sglang, not the project vLLM virtualenv. Radix cache is disabled
 # because this SGLang build crashes during prefill when it is left on.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 source "$HERE/config.env"
+GPU="${1:-$VISION_GPU}"
 BIN=/opt/sglang/bin/python
+[[ "$GPU" =~ ^[0-9]+$ ]] || { echo "GPU must be a card index, got: $GPU" >&2; exit 1; }
 [[ -x "$BIN" ]] || { echo "Missing SGLang runtime: $BIN" >&2; exit 1; }
 [[ -s "$VISION_MODEL_PATH/model.safetensors.index.json" ]] || { echo "Missing Qwen3-VL weights: $VISION_MODEL_PATH" >&2; exit 1; }
 
@@ -13,8 +19,8 @@ if curl -fsS --max-time 2 "http://127.0.0.1:${VISION_PORT}/health" >/dev/null 2>
   echo "Qwen3-VL already healthy at http://127.0.0.1:${VISION_PORT}/v1"
   exit 0
 fi
-if [[ -n "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader -i "$VISION_GPU" | head -1)" ]]; then
-  echo "GPU ${VISION_GPU} already has a compute process. Not starting another server." >&2
+if [[ -n "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader -i "$GPU" | head -1)" ]]; then
+  echo "GPU ${GPU} already has a compute process. Not starting another server." >&2
   exit 1
 fi
 
@@ -22,7 +28,7 @@ mkdir -p "$HERE/logs"
 # shellcheck disable=SC1091
 source "$HERE/off_overlay_env.sh"
 off_overlay_cache_root
-export CUDA_VISIBLE_DEVICES="$VISION_GPU"
+export CUDA_VISIBLE_DEVICES="$GPU"
 export PYTHONUNBUFFERED=1
 nohup "$BIN" -u -m sglang.launch_server \
   --model-path "$VISION_MODEL_PATH" \
@@ -35,6 +41,6 @@ nohup "$BIN" -u -m sglang.launch_server \
   --disable-radix-cache \
   > "$HERE/logs/qwen3_vl.log" 2>&1 < /dev/null &
 echo $! > "$HERE/logs/qwen3_vl.pid"
-echo "Started ${VISION_MODEL_NAME} on GPU ${VISION_GPU}, PID $(cat "$HERE/logs/qwen3_vl.pid")"
+echo "Started ${VISION_MODEL_NAME} on GPU ${GPU}, PID $(cat "$HERE/logs/qwen3_vl.pid")"
 echo "Endpoint: http://127.0.0.1:${VISION_PORT}/v1"
 echo "Log: $HERE/logs/qwen3_vl.log"
