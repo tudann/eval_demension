@@ -25,7 +25,7 @@ if [[ -f .env ]]; then
 fi
 
 missing=()
-for name in V_EVAL_CHECKLIST_URL V_EVAL_CHECKLIST_MODEL V_EVAL_CHECKLIST_API_KEY; do
+for name in V_EVAL_CHECKLIST_URL V_EVAL_CHECKLIST_MODEL; do
   if [[ -z "${!name:-}" ]]; then
     missing+=("$name")
   fi

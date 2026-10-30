@@ -11,10 +11,10 @@ fi
 
 docker load -i "$HERE/d13-style-eval.tar"
 exec docker run --rm --network host --gpus '"device=0"' \
-  -e "V_EVAL_CHECKLIST_URL=${V_EVAL_CHECKLIST_URL:-http://127.0.0.1:8013/v1}" \
-  -e "V_EVAL_VISION_JUDGE_URL=${V_EVAL_VISION_JUDGE_URL:-http://127.0.0.1:8013/v1}" \
-  -e "V_EVAL_CHECKLIST_MODEL=${V_EVAL_CHECKLIST_MODEL:-Qwen3-VL-32B-Instruct-FP8}" \
-  -e "V_EVAL_VISION_JUDGE_MODEL=${V_EVAL_VISION_JUDGE_MODEL:-Qwen3-VL-32B-Instruct-FP8}" \
+  -e "V_EVAL_CHECKLIST_URL=${V_EVAL_CHECKLIST_URL:-http://127.0.0.1:18013/v1}" \
+  -e "V_EVAL_VISION_JUDGE_URL=${V_EVAL_VISION_JUDGE_URL:-http://127.0.0.1:18013/v1}" \
+  -e "V_EVAL_CHECKLIST_MODEL=${V_EVAL_CHECKLIST_MODEL:-Qwen3-VL-32B-Instruct}" \
+  -e "V_EVAL_VISION_JUDGE_MODEL=${V_EVAL_VISION_JUDGE_MODEL:-Qwen3-VL-32B-Instruct}" \
   -e "V_EVAL_CLIP_DEVICE=${V_EVAL_CLIP_DEVICE:-cuda:0}" \
   -v "$D13_DATA:/data:ro" \
   -v "$D13_OUTPUT:/outputs" \

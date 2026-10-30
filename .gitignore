@@ -111,3 +111,6 @@ data/10.20*.md
 
 # Jupyter
 .ipynb_checkpoints/
+
+# CNB credentials must never be committed
+.cnb_credentials

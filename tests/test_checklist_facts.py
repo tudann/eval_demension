@@ -499,6 +499,8 @@ class D16EmptyFactRepairTests(unittest.TestCase):
         prepared = _d16_prepare_payload(payload, "她说：“明天早上八点，老地方见。”")
         self.assertEqual(prepared["facts"]["dialogues"], "明天早上八点，老地方见。")
         self.assertEqual(prepared["items"][0]["subpoint"], "lip_sync")
+        self.assertIn("同一时间窗", prepared["items"][0]["question"])
+        self.assertIn("明天早上八点，老地方见。", prepared["items"][0]["question"])
 
 
 class D20EmptyFactRepairTests(unittest.TestCase):
@@ -554,6 +556,150 @@ class D20EmptyFactRepairTests(unittest.TestCase):
         prepared = _d20_prepare_payload(payload, "她低声说：“你真的要走？”")
         self.assertEqual(prepared["facts"]["target_emotion"], "悲伤")
         self.assertFalse(prepared["facts"]["dialogues"])
+        self.assertIn("悲伤", prepared["items"][0]["question"])
+        self.assertIn("不能算充分达成", prepared["items"][0]["question"])
+
+
+class StreamEvalCheckpointTests(unittest.TestCase):
+    def test_d14_pairs_expected_state_with_protected_content(self) -> None:
+        from v_eval.checklists import _d14_checklist
+
+        dimension = "14_edit_controllable_gen"
+        payload = {
+            "facts": {
+                "edit_targets": "上衣变为砖红针织衫",
+                "preserved": "脸、裤子、陶艺动作、背景",
+                "has_subject_replacement": False,
+                "add_objects": "",
+                "remove_objects": "",
+                "is_continuation": False,
+            },
+            "gates": _gates(dimension),
+            "items": [
+                _item(1, "local_edit_accuracy", "衣服有没有改好？", core=True),
+                _item(2, "non_target_preservation", "其他地方有没有保持？"),
+            ],
+        }
+        checklist = _d14_checklist(payload, DIMS[dimension], _case("1401"), "fake")
+        self.assertIsNotNone(checklist)
+        self.assertEqual(checklist["checkpoint_protocol"], "streameval_v2")
+        self.assertEqual(checklist["facts"]["edit_expected_state"], "上衣变为砖红针织衫")
+        by_subpoint = {item["subpoint"]: item for item in checklist["items"]}
+        questions = {name: item["question"] for name, item in by_subpoint.items()}
+        self.assertIn("砖红针织衫", questions["local_edit_accuracy"])
+        self.assertIn("稳定", questions["local_edit_accuracy"])
+        self.assertIn("脸、裤子、陶艺动作、背景", questions["non_target_preservation"])
+        self.assertIn("同一时段", questions["non_target_preservation"])
+        self.assertEqual(by_subpoint["local_edit_accuracy"]["time_hint"], "成片后段稳定段")
+        self.assertEqual(by_subpoint["non_target_preservation"]["time_hint"], "成片后段稳定段")
+        self.assertTrue(by_subpoint["local_edit_accuracy"]["core"])
+        self.assertTrue(by_subpoint["non_target_preservation"]["core"])
+
+    def test_d14_shortens_a_shot_script_to_the_terminal_state(self) -> None:
+        from v_eval.checklists import _d14_checklist
+
+        dimension = "14_edit_controllable_gen"
+        payload = {
+            "facts": {
+                "edit_targets": "系上鞋带",
+                "edit_expected_state": (
+                    "At 0.00 seconds, the ballerina kneels and holds the ribbon. "
+                    "From 0 to 3 seconds, she pulls the ribbon taut. "
+                    "From 6 to 8 seconds, she rests her hands and looks toward the empty stage."
+                ),
+                "preserved": (
+                    "The tutu, stone steps, and mauve curtains stay unchanged. "
+                    "The camera holds a static shot with no pan. "
+                    "No music and no on-screen text."
+                ),
+                "has_subject_replacement": False,
+                "add_objects": "",
+                "remove_objects": "",
+                "is_continuation": False,
+            },
+            "gates": _gates(dimension),
+            "items": [
+                _item(1, "local_edit_accuracy", "动作完成了吗？", core=False),
+                _item(2, "non_target_preservation", "别的地方变了吗？", core=False),
+                _item(3, "first_last_frame", "首帧一致吗？", core=True),
+            ],
+        }
+        checklist = _d14_checklist(payload, DIMS[dimension], _case("140402", first_frame=Path("a.png")), "fake")
+        self.assertIsNotNone(checklist)
+        by_subpoint = {item["subpoint"]: item for item in checklist["items"]}
+        expected = checklist["facts"]["edit_expected_state"]
+        self.assertIn("empty stage", expected)
+        self.assertNotIn("kneels and holds the ribbon", expected)
+        self.assertLessEqual(len(expected), 200)
+        protected = checklist["facts"]["preserved"]
+        self.assertIn("tutu", protected)
+        self.assertNotIn("camera", protected.casefold())
+        self.assertNotIn("music", protected.casefold())
+        self.assertLessEqual(len(protected), 200)
+        self.assertTrue(by_subpoint["local_edit_accuracy"]["core"])
+        self.assertTrue(by_subpoint["non_target_preservation"]["core"])
+        self.assertFalse(by_subpoint["first_last_frame"]["core"])
+
+    def test_d14_reference_replacement_checks_identity_and_attributes(self) -> None:
+        from v_eval.checklists import _d14_checklist
+
+        dimension = "14_edit_controllable_gen"
+        case = Case("1402", Path("."), "r2va", None, None, reference_images=[Path("ref.png")])
+        payload = {
+            "facts": {
+                "edit_targets": "换成参考图中的人",
+                "edit_expected_state": "换成参考图中的人",
+                "preserved": "背景与机位",
+                "has_subject_replacement": True,
+                "reference_attributes": "短发、蓝外套",
+                "add_objects": "",
+                "remove_objects": "",
+                "is_continuation": False,
+            },
+            "gates": _gates(dimension),
+            "items": [
+                _item(1, "local_edit_accuracy", "人有没有换成参考？", core=True),
+                _item(2, "non_target_preservation", "背景有没有保住？"),
+                _item(3, "subject_replacement", "新人物像不像？"),
+            ],
+        }
+        checklist = _d14_checklist(payload, DIMS[dimension], case, "fake")
+        self.assertIsNotNone(checklist)
+        replacement = next(item for item in checklist["items"] if item["subpoint"] == "subject_replacement")
+        self.assertIn("短发、蓝外套", replacement["question"])
+        self.assertIn("对照参考图", replacement["question"])
+        self.assertIn("身份", replacement["question"])
+
+    def test_d20_named_controls_stay_on_the_matching_item(self) -> None:
+        from v_eval.checklists import _d20_checklist
+
+        dimension = "20_performance_emotion"
+        payload = {
+            "facts": {
+                "has_humans": True,
+                "target_emotion": "惊讶",
+                "character_situation": "听见敲门",
+                "emotion_change": "",
+                "gaze_target": "看向门口",
+                "reaction_event": "",
+                "dialogues": False,
+                "performance_controls": "抬手打招呼",
+            },
+            "gates": _gates(dimension),
+            "items": [
+                _item(1, "emotion_accuracy", "情绪对不对？", core=True),
+                _item(2, "gaze_attention", "视线对不对？"),
+                _item(3, "micro_motion", "有没有眨眼？"),
+            ],
+        }
+        checklist = _d20_checklist(payload, DIMS[dimension], _case("2001"), "fake", "她看向门口，抬手打招呼。")
+        self.assertIsNotNone(checklist)
+        self.assertEqual(checklist["checkpoint_protocol"], "streameval_v1")
+        questions = {item["subpoint"]: item["question"] for item in checklist["items"]}
+        self.assertIn("惊讶", questions["emotion_accuracy"])
+        self.assertIn("看向门口", questions["gaze_attention"])
+        self.assertIn("抬手打招呼", questions["emotion_accuracy"])
+        self.assertIn("眨眼", questions["micro_motion"])
 
 
 if __name__ == "__main__":

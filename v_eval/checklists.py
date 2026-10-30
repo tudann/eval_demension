@@ -63,9 +63,18 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
     ),
     "14_edit_controllable_gen": (
         "D14 strategy: create questions only for editing or controllability requirements present in the prompt or input mode. "
-        "Use local_edit_accuracy for the requested edit, non_target_preservation for unaffected content, subject_replacement for identity or clothing replacement, "
-        "add_remove_object for explicit object insertion or removal, video_extension for continuation, and first_last_frame only when endpoint media exists. "
-        "Do not invent an edit, replacement, continuation, or endpoint requirement that the case does not contain."
+        "This round borrows StreamEval checkpoint shape, not its streaming session. "
+        "Put one short sentence for the settled end state in edit_expected_state, and the same short sentence in edit_targets. "
+        "Do not copy the shot timeline, camera, audio, lighting script, or intermediate motion into that sentence. "
+        "Put a short list of objects and visible attributes that must stay unchanged in preserved. "
+        "Do not put camera moves, audio, timing, or the edit action itself into preserved. "
+        "local_edit_accuracy asks whether that expected state holds through the later stable portion of the clip. "
+        "A flash, a change to the wrong object, or a return of the old state is not success. "
+        "non_target_preservation asks, for the same moment, whether every item in preserved stayed unchanged. "
+        "When a reference image or identity swap is requested, put the appearance attributes in reference_attributes and use subject_replacement to ask whether identity and those attributes both hold. "
+        "Use add_remove_object for explicit object insertion or removal, video_extension for continuation, and first_last_frame only when endpoint media exists. "
+        "Do not invent an edit, replacement, continuation, or endpoint requirement that the case does not contain. "
+        "Do not treat pixel similarity or face similarity as a substitute for the expected-state question."
     ),
     "15_audio_quality_control": (
         "D15 strategy: create questions only for audio requirements present in the prompt. "
@@ -76,9 +85,10 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
     ),
     "16_audio_visual_sync": (
         "D16 strategy: create questions only for stated audio-visual relationships. "
+        "Borrow only the StreamEval A-V Sync checkpoint: the sound and the visible event must fall in the same time window, without a clear lead or lag. "
         "Use lip_sync only for dialogue and visible speech, multi_speaker_match only for multiple speakers, "
         "action_sound_sync for a named visible action and its sound, and ambient_sound_sync for environmental sound aligned to a visible scene or environmental change. "
-        "Do not invent dialogue, multiple speakers, or synchronization events absent from the prompt."
+        "Write each sync question as a same-window check. Do not invent dialogue, multiple speakers, or synchronization events absent from the prompt."
     ),
     "17_failure_anomaly_control": (
         "D17 strategy: assess failure and anomaly control, never general motion quality. "
@@ -100,13 +110,16 @@ _CHECKLIST_STRATEGIES: dict[str, str] = {
     ),
     "20_performance_emotion": (
         "D20 strategy: create one rubric_5 question only for performance requirements present in the prompt. "
-        "Use emotion_accuracy for whether expression, posture, and vocal tone match the specified emotion and situation; "
-        "expression_transition for a requested change of expression with a visible transition rather than a sudden cut or a frozen face; "
-        "gaze_attention for looking at the named person, object, or away from camera; "
+        "Borrow StreamEval Following: each named control is a did-the-target-do-this check, and a flash that does not hold is not success. "
+        "Put named gestures or body actions in performance_controls. "
+        "Use emotion_accuracy for whether expression and posture achieve the specified emotion; "
+        "expression_transition for a requested change of expression with a visible transition rather than a sudden cut or a return to the old expression; "
+        "gaze_attention for whether the gaze actually reaches the named person, object, or away from camera and holds; "
         "micro_motion for blinks, breathing, and small head movement when a person is present; "
-        "reaction_timing for a reaction that follows hearing a line, being touched, or seeing an event; "
+        "reaction_timing for a reaction that follows hearing a line, being touched, or seeing an event, not before it and not long after; "
         "dialogue_performance for spoken words, facial expression, and body action expressing the same intent. "
         "Do not invent an emotion, gaze target, reaction, or line that the prompt does not contain. "
+        "Do not score vocal emotion here; that stays on D15. "
         "Do not add style, editing, text, or camera-only questions."
     ),
 }
@@ -121,7 +134,9 @@ _FACT_ALIASES: dict[str, dict[str, tuple[str, ...]]] = {
     },
     "14_edit_controllable_gen": {
         "edit_targets": ("edit_target", "requested_edit", "local_edit", "subject_edit"),
-        "preserved": ("non_target_preservation", "preservation"),
+        "edit_expected_state": ("active_state", "expected_state", "target_state"),
+        "preserved": ("non_target_preservation", "preservation", "protected"),
+        "reference_attributes": ("appearance_attributes", "reference_attrs"),
         "has_subject_replacement": ("subject_replacement", "subject_edit", "replacement"),
         "add_objects": ("added_objects", "objects_to_add"),
         "remove_objects": ("removed_objects", "objects_to_remove"),
@@ -157,6 +172,7 @@ _FACT_ALIASES: dict[str, dict[str, tuple[str, ...]]] = {
         "gaze_target": ("gaze", "look_at", "attention_target"),
         "reaction_event": ("reaction", "trigger_event", "reaction_trigger"),
         "dialogues": ("dialogue", "dialogue_text", "requested_dialogue"),
+        "performance_controls": ("controls", "gesture", "body_action"),
     },
 }
 
@@ -181,7 +197,10 @@ _FACT_SCHEMAS: dict[str, str] = {
     ),
     "14_edit_controllable_gen": (
         "facts must use exactly these keys: edit_targets (string or array, empty when there is no local edit), "
-        "preserved (string, empty when nothing must stay unchanged), has_subject_replacement (boolean), "
+        "edit_expected_state (one short sentence for the visible end state after the edit has settled; empty when there is no local edit; do not paste the shot script), "
+        "preserved (a short comma-separated list of objects and visible attributes that must stay unchanged; empty when nothing is protected; no camera, audio, timing, or edit action), "
+        "has_subject_replacement (boolean), "
+        "reference_attributes (appearance attributes that must match a reference, empty when none), "
         "add_objects (string or array, empty when none), remove_objects (string or array, empty when none), is_continuation (boolean). "
         "local_edit_accuracy requires non-empty edit_targets. subject_replacement requires has_subject_replacement true. "
         "add_remove_object requires add_objects or remove_objects. video_extension requires is_continuation true. "
@@ -222,7 +241,8 @@ _FACT_SCHEMAS: dict[str, str] = {
         "emotion_change (string describing the requested expression change, empty when none), "
         "gaze_target (string, empty when no looking target or attention is specified), "
         "reaction_event (string describing the heard line, touch, or seen event that should trigger a reaction, empty when none), "
-        "dialogues (spoken text, or false when there is no speech). "
+        "dialogues (spoken text, or false when there is no speech), "
+        "performance_controls (named gestures or body actions that must be performed, empty when none). "
         "Do not use emotion, gaze, reaction, or dialogue as fact keys. "
         "emotion_accuracy requires target_emotion or character_situation. "
         "expression_transition requires non-empty emotion_change. gaze_attention requires non-empty gaze_target. "
@@ -691,6 +711,124 @@ def _missing_applicable_subpoints(payload: dict[str, Any] | None, dimension_cfg:
     return missing
 
 
+_CHECKPOINT_PROTOCOL = "streameval_v1"
+_D14_CHECKPOINT_PROTOCOL = "streameval_v2"
+_STABLE_FAIL = "只闪现一下、改到了别的对象，或旧状态又回来，都不能算充分达成。"
+_PRESERVE_FAIL = "保护内容出现明确改动时，不能算充分达成。"
+_END_STATE_LIMIT = 200
+_PROTECTED_LIMIT = 200
+_D14_CORE_SUBPOINTS = {"local_edit_accuracy", "non_target_preservation"}
+_PROCESS_CLAUSE = re.compile(
+    r"\b(?:camera|dolly|pan|push-in|cut|music|score|narration|subtitle|on-screen text|audio)\b|镜头|运镜|推拉|平移|音乐|旁白|字幕|画面文字",
+    re.IGNORECASE,
+)
+_SYNC_WINDOW = "是否落在同一时间窗内，且没有明显超前或滞后"
+_FOLLOWING_FAIL = "没有做到、做错对象，或只闪一下，都不能算充分达成。"
+
+
+def _checkpoint_clauses(text: str) -> list[str]:
+    """Split a dumped shot script into sentences without breaking decimals."""
+    parts = re.split(r"(?<=[。！？])\s*|(?<=[.!?])\s+|[；;]\s*", text)
+    return [part.strip(" ，,") for part in parts if part.strip(" ，,")]
+
+
+def _clip_checkpoint(text: str, limit: int) -> str:
+    if len(text) <= limit:
+        return text
+    window = text[:limit]
+    for separator in ("，", ",", "、", " "):
+        index = window.rfind(separator)
+        if index >= 40:
+            return window[:index].strip(" ，,")
+    return window.strip()
+
+
+def _short_end_state(text: str) -> str:
+    """Keep one terminal sentence when the model pastes a whole shot script."""
+    text = re.sub(r"\s+", " ", text).strip()
+    timed = [part.strip() for part in re.split(r"(?=(?:From|At)\s+\d)", text) if part.strip()]
+    clauses = _checkpoint_clauses(timed[-1] if len(timed) > 1 else text)
+    if len(timed) <= 1 and len(clauses) <= 1 and len(text) <= _END_STATE_LIMIT:
+        return text
+    content = [clause for clause in clauses if not _PROCESS_CLAUSE.search(clause)]
+    chosen = (content or clauses or [text])[-1]
+    return _clip_checkpoint(chosen, _END_STATE_LIMIT)
+
+
+def _short_protected(text: str) -> str:
+    """Keep objects and visible attributes. Drop camera, audio, and timing clauses."""
+    text = re.sub(r"\s+", " ", text).strip()
+    clauses = _checkpoint_clauses(text)
+    if len(clauses) <= 1:
+        return _clip_checkpoint(text, _PROTECTED_LIMIT)
+    kept = [clause for clause in clauses if not _PROCESS_CLAUSE.search(clause)] or clauses
+    chosen: list[str] = []
+    for clause in kept:
+        candidate = "；".join(chosen + [clause])
+        if len(candidate) > _PROTECTED_LIMIT and chosen:
+            break
+        chosen.append(clause)
+    return _clip_checkpoint("；".join(chosen), _PROTECTED_LIMIT)
+
+
+def _fact_phrase(value: Any) -> str:
+    """Join a fact into one short phrase. Booleans and empty placeholders become empty."""
+    if isinstance(value, list):
+        parts = [str(item).strip() for item in value if str(item).strip()]
+        return "；".join(parts)
+    if isinstance(value, str):
+        text = value.strip()
+        if text.casefold() in {"", "true", "false", "none", "null"}:
+            return ""
+        return text
+    return ""
+
+
+def _d14_prepare_payload(payload: dict[str, Any], case: Case | None = None) -> dict[str, Any]:
+    """Rewrite D14 questions into an expected-state check paired with a protected-content check."""
+    facts = dict(payload.get("facts") or {})
+    items = [dict(item) for item in payload.get("items") or [] if isinstance(item, dict)]
+    expected = _short_end_state(_fact_phrase(facts.get("edit_expected_state")) or _fact_phrase(facts.get("edit_targets")))
+    protected = _short_protected(_fact_phrase(facts.get("protected")) or _fact_phrase(facts.get("preserved")))
+    attributes = _short_protected(_fact_phrase(facts.get("reference_attributes")))
+    if expected:
+        facts["edit_expected_state"] = expected
+        facts["edit_targets"] = expected
+    if protected:
+        facts["preserved"] = protected
+    if attributes:
+        facts["reference_attributes"] = attributes
+    has_reference = bool(case and case.reference_images)
+    for item in items:
+        subpoint = item.get("subpoint")
+        if subpoint == "local_edit_accuracy" and expected:
+            item["question"] = f"期望状态「{expected}」是否在成片后段连续稳定呈现？{_STABLE_FAIL}"
+            item["time_hint"] = "成片后段稳定段"
+        elif subpoint == "non_target_preservation" and (protected or expected):
+            kept = protected or "未写入编辑目标的人脸、其余服装、动作和背景"
+            item["question"] = f"在期望状态成立的同一时段，这些非目标内容是否保持未改：{kept}？{_PRESERVE_FAIL}"
+            item["time_hint"] = "成片后段稳定段"
+        elif subpoint == "subject_replacement" and facts.get("has_subject_replacement") and (attributes or expected or has_reference):
+            shown = attributes or expected or "参考图中的身份与外观"
+            source = "对照参考图，" if has_reference else ""
+            item["question"] = f"{source}身份以及这些外观属性是否同时成立：{shown}？身份换成别人，或只改对局部外观，都不能算充分达成。"
+    for item in items:
+        item["core"] = item.get("subpoint") in _D14_CORE_SUBPOINTS
+    return {**payload, "facts": facts, "items": items}
+
+
+def _d14_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any], case: Case,
+                   model: str | None) -> dict[str, Any] | None:
+    if not isinstance(payload, dict):
+        return None
+    checklist = _model_checklist_payload(
+        _d14_prepare_payload(payload, case), dimension_cfg, "14_edit_controllable_gen", case, model,
+    )
+    if checklist is not None:
+        checklist["checkpoint_protocol"] = _D14_CHECKPOINT_PROTOCOL
+    return checklist
+
+
 _D16_EMPTY_FACT = {
     "", "true", "false", "none", "null",
     "action_sound_sync", "ambient_sound_sync", "lip_sync", "multi_speaker_match",
@@ -774,16 +912,20 @@ def _d16_prepare_payload(payload: dict[str, Any], prompt: str) -> dict[str, Any]
     for item in items:
         subpoint = item.get("subpoint")
         question = str(item.get("question") or "")
-        if subpoint == "action_sound_sync":
+        if subpoint == "lip_sync":
+            spoken = _fact_phrase(facts.get("dialogues"))
+            if spoken and _SYNC_WINDOW not in question:
+                item["question"] = f"口型与这段对白{_SYNC_WINDOW}：{spoken}"
+        elif subpoint == "action_sound_sync":
             if not _d16_text(facts.get("av_events")):
                 continue
-            if action and action not in question:
-                item["question"] = f"这些动作声音是否与对应的可见动作同时发生：{action}"
+            if action and (action not in question or _SYNC_WINDOW not in question):
+                item["question"] = f"这些动作声音与对应的可见动作{_SYNC_WINDOW}：{action}"
         elif subpoint == "ambient_sound_sync":
             if not _d16_text(facts.get("env_changes")):
                 continue
-            if ambient and ambient not in question:
-                item["question"] = f"这些环境声音是否与画面中的场景或变化一致：{ambient}"
+            if ambient and (ambient not in question or _SYNC_WINDOW not in question):
+                item["question"] = f"这些环境声音与画面中的场景或变化{_SYNC_WINDOW}：{ambient}"
         repaired.append(item)
     if repaired and not any(item.get("core") for item in repaired):
         repaired[0]["core"] = True
@@ -821,13 +963,13 @@ def _d16_fallback_checklist(dimension_cfg: dict[str, Any], case: Case, model: st
     if action:
         items.append({
             "id": "i1", "subpoint": "action_sound_sync", "kind": RUBRIC_KIND, "core": True,
-            "question": f"这些动作声音是否与对应的可见动作同时发生：{action}",
+            "question": f"这些动作声音与对应的可见动作{_SYNC_WINDOW}：{action}",
         })
     if ambient:
         items.append({
             "id": "i2" if action else "i1", "subpoint": "ambient_sound_sync", "kind": RUBRIC_KIND,
             "core": not action,
-            "question": f"这些环境声音是否与画面中的场景或变化一致：{ambient}",
+            "question": f"这些环境声音与画面中的场景或变化{_SYNC_WINDOW}：{ambient}",
         })
     payload = {
         "facts": {
@@ -843,7 +985,10 @@ def _d16_fallback_checklist(dimension_cfg: dict[str, Any], case: Case, model: st
         ],
         "items": items,
     }
-    return _model_checklist_payload(payload, dimension_cfg, "16_audio_visual_sync", case, model)
+    checklist = _model_checklist_payload(payload, dimension_cfg, "16_audio_visual_sync", case, model)
+    if checklist is not None:
+        checklist["checkpoint_protocol"] = _CHECKPOINT_PROTOCOL
+    return checklist
 
 
 def _d16_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any], case: Case,
@@ -851,7 +996,10 @@ def _d16_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any]
     if not isinstance(payload, dict):
         return None
     prepared = _d16_prepare_payload(payload, prompt)
-    return _model_checklist_payload(prepared, dimension_cfg, "16_audio_visual_sync", case, model)
+    checklist = _model_checklist_payload(prepared, dimension_cfg, "16_audio_visual_sync", case, model)
+    if checklist is not None:
+        checklist["checkpoint_protocol"] = _CHECKPOINT_PROTOCOL
+    return checklist
 
 
 _D20_FACT_BY_SUBPOINT = {
@@ -877,7 +1025,7 @@ def _d20_facts_unusable(facts: dict[str, Any]) -> bool:
         return True
     if facts.get("has_humans") is True:
         return False
-    keys = ("target_emotion", "character_situation", "emotion_change", "gaze_target", "reaction_event", "dialogues")
+    keys = ("target_emotion", "character_situation", "emotion_change", "gaze_target", "reaction_event", "dialogues", "performance_controls")
     return not any(_d20_text(facts.get(key)) for key in keys)
 
 
@@ -885,12 +1033,50 @@ def _d20_spoken(prompt: str) -> list[str]:
     return [line.strip() for line in re.findall(r"[“\"「]([^”\"」]{1,120})[”\"」]", prompt) if line.strip()]
 
 
+def _d20_following_question(question: str, fact: str, lead: str) -> str:
+    """Turn a performance item into a did-the-target-do-this check without nesting an existing question."""
+    if not fact:
+        return question
+    if _FOLLOWING_FAIL in question and fact in question:
+        return question
+    if "是否" in fact:
+        base = fact if fact.endswith(("？", "?")) else f"{fact}？"
+        if _FOLLOWING_FAIL in base:
+            return base
+        return f"{base}{_FOLLOWING_FAIL}"
+    return f"{lead}{fact}？{_FOLLOWING_FAIL}"
+
+
+def _d20_shape_following(facts: dict[str, Any], items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Apply StreamEval Following wording to the performance controls already present in the facts."""
+    shaped = [dict(item) for item in items]
+    mapping = (
+        ("emotion_accuracy", _d20_text(facts.get("target_emotion")) or _d20_text(facts.get("character_situation")), "表情和姿态是否做到了指定情绪："),
+        ("expression_transition", _d20_text(facts.get("emotion_change")), "表情变化是否做到了："),
+        ("gaze_attention", _d20_text(facts.get("gaze_target")), "指定视线是否做到了："),
+        ("reaction_timing", _d20_text(facts.get("reaction_event")), "在该事件之后，反应是否做到了："),
+    )
+    for item in shaped:
+        for subpoint, fact, lead in mapping:
+            if item.get("subpoint") == subpoint:
+                item["question"] = _d20_following_question(str(item.get("question") or ""), fact, lead)
+    controls = _d20_text(facts.get("performance_controls"))
+    if controls and not any(controls in str(item.get("question") or "") for item in shaped):
+        extra = f"这些写明的动作是否做到了：{controls}？{_FOLLOWING_FAIL}"
+        for item in shaped:
+            if item.get("subpoint") in {"emotion_accuracy", "gaze_attention", "expression_transition", "micro_motion"}:
+                current = str(item.get("question") or "").strip()
+                item["question"] = f"{current}{extra}" if current else extra
+                break
+    return shaped
+
+
 def _d20_prepare_payload(payload: dict[str, Any], prompt: str) -> dict[str, Any]:
-    """Fill empty D20 facts from the questions the judge already wrote."""
+    """Fill empty D20 facts from the questions the judge already wrote, then shape Following checks."""
     facts = dict(payload.get("facts") or {})
     items = [dict(item) for item in payload.get("items") or [] if isinstance(item, dict)]
     if not _d20_facts_unusable(facts):
-        return payload
+        return {**payload, "facts": facts, "items": _d20_shape_following(facts, items)}
     repaired_facts: dict[str, Any] = {
         "has_humans": False,
         "target_emotion": "",
@@ -919,7 +1105,7 @@ def _d20_prepare_payload(payload: dict[str, Any], prompt: str) -> dict[str, Any]
         if fact_key and question:
             repaired_facts[fact_key] = question
             repaired_items.append(item)
-    return {**payload, "facts": repaired_facts, "items": repaired_items}
+    return {**payload, "facts": repaired_facts, "items": _d20_shape_following(repaired_facts, repaired_items)}
 
 
 def _d20_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any], case: Case,
@@ -927,7 +1113,10 @@ def _d20_checklist(payload: dict[str, Any] | None, dimension_cfg: dict[str, Any]
     if not isinstance(payload, dict):
         return None
     prepared = _d20_prepare_payload(payload, prompt)
-    return _model_checklist_payload(prepared, dimension_cfg, "20_performance_emotion", case, model)
+    checklist = _model_checklist_payload(prepared, dimension_cfg, "20_performance_emotion", case, model)
+    if checklist is not None:
+        checklist["checkpoint_protocol"] = _CHECKPOINT_PROTOCOL
+    return checklist
 
 
 def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any], case: Case,
@@ -973,7 +1162,9 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
     if response.get("status") != "ok":
         raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
     parsed = _parse_json_response(response.get("response"))
-    if dimension == "16_audio_visual_sync":
+    if dimension == "14_edit_controllable_gen":
+        normalized = _d14_checklist(parsed, dimension_cfg, case, judge.model)
+    elif dimension == "16_audio_visual_sync":
         normalized = _d16_checklist(parsed, dimension_cfg, case, judge.model, prompt)
     elif dimension == "20_performance_emotion":
         normalized = _d20_checklist(parsed, dimension_cfg, case, judge.model, prompt)
@@ -1017,7 +1208,9 @@ def generate_model_checklist(task: dict[str, Any], dimension_cfg: dict[str, Any]
         if response.get("status") != "ok":
             raise ConfigError(f"{dimension} checklist judge failed: {response.get('error')}")
         parsed = _parse_json_response(response.get("response"))
-        if dimension == "20_performance_emotion":
+        if dimension == "14_edit_controllable_gen":
+            normalized = _d14_checklist(parsed, dimension_cfg, case, judge.model)
+        elif dimension == "20_performance_emotion":
             normalized = _d20_checklist(parsed, dimension_cfg, case, judge.model, prompt)
         else:
             normalized = _model_checklist_payload(parsed, dimension_cfg, dimension, case, judge.model) if parsed else None
@@ -1109,6 +1302,29 @@ def _missing_answer_basis(parsed: dict[str, Any]) -> bool:
     return any(isinstance(row, dict) and not str(row.get("回答依据") or "").strip() for row in rows)
 
 
+def _checkpoint_answer_rules(dimension: str) -> str:
+    """Scoring notes for the StreamEval checkpoint wording. Empty for dimensions outside this round."""
+    if dimension == "14_edit_controllable_gen":
+        return (
+            "On local_edit_accuracy, a state that only flashes, changes the wrong object, or reverts scores at most 3. "
+            "Score 5 only when the expected state holds through the later stable portion. "
+            "On non_target_preservation, any clear change to a listed protected element scores at most 3. "
+            "On subject_replacement, identity and the named appearance attributes must both hold."
+        )
+    if dimension == "16_audio_visual_sync":
+        return (
+            "On lip, action, and ambient sync items, score 5 only when the sound and the visible event stay in the same time window. "
+            "A clear lead or lag scores at most 3."
+        )
+    if dimension == "20_performance_emotion":
+        return (
+            "On performance items, score whether the named control was actually done. "
+            "A flash, the wrong target, or a reaction that happens before the triggering event scores at most 3. "
+            "Do not treat vocal-emotion labels as this dimension's score."
+        )
+    return ""
+
+
 def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: JudgeClient,
                      dimension: str | None = None) -> dict[str, Any]:
     dimension = dimension or str(checklist.get("dimension", ""))
@@ -1124,6 +1340,7 @@ def answer_checklist(checklist: dict[str, Any], prompt: str, case: Case, judge: 
             "Answer every supplied gate, and score every checklist item, only when the attached target media contains enough evidence. "
             "Never infer a score from the prompt alone. "
             f"{_ANSWER_RUBRIC} "
+            f"{_checkpoint_answer_rules(dimension)} "
             "Use the supplied exact media timestamps in concise evidence when possible. "
             "The JSON object must use the keys gates and answers. "
             "Return one gate object for every supplied gate id, for example "

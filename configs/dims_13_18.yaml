@@ -39,7 +39,7 @@ dimensions:
         components: {checklist: 1.0}
   14_edit_controllable_gen:
     name_zh: 编辑与可控生成能力
-    facts: [edit_targets, preserved, has_subject_replacement, add_objects, remove_objects, is_continuation]
+    facts: [edit_targets, edit_expected_state, preserved, has_subject_replacement, reference_attributes, add_objects, remove_objects, is_continuation]
     gates:
       - {id: g1, question: '需要编辑或生成的主体是否清晰可见？', expect: yes, modality: vision, core: true}
       - {id: g2, question: '视频是否足以判断编辑前后状态？', expect: yes, modality: vision, core: true}
@@ -177,7 +177,7 @@ dimensions:
         components: {checklist: 1.0}
   20_performance_emotion:
     name_zh: 人物表演与情绪表达
-    facts: [has_humans, target_emotion, character_situation, emotion_change, gaze_target, reaction_event, dialogues]
+    facts: [has_humans, target_emotion, character_situation, emotion_change, gaze_target, reaction_event, dialogues, performance_controls]
     gates:
       - {id: g1, question: '需要判断表演的人物是否清晰可见？', expect: yes, modality: audio_visual, core: true}
       - {id: g2, question: '视频是否有足够连续的人物表演和时间关系？', expect: yes, modality: audio_visual, core: true}

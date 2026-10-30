@@ -96,7 +96,10 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("compare_run.yaml needs at least one dimension")
     case_ids = {str(item) for item in compare.get("case_ids") or []}
     force = bool(compare.get("force", False))
+    output_tag = str(compare.get("output_tag") or "").strip()
     run_root = ROOT / "outputs" / "compare" / safe_stem(video_name) / safe_stem(prompt_name)
+    if output_tag:
+        run_root = run_root / safe_stem(output_tag)
     print(f"prompt: {prompt_name}")
     print(f"video: {video_name}")
     print(f"dimensions: {', '.join(str(item) for item in dimensions)}")
